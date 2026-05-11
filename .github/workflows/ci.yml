@@ -46,7 +46,7 @@ jobs:
       - name: Unit tests
         run: make test
       - name: Upload coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-${{ matrix.k8s-version }}
           path: coverage.out
