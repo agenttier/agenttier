@@ -24,7 +24,7 @@ jobs:
           version: latest
       - name: License header check
         run: ./hack/check-license-headers.sh
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Lint Web UI
