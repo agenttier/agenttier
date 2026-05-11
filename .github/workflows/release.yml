@@ -25,7 +25,7 @@ jobs:
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - name: Build and push controller
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: Dockerfile.controller
@@ -37,7 +37,7 @@ jobs:
           build-args: |
             VERSION=${{ steps.version.outputs.VERSION }}
       - name: Build and push router
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: Dockerfile.router
@@ -47,7 +47,7 @@ jobs:
             ${{ env.REGISTRY }}/router:${{ steps.version.outputs.VERSION }}
             ${{ env.REGISTRY }}/router:latest
       - name: Build and push web-ui
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: web-ui
           file: web-ui/Dockerfile
