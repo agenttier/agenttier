@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Build stage
-FROM public.ecr.aws/docker/library/golang:1.22-alpine AS builder
+FROM public.ecr.aws/docker/library/golang:1.26-alpine AS builder
 
 RUN apk add --no-cache git ca-certificates
 
