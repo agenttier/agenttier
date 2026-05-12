@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Kubernetes-native platform for isolated, persistent AI agent sandboxes.">
+        <meta name="description" content="Kubernetes-native platform for isolated, persistent sandboxes — for humans and AI agents.">
       
       
       
@@ -16,7 +16,7 @@
         <link rel="prev" href="../quickstart/">
       
       
-        <link rel="next" href="../templates/">
+        <link rel="next" href="../features/">
       
       
         
@@ -90,7 +90,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="AgentTier" class="md-header__button md-logo" aria-label="AgentTier" data-md-component="logo">
       
@@ -214,134 +216,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
-        
-  
-  
-    
-  
-  Home
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../quickstart/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Quickstart
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-    
-  
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Installation
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../templates/" class="md-tabs__link">
-          
-  
-  
-  User Guide
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../cli/" class="md-tabs__link">
-          
-  
-  
-  Reference
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../verifying-images/" class="md-tabs__link">
-          
-  
-  
-  Operations
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -355,10 +229,8 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="AgentTier" class="md-nav__button md-logo" aria-label="AgentTier" data-md-component="logo">
       
@@ -414,6 +286,66 @@
       
   
   
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
@@ -436,9 +368,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
     
@@ -515,10 +448,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-from-the-public-chart-repo" class="md-nav__link">
+  <a href="#quick-install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install from the public chart repo
+        Quick install
       
     </span>
   </a>
@@ -526,13 +459,107 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#useful-values" class="md-nav__link">
+  <a href="#production-install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Useful values
+        Production install
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helm-values-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helm values reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helm values reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandbox-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox defaults
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warm-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Warm pool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-add-ons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional add-ons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -548,10 +575,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verifying-images-recommended" class="md-nav__link">
+  <a href="#uninstall" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verifying images (recommended)
+        Uninstall
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exposing-the-web-ui-on-aws-with-alb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposing the Web UI on AWS with ALB
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-released-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying released images
       
     </span>
   </a>
@@ -565,6 +614,14 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
     
       
       
@@ -574,29 +631,162 @@
   
     
     
-    
-    
       
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    User Guide
+    Product
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Product
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User guide
   
 
     
@@ -612,7 +802,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    User Guide
+    User guide
   
 
           </label>
@@ -688,7 +878,7 @@
   <span class="md-ellipsis">
     
   
-    Port Forwarding
+    Port forwarding
   
 
     
@@ -717,22 +907,30 @@
   
     
     
-    
-    
       
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -832,22 +1030,30 @@
   
     
     
-    
-    
       
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -977,10 +1183,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-from-the-public-chart-repo" class="md-nav__link">
+  <a href="#quick-install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install from the public chart repo
+        Quick install
       
     </span>
   </a>
@@ -988,13 +1194,107 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#useful-values" class="md-nav__link">
+  <a href="#production-install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Useful values
+        Production install
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helm-values-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helm values reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helm values reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Networking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandbox-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox defaults
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warm-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Warm pool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-add-ons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional add-ons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1010,10 +1310,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verifying-images-recommended" class="md-nav__link">
+  <a href="#uninstall" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verifying images (recommended)
+        Uninstall
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exposing-the-web-ui-on-aws-with-alb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposing the Web UI on AWS with ALB
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-released-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying released images
       
     </span>
   </a>
@@ -1046,25 +1368,112 @@
 
 
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<p>AgentTier installs as a single Helm chart. CRDs and RBAC are bundled.</p>
+<p>AgentTier installs as a single Helm chart. CRDs, RBAC, and reference templates are bundled.</p>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Kubernetes <strong>1.27+</strong></li>
-<li>A CNI that supports NetworkPolicy (Calico, Cilium, or AWS VPC CNI)</li>
-<li>A CSI storage driver (EBS CSI, PD CSI, or any CSI-compliant driver)</li>
+<li>CNI that supports NetworkPolicy (Calico, Cilium, AWS VPC CNI with NetworkPolicy enabled)</li>
+<li>A CSI storage driver (EBS CSI, PD CSI, Azure Disk CSI, or any RWO-capable CSI)</li>
 <li>Helm <strong>3.x</strong></li>
 </ul>
-<h2 id="install-from-the-public-chart-repo">Install from the public chart repo<a class="headerlink" href="#install-from-the-public-chart-repo" title="Permanent link">&para;</a></h2>
+<p>Optional but recommended:</p>
+<ul>
+<li>An ingress controller (ingress-nginx, AWS ALB Controller, Traefik) for the Web UI and port-forward preview URLs</li>
+<li>An OIDC identity provider (Cognito, Okta, Azure AD, Auth0) for multi-user auth</li>
+<li>gVisor <code>RuntimeClass</code> (for running untrusted agent workloads with kernel-level isolation)</li>
+</ul>
+<h2 id="quick-install">Quick install<a class="headerlink" href="#quick-install" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>agenttier<span class="w"> </span>https://agenttier.github.io/agenttier/charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
 helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span>--create-namespace
 </code></pre></div>
-<p>That's it. Images pull anonymously from <code>ghcr.io/agenttier/*</code>.</p>
-<h2 id="useful-values">Useful values<a class="headerlink" href="#useful-values" title="Permanent link">&para;</a></h2>
-<p>All values are documented inline in
-<a href="https://github.com/agenttier/agenttier/blob/main/helm/agenttier/values.yaml"><code>helm/agenttier/values.yaml</code></a>.
-The knobs you are most likely to change:</p>
+<p>Images are pulled anonymously from <code>ghcr.io/agenttier/*</code>. Every released image is keyless-signed with cosign — see <a href="../verifying-images/">Verifying images</a> before using on production-sensitive clusters.</p>
+<h2 id="production-install">Production install<a class="headerlink" href="#production-install" title="Permanent link">&para;</a></h2>
+<p>A realistic values file for an EKS cluster with Cognito OIDC, warm pool, and ALB ingress:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># values.prod.yaml</span>
+<span class="nt">auth</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">oidc</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">issuerUrl</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://cognito-idp.us-east-1.amazonaws.com/us-east-1_XXXXXXXXX&quot;</span>
+<span class="w">    </span><span class="nt">clientId</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-client-id&quot;</span>
+<span class="w">    </span><span class="nt">adminGroup</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;agenttier-admins&quot;</span>
+<span class="w">    </span><span class="nt">groupClaim</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cognito:groups&quot;</span>
+
+<span class="nt">networking</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">defaultPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deny-all</span>
+<span class="w">  </span><span class="nt">previewDomain</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;preview.agenttier.example.com&quot;</span>
+<span class="w">  </span><span class="nt">portForwardIngressClass</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;alb&quot;</span>
+
+<span class="nt">security</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">gvisor</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">defaults</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sandbox</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ghcr.io/agenttier/sandbox-general:v0.2.0&quot;</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500m&quot;</span>
+<span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1Gi&quot;</span>
+<span class="w">      </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
+<span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4Gi&quot;</span>
+
+<span class="nt">warmPool</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">desiredCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;general-coding&quot;</span>
+
+<span class="nt">controller</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">requests</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100m&quot;</span><span class="p p-Indicator">,</span><span class="nt"> memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;128Mi&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">limits</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500m&quot;</span><span class="p p-Indicator">,</span><span class="nt"> memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;512Mi&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+
+<span class="nt">router</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">service</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3600&quot;</span>
+
+<span class="nt">optional</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">imagePrepull</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alb</span>
+<span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/scheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">internet-facing</span>
+<span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/target-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ip</span>
+<span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/listen-ports</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;[{&quot;HTTP&quot;:80},{&quot;HTTPS&quot;:443}]&#39;</span>
+<span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/ssl-redirect</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;443&quot;</span>
+<span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/certificate-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:acm:us-east-1:111122223333:certificate/xxxx</span>
+<span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/load-balancer-attributes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">idle_timeout.timeout_seconds=4000</span>
+<span class="w">      </span><span class="nt">alb.ingress.kubernetes.io/target-group-attributes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stickiness.enabled=true,stickiness.type=lb_cookie,stickiness.lb_cookie.duration_seconds=3600</span>
+<span class="w">    </span><span class="nt">hosts</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agenttier.example.com</span>
+<span class="w">        </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/</span>
+<span class="w">            </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prefix</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">agenttier.example.com</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">serviceMonitor</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># requires Prometheus Operator</span>
+<span class="w">  </span><span class="nt">podDisruptionBudget</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">observability</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;otel-collector.observability.svc.cluster.local:4317&quot;</span>
+</code></pre></div>
+<p>Install with this values file:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>values.prod.yaml
+</code></pre></div>
+<h2 id="helm-values-reference">Helm values reference<a class="headerlink" href="#helm-values-reference" title="Permanent link">&para;</a></h2>
+<p>All values are documented inline in <a href="https://github.com/agenttier/agenttier/blob/main/helm/agenttier/values.yaml"><code>helm/agenttier/values.yaml</code></a>. The knobs you will most often change:</p>
+<h3 id="auth">Auth<a class="headerlink" href="#auth" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1075,57 +1484,253 @@ The knobs you are most likely to change:</p>
 <tbody>
 <tr>
 <td><code>auth.oidc.issuerUrl</code></td>
-<td>OIDC issuer (Cognito, Okta, Azure AD). Leave empty for dev mode.</td>
+<td>OIDC issuer URL. Empty = dev mode (every request is anonymous admin).</td>
+</tr>
+<tr>
+<td><code>auth.oidc.clientId</code></td>
+<td>OIDC client ID.</td>
 </tr>
 <tr>
 <td><code>auth.oidc.adminGroup</code></td>
-<td>Group that receives the <code>isAdmin</code> claim</td>
+<td>Group name that receives the <code>isAdmin</code> claim.</td>
 </tr>
 <tr>
+<td><code>auth.oidc.groupClaim</code></td>
+<td>JWT claim that carries the user's groups (default <code>groups</code>).</td>
+</tr>
+<tr>
+<td><code>auth.apiKeys</code></td>
+<td>List of accepted API keys (SHA-256 hashed on disk).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="networking">Networking<a class="headerlink" href="#networking" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td><code>networking.defaultPolicy</code></td>
-<td><code>deny-all</code> (default) or <code>allow-internet</code></td>
+<td><code>deny-all</code> (default) or <code>allow-internet</code>.</td>
 </tr>
 <tr>
 <td><code>networking.previewDomain</code></td>
-<td>Wildcard domain for port-forward preview URLs</td>
+<td>Wildcard domain for port-forward preview URLs. Leave empty to use only the Router-proxied preview.</td>
 </tr>
 <tr>
 <td><code>networking.portForwardIngressClass</code></td>
-<td>Ingress class for forwarded ports (<code>nginx</code>, <code>alb</code>, <code>traefik</code>, …)</td>
+<td>Ingress class name (<code>alb</code>, <code>nginx</code>, <code>traefik</code>).</td>
 </tr>
+</tbody>
+</table>
+<h3 id="sandbox-defaults">Sandbox defaults<a class="headerlink" href="#sandbox-defaults" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
 <tr>
-<td><code>security.gvisor.enabled</code></td>
-<td>Enable the gVisor RuntimeClass for untrusted workloads</td>
+<th>Value</th>
+<th>Purpose</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td><code>defaults.sandbox.image</code></td>
-<td>Default sandbox image when a template doesn't override it</td>
+<td>Default sandbox image for templates that don't override.</td>
 </tr>
 <tr>
 <td><code>defaults.sandbox.resources</code></td>
-<td>Default CPU/memory requests and limits</td>
+<td>Default CPU/memory requests and limits.</td>
 </tr>
+<tr>
+<td><code>defaults.sandbox.storage.size</code></td>
+<td>Default PVC size.</td>
+</tr>
+<tr>
+<td><code>defaults.sandbox.timeout</code></td>
+<td>Default max runtime.</td>
+</tr>
+<tr>
+<td><code>defaults.sandbox.idleTimeout</code></td>
+<td>Default idle auto-stop.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>security.gvisor.enabled</code></td>
+<td>Create a <code>gvisor</code> RuntimeClass and mark it available to templates.</td>
+</tr>
+<tr>
+<td><code>security.podSecurityContext</code></td>
+<td>Overrides the restrictive default (non-root, RO rootfs, drop ALL caps).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="warm-pool">Warm pool<a class="headerlink" href="#warm-pool" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td><code>warmPool.enabled</code></td>
-<td>Pre-create idle pods for near-instant sandbox startup</td>
+<td>Leader-elected reconciler that pre-creates idle Pods.</td>
 </tr>
 <tr>
+<td><code>warmPool.desiredCount</code></td>
+<td>Number of hot spares to keep.</td>
+</tr>
+<tr>
+<td><code>warmPool.template</code></td>
+<td>Template the warm Pods use.</td>
+</tr>
+</tbody>
+</table>
+<p>The Settings page in the Web UI mutates the same values via the <code>agenttier-warmpool-config</code> ConfigMap, so admins can retune without redeploying the chart.</p>
+<h3 id="optional-add-ons">Optional add-ons<a class="headerlink" href="#optional-add-ons" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td><code>optional.imagePrepull.enabled</code></td>
-<td>DaemonSet that pre-caches sandbox images on every node</td>
+<td>DaemonSet that pre-caches sandbox images on every node.</td>
+</tr>
+<tr>
+<td><code>optional.serviceMonitor.enabled</code></td>
+<td>Prometheus Operator ServiceMonitor (requires the Operator).</td>
+</tr>
+<tr>
+<td><code>optional.podDisruptionBudget.enabled</code></td>
+<td>PDB for controller + router.</td>
+</tr>
+<tr>
+<td><code>optional.otelCollector.enabled</code></td>
+<td>Sidecar OTel Collector.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>observability.otlp.endpoint</code></td>
+<td>OTLP endpoint for traces + metrics + logs.</td>
+</tr>
+<tr>
+<td><code>observability.logLevel</code></td>
+<td>Controller + Router log verbosity (<code>info</code>, <code>debug</code>).</td>
 </tr>
 </tbody>
 </table>
 <h2 id="upgrading">Upgrading<a class="headerlink" href="#upgrading" title="Permanent link">&para;</a></h2>
-<p>Helm upgrades are in-place and CRD-aware. Chart versions follow the app version
-(e.g. chart <code>0.2.0</code> bundles app <code>v0.2.0</code>).</p>
+<p>Helm upgrades are in-place and CRD-aware. Chart versions track the app version.</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>update
-helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span>--namespace<span class="w"> </span>agenttier
+helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span>-f<span class="w"> </span>values.prod.yaml
 </code></pre></div>
-<p>See the <a href="https://github.com/agenttier/agenttier/blob/main/CHANGELOG.md">CHANGELOG</a>
-for upgrade notes on each release.</p>
-<h2 id="verifying-images-recommended">Verifying images (recommended)<a class="headerlink" href="#verifying-images-recommended" title="Permanent link">&para;</a></h2>
-<p>Release images are keyless-signed with cosign and ship with SPDX + CycloneDX
-SBOMs. See <a href="../verifying-images/">Verifying images</a> for the full flow.</p>
+<p>See the <a href="https://github.com/agenttier/agenttier/blob/main/CHANGELOG.md">CHANGELOG</a> for per-version upgrade notes.</p>
+<h2 id="uninstall">Uninstall<a class="headerlink" href="#uninstall" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>uninstall<span class="w"> </span>agenttier<span class="w"> </span>--namespace<span class="w"> </span>agenttier
+kubectl<span class="w"> </span>delete<span class="w"> </span>namespace<span class="w"> </span>agenttier
+
+<span class="c1"># CRDs are kept by default so your sandboxes survive a re-install.</span>
+<span class="c1"># Remove them explicitly if you want a clean slate:</span>
+kubectl<span class="w"> </span>delete<span class="w"> </span>crd<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sandboxes.agenttier.io<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sandboxtemplates.agenttier.io<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>clustersandboxtemplates.agenttier.io
+
+<span class="c1"># If you&#39;re upgrading from the pre-rename `agentloft.io` CRDs (rare), also</span>
+<span class="c1"># remove those — Helm won&#39;t touch them:</span>
+kubectl<span class="w"> </span>delete<span class="w"> </span>crd<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sandboxes.agentloft.io<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sandboxtemplates.agentloft.io<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>clustersandboxtemplates.agentloft.io<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</code></pre></div>
+<h2 id="exposing-the-web-ui-on-aws-with-alb">Exposing the Web UI on AWS with ALB<a class="headerlink" href="#exposing-the-web-ui-on-aws-with-alb" title="Permanent link">&para;</a></h2>
+<p>For production on EKS, use the <a href="https://kubernetes-sigs.github.io/aws-load-balancer-controller/">AWS Load Balancer
+Controller</a>
+and enable the chart's Ingress. ALB has native WebSocket support, better idle
+timeout controls, TLS termination at the edge, and cleaner integration with
+WAF, ACM, and Route 53 than the legacy Classic ELB.</p>
+<p>Prerequisites (one-time per cluster):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Download the latest IAM policy from upstream. The version pinned below</span>
+<span class="c1">#    works with AWS Load Balancer Controller v2.13+ (it includes the</span>
+<span class="c1">#    `elasticloadbalancing:DescribeListenerAttributes` permission that newer</span>
+<span class="c1">#    controllers require; older policy snapshots lack it and cause the</span>
+<span class="c1">#    controller to fail with &quot;AccessDenied&quot; when creating listener rules).</span>
+curl<span class="w"> </span>-sSL<span class="w"> </span>-o<span class="w"> </span>alb-iam-policy.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+
+aws<span class="w"> </span>iam<span class="w"> </span>create-policy<span class="w"> </span>--policy-name<span class="w"> </span>AWSLoadBalancerControllerIAMPolicy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--policy-document<span class="w"> </span>file://alb-iam-policy.json
+
+<span class="c1"># 2. Associate the cluster&#39;s OIDC provider with IAM (safe to re-run).</span>
+aws<span class="w"> </span>eks<span class="w"> </span>describe-cluster<span class="w"> </span>--name<span class="w"> </span>&lt;cluster&gt;<span class="w"> </span>--query<span class="w"> </span><span class="s1">&#39;cluster.identity.oidc.issuer&#39;</span>
+
+<span class="c1"># 3. Create an IRSA role for the controller&#39;s ServiceAccount.</span>
+eksctl<span class="w"> </span>create<span class="w"> </span>iamserviceaccount<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cluster<span class="w"> </span>&lt;cluster&gt;<span class="w"> </span>--namespace<span class="w"> </span>kube-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>aws-load-balancer-controller<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role-name<span class="w"> </span>AmazonEKSLoadBalancerControllerRole<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--attach-policy-arn<span class="o">=</span>arn:aws:iam::&lt;account&gt;:policy/AWSLoadBalancerControllerIAMPolicy<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--override-existing-serviceaccounts<span class="w"> </span>--approve
+
+<span class="c1"># 4. Install the controller.</span>
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>eks<span class="w"> </span>https://aws.github.io/eks-charts
+helm<span class="w"> </span>repo<span class="w"> </span>update
+helm<span class="w"> </span>install<span class="w"> </span>aws-load-balancer-controller<span class="w"> </span>eks/aws-load-balancer-controller<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>kube-system<span class="w"> </span>--set<span class="w"> </span><span class="nv">clusterName</span><span class="o">=</span>&lt;cluster&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>serviceAccount.create<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>serviceAccount.name<span class="o">=</span>aws-load-balancer-controller
+</code></pre></div>
+<p>If you don't use <code>eksctl</code>, do step 3 manually: create an IAM role whose trust
+policy federates to the cluster OIDC provider with <code>sub</code> =
+<code>system:serviceaccount:kube-system:aws-load-balancer-controller</code>, attach the
+policy, then annotate the ServiceAccount with
+<code>eks.amazonaws.com/role-arn=&lt;role-arn&gt;</code>.</p>
+<p>Then enable the chart's Ingress. The chart ships sensible defaults under
+<code>optional.ingress.annotations</code> for <code>idle_timeout.timeout_seconds=4000</code> and
+sticky sessions, so long-running terminal sessions stay alive without
+disconnects. Override <code>host</code> and optionally point <code>certificate-arn</code> at an ACM
+certificate to terminate TLS at the ALB:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>optional.ingress.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>optional.ingress.hosts<span class="o">[</span><span class="m">0</span><span class="o">]</span>.host<span class="o">=</span>agenttier.example.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>optional.ingress.hosts<span class="o">[</span><span class="m">0</span><span class="o">]</span>.paths<span class="o">[</span><span class="m">0</span><span class="o">]</span>.path<span class="o">=</span>/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>optional.ingress.hosts<span class="o">[</span><span class="m">0</span><span class="o">]</span>.paths<span class="o">[</span><span class="m">0</span><span class="o">]</span>.pathType<span class="o">=</span>Prefix
+</code></pre></div>
+<p>The Router additionally sends WebSocket control-frame pings and application
+heartbeats every 30 seconds, so even with the 60s ALB default the browser
+terminal survives long idle periods.</p>
+<h2 id="verifying-released-images">Verifying released images<a class="headerlink" href="#verifying-released-images" title="Permanent link">&para;</a></h2>
+<p>Every image published on a <code>v*</code> tag is keyless-signed and ships with SPDX + CycloneDX SBOMs. See <a href="../verifying-images/">Verifying images</a> for <code>cosign verify</code> and <code>cosign verify-attestation</code> flows. For hardened clusters, enforce with Kyverno / sigstore policy-controller rather than relying on manual verification.</p>
 
 
 
@@ -1197,7 +1802,7 @@ SBOMs. See <a href="../verifying-images/">Verifying images</a> for the full flow
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy", "content.action.edit", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "content.action.edit", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>

@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/governance/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/architecture/">
       
       
-        <link rel="prev" href="../templates/">
+        <link rel="prev" href="../features/">
       
       
-        <link rel="next" href="../port-forwarding/">
+        <link rel="next" href="../templates/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Governance - AgentTier</title>
+        <title>Architecture - AgentTier</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#governance" class="md-skip">
+        <a href="#architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Governance
+              Architecture
             
           </span>
         </div>
@@ -409,8 +409,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -427,13 +429,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -454,7 +454,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -497,10 +497,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -516,6 +543,164 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controller
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Router
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandbox-pods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox Pods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-sandbox-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow: sandbox creation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-terminal-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow: terminal session
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-port-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow: port forwarding
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#governance-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Governance enforcement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State storage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-these-choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why these choices
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -532,10 +717,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -554,11 +737,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -579,7 +764,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -622,37 +807,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Governance
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../governance/" class="md-nav__link">
         
   
   
@@ -668,70 +826,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#scopes-and-merging" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scopes and merging
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-you-can-restrict" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What you can restrict
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#violations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Violations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#admin-access" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Admin access
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1045,10 +1139,71 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#scopes-and-merging" class="md-nav__link">
+  <a href="#components" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scopes and merging
+        Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controller
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Router
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandbox-pods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sandbox Pods
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-sandbox-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow: sandbox creation
       
     </span>
   </a>
@@ -1056,10 +1211,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-you-can-restrict" class="md-nav__link">
+  <a href="#data-flow-terminal-session" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What you can restrict
+        Data flow: terminal session
       
     </span>
   </a>
@@ -1067,10 +1222,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#violations" class="md-nav__link">
+  <a href="#data-flow-port-forwarding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Violations
+        Data flow: port forwarding
       
     </span>
   </a>
@@ -1078,10 +1233,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#admin-access" class="md-nav__link">
+  <a href="#governance-enforcement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Admin access
+        Governance enforcement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State storage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-these-choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why these choices
       
     </span>
   </a>
@@ -1105,7 +1293,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/governance.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/architecture.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1113,144 +1301,137 @@
   
 
 
-<h1 id="governance">Governance<a class="headerlink" href="#governance" title="Permanent link">&para;</a></h1>
-<p>AgentTier enforces governance policies at sandbox creation time. Policies are
-stored in the <code>agenttier-governance</code> ConfigMap and edited through the Web UI
-Settings page (admin-only) or the REST API.</p>
-<h2 id="scopes-and-merging">Scopes and merging<a class="headerlink" href="#scopes-and-merging" title="Permanent link">&para;</a></h2>
-<p>Two scopes:</p>
-<ul>
-<li><strong>Cluster default</strong> — applies everywhere.</li>
-<li><strong>Per-namespace</strong> — overrides the cluster default field-by-field. Empty
-  fields fall through to the cluster default.</li>
-</ul>
-<p>Resolution is cluster → namespace. Admin-gated <code>PUT /api/v1/governance/policies</code>
-sets the cluster default; <code>PUT /api/v1/governance/policies/{namespace}</code> sets a
-namespace override; <code>DELETE /api/v1/governance/policies/{namespace}</code> removes it
-and restores the cluster default.</p>
-<h2 id="what-you-can-restrict">What you can restrict<a class="headerlink" href="#what-you-can-restrict" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Example</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>maxSandboxesPerUser</code></td>
-<td><code>5</code></td>
-<td>Cap per user in this namespace</td>
-</tr>
-<tr>
-<td><code>maxSandboxesTotal</code></td>
-<td><code>50</code></td>
-<td>Cap total in this namespace</td>
-</tr>
-<tr>
-<td><code>maxCpu</code></td>
-<td><code>"4"</code></td>
-<td>Rejects sandboxes whose CPU limit exceeds this</td>
-</tr>
-<tr>
-<td><code>maxMemory</code></td>
-<td><code>"8Gi"</code></td>
-<td>Same, for memory</td>
-</tr>
-<tr>
-<td><code>maxStorage</code></td>
-<td><code>"50Gi"</code></td>
-<td>Same, for PVC size</td>
-</tr>
-<tr>
-<td><code>maxTimeout</code></td>
-<td><code>"24h"</code></td>
-<td>Caps <code>spec.timeout</code> (including the "infinite" 0)</td>
-</tr>
-<tr>
-<td><code>maxIdleTimeout</code></td>
-<td><code>"1h"</code></td>
-<td>Caps <code>spec.idleTimeout</code></td>
-</tr>
-<tr>
-<td><code>allowedTemplates</code></td>
-<td><code>["general-coding"]</code></td>
-<td>Only these template names are permitted</td>
-</tr>
-<tr>
-<td><code>approvedRegistries</code></td>
-<td><code>["ghcr.io/agenttier"]</code></td>
-<td>Image overrides must start with one of these prefixes</td>
-</tr>
-</tbody>
-</table>
-<h2 id="violations">Violations<a class="headerlink" href="#violations" title="Permanent link">&para;</a></h2>
-<p>When a create request is rejected the response is HTTP 403 with a structured body:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy_violation&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;violations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_quota_exceeded&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user already owns 5 sandboxes in this namespace (max 5)&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">]</span>
-<span class="p">}</span>
+<h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
+<p>How AgentTier fits together, what each piece does, and how data moves
+between them. This is the right page to read before contributing or before
+deciding whether AgentTier is the right fit for your platform.</p>
+<h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>┌───────────────────────────────────────────────────────────────────────┐
+│                         Kubernetes Cluster                            │
+│                                                                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │
+│  │  Controller  │  │    Router    │  │    Web UI    │                │
+│  │  (operator)  │  │ (REST + WS + │  │  (React +    │                │
+│  │              │  │    proxy)    │  │    nginx)    │                │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘                │
+│         │ reconciles      │ exec + watch    │ /api, /ws proxied      │
+│         ▼                 ▼                 │                        │
+│  ┌──────────────────────────────────────┐   │                        │
+│  │         Sandbox namespace(s)          │   │                        │
+│  │  ┌──────────┐  ┌──────────┐  ┌─────┐ │   │                        │
+│  │  │Sandbox 1 │  │Sandbox 2 │  │ ... │ │   │                        │
+│  │  │Pod + PVC │  │Pod + PVC │  │     │ │   │                        │
+│  │  │+ NetPol  │  │+ NetPol  │  │     │ │   │                        │
+│  │  └──────────┘  └──────────┘  └─────┘ │   │                        │
+│  └──────────────────────────────────────┘   │                        │
+└─────────────────────────────────────────────── │ ──────────────────────┘
+                                                 │
+                              browser / CLI / SDK────┘
 </code></pre></div>
-<p>Stable violation codes:</p>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>template_not_allowed</code></td>
-<td>Template is not in the <code>allowedTemplates</code> list</td>
-</tr>
-<tr>
-<td><code>image_registry_not_approved</code></td>
-<td>Image override not in <code>approvedRegistries</code></td>
-</tr>
-<tr>
-<td><code>namespace_quota_exceeded</code></td>
-<td>Namespace has hit <code>maxSandboxesTotal</code></td>
-</tr>
-<tr>
-<td><code>user_quota_exceeded</code></td>
-<td>User has hit <code>maxSandboxesPerUser</code></td>
-</tr>
-<tr>
-<td><code>cpu_limit_exceeded</code></td>
-<td>CPU limit exceeds <code>maxCpu</code></td>
-</tr>
-<tr>
-<td><code>memory_limit_exceeded</code></td>
-<td>Memory limit exceeds <code>maxMemory</code></td>
-</tr>
-<tr>
-<td><code>storage_limit_exceeded</code></td>
-<td>Storage size exceeds <code>maxStorage</code></td>
-</tr>
-<tr>
-<td><code>timeout_exceeded</code></td>
-<td><code>spec.timeout</code> exceeds <code>maxTimeout</code></td>
-</tr>
-<tr>
-<td><code>idle_timeout_exceeded</code></td>
-<td><code>spec.idleTimeout</code> exceeds <code>maxIdleTimeout</code></td>
-</tr>
-</tbody>
-</table>
-<p>The Web UI uses these codes to highlight the specific form field that triggered
-the rejection.</p>
-<h2 id="admin-access">Admin access<a class="headerlink" href="#admin-access" title="Permanent link">&para;</a></h2>
-<p>In production, the <code>PUT</code>/<code>DELETE</code> governance endpoints require the <code>isAdmin</code>
-claim, derived from OIDC group membership (<code>auth.oidc.adminGroup</code> in Helm
-values). Dev mode — no OIDC configured — auto-grants admin, so the full
-editing flow is exercised locally without extra setup.</p>
+<h3 id="controller">Controller<a class="headerlink" href="#controller" title="Permanent link">&para;</a></h3>
+<p>A Go binary built with <a href="https://book.kubebuilder.io/">kubebuilder v4</a> that
+reconciles three CRDs under <code>agenttier.io/v1alpha1</code>:</p>
+<ul>
+<li><code>Sandbox</code> — one per sandbox</li>
+<li><code>SandboxTemplate</code> — namespace-scoped blueprint</li>
+<li><code>ClusterSandboxTemplate</code> — cluster-scoped blueprint</li>
+</ul>
+<p>It owns Pods, PVCs, NetworkPolicies, and per-sandbox ServiceAccounts. A
+separate reconciler manages the warm pod pool and watches the
+<code>agenttier-warmpool-config</code> ConfigMap for live reconfiguration.</p>
+<p>State machine: Creating → Running → Stopped → Running → Deleting, with Error
+as a sink. Every transition emits a Kubernetes Event on the Sandbox resource.</p>
+<h3 id="router">Router<a class="headerlink" href="#router" title="Permanent link">&para;</a></h3>
+<p>A Go HTTP server serving:</p>
+<ul>
+<li>REST API at <code>/api/v1/*</code> (sandboxes, templates, governance, port forwarding, audit, analytics, warm pool, identity)</li>
+<li>WebSocket terminal at <code>/ws/terminal/{id}</code> bridging browser WebSocket to SPDY pod exec</li>
+<li>Authenticated in-cluster reverse proxy at <code>/api/v1/sandboxes/{id}/preview/{port}/...</code> for forwarded ports</li>
+<li>Prometheus metrics at <code>/metrics</code>, liveness at <code>/healthz</code>, readiness at <code>/readyz</code></li>
+</ul>
+<p>Auth is OIDC JWT + API key (SHA-256 hashed). Governance runs inline at create
+time. Terminal session state (for reconnection) is kept in memory; the
+<code>/api/v1/user/me</code> endpoint exposes the caller's identity for UI use.</p>
+<h3 id="web-ui">Web UI<a class="headerlink" href="#web-ui" title="Permanent link">&para;</a></h3>
+<p>React 19 + TypeScript + Vite SPA served by nginx. <code>/api/*</code> and <code>/ws/*</code> are
+reverse-proxied to the Router Service. No component library — plain CSS.
+TanStack Query handles server state caching.</p>
+<h3 id="sandbox-pods">Sandbox Pods<a class="headerlink" href="#sandbox-pods" title="Permanent link">&para;</a></h3>
+<p>Each sandbox is a Pod with one container (the sandbox), optional sidecars
+and init containers from the template, a per-sandbox PVC mounted at
+<code>/workspace</code>, and a NetworkPolicy scoped to that sandbox's label.</p>
+<p>Hardened defaults: non-root, read-only root filesystem, drop all
+capabilities, <code>seccomp=RuntimeDefault</code>, per-sandbox ServiceAccount with no
+cluster permissions.</p>
+<h2 id="data-flow-sandbox-creation">Data flow: sandbox creation<a class="headerlink" href="#data-flow-sandbox-creation" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Client (Web UI / SDK / CLI / <code>kubectl</code>) calls <code>POST /api/v1/sandboxes</code> with a <code>templateRef</code> and <code>name</code>.</li>
+<li><strong>Router</strong> authenticates the request, extracts the caller's identity, and runs governance enforcement (policy resolution + limits check).</li>
+<li>If allowed, the Router creates a <code>Sandbox</code> CR in the target namespace. CR's <code>spec.createdBy</code> is stamped with the authenticated identity.</li>
+<li><strong>Controller</strong> observes the new CR. Resolves the template chain (inheritance, field-level merge, env merge), records <code>status.resolvedTemplate</code> + <code>status.templateResourceVersion</code> for auditability.</li>
+<li>Controller tries to claim a warm pod for the target template. If one is available, it relabels that pod, attaches the sandbox CR as owner, and jumps the Sandbox to <code>Running</code>.</li>
+<li>If no warm pod, Controller creates the PVC (via CSI, <code>WaitForFirstConsumer</code> or <code>Immediate</code> depending on the StorageClass), then the Pod, then the NetworkPolicy. Sandbox stays in <code>Creating</code>.</li>
+<li>When the Pod becomes Ready, Controller sets <code>status.phase=Running</code>, records <code>startupDurationMs</code>, and emits a <code>Running</code> Event.</li>
+<li>Client polls <code>GET /api/v1/sandboxes/{id}</code> or watches the CR and sees the phase transition.</li>
+</ol>
+<h2 id="data-flow-terminal-session">Data flow: terminal session<a class="headerlink" href="#data-flow-terminal-session" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Client opens a WebSocket to <code>/ws/terminal/{id}</code>.</li>
+<li>Router authenticates via JWT / API key (or grants anonymous admin in dev mode).</li>
+<li>Router looks up the Sandbox, checks it is <code>Running</code>, and finds its Pod name.</li>
+<li>Per-session credential injection — if the template specifies credentials, Router fetches (STS AssumeRole, Kubernetes Secret, …) and injects them into the exec environment.</li>
+<li>Router calls <code>POST /api/v1/namespaces/{ns}/pods/{pod}/exec</code> with <code>tty=true</code>, <code>stdin=true</code>, bridging the SPDY stream to the WebSocket. Resize events flow through the SPDY <code>TerminalSizeQueue</code>.</li>
+<li>The session is tracked in Router memory with a 30-second reconnection window. If the WebSocket drops, the exec stream stays alive for 30 seconds so the client can reconnect without losing shell state.</li>
+</ol>
+<h2 id="data-flow-port-forwarding">Data flow: port forwarding<a class="headerlink" href="#data-flow-port-forwarding" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Client calls <code>POST /api/v1/sandboxes/{id}/ports {port: 8080}</code>.</li>
+<li>Router creates a ClusterIP Service selecting the sandbox Pod on that port.</li>
+<li>If <code>networking.previewDomain</code> is configured, Router also creates an Ingress with the configured IngressClass, routing <code>sandbox-{name}-{port}.{domain}</code> to the Service.</li>
+<li>Router mirrors the forwarded port into the Sandbox's <code>status.forwardedPorts</code>.</li>
+<li>Client may access the port via:</li>
+<li>Public Ingress URL if configured, or</li>
+<li>Router-proxied preview at <code>/api/v1/sandboxes/{id}/preview/{port}/...</code>, which authenticates and reverse-proxies into the Service (works without DNS, great for dev / kind).</li>
+</ol>
+<h2 id="governance-enforcement">Governance enforcement<a class="headerlink" href="#governance-enforcement" title="Permanent link">&para;</a></h2>
+<p>At create time, Router resolves an effective policy by merging cluster default with per-namespace override (field-by-field, non-zero override wins). Then it evaluates each rule:</p>
+<ul>
+<li>User / namespace quotas</li>
+<li>CPU / memory / storage caps (sandbox overrides only; template defaults are trusted)</li>
+<li>Timeout caps (<code>0</code> means "infinite" which exceeds any finite cap)</li>
+<li>Allowed templates list</li>
+<li>Approved image registries list</li>
+</ul>
+<p>Violations are collected and returned as a 403 with a structured
+<code>{error: "policy_violation", violations: [{code, message}, …]}</code> body. See
+<a href="../governance/">Governance</a> for the full rule set.</p>
+<h2 id="state-storage">State storage<a class="headerlink" href="#state-storage" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Kubernetes etcd</strong> — CRDs (Sandboxes, Templates) and their statuses.</li>
+<li><strong>Kubernetes ConfigMaps</strong> — warm pool config (<code>agenttier-warmpool-config</code>), governance policies (<code>agenttier-governance</code>).</li>
+<li><strong>Kubernetes Events</strong> — audit trail (lifecycle, terminal, credential, share, clone, port-forward).</li>
+<li><strong>In-memory</strong> (Router) — active terminal sessions with reconnection TTL.</li>
+</ul>
+<p>An opt-in SQL backend (Postgres / MySQL / SQLite) for long-term audit and
+analytics retention is planned for 0.3.x. Until then, the retention you get
+is the Kubernetes Event TTL (typically ~1 hour).</p>
+<h2 id="security-model">Security model<a class="headerlink" href="#security-model" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Identity</strong> — OIDC (multi-user, multi-group) + optional API keys. Dev mode with no OIDC grants anonymous admin for local use.</li>
+<li><strong>Authorization</strong> — non-admin users see only sandboxes they own (or are shared with — sharing lands in 0.2.x). Admins see everything. Governance-sensitive endpoints (cluster policy edit, namespace policy edit/delete) are admin-gated.</li>
+<li><strong>Pod isolation</strong> — per-sandbox ServiceAccount with zero cluster permissions, non-root user, read-only root filesystem, drop all capabilities, <code>seccomp=RuntimeDefault</code>, optional gVisor RuntimeClass.</li>
+<li><strong>Network isolation</strong> — NetworkPolicy deny-all egress by default; DNS always allowed; opt-in egress rules per template.</li>
+<li><strong>Credentials</strong> — not baked into images; injected per session at exec open time.</li>
+<li><strong>Supply chain</strong> — every released image is cosign-signed and carries SPDX + CycloneDX SBOMs.</li>
+</ul>
+<h2 id="why-these-choices">Why these choices<a class="headerlink" href="#why-these-choices" title="Permanent link">&para;</a></h2>
+<p>A few deliberate trade-offs worth knowing:</p>
+<ul>
+<li><strong>Single monorepo</strong> for controller, router, web UI, SDK, CLI, and Helm chart. Easier to keep API versions in sync; one release tag ships everything.</li>
+<li><strong>Kubernetes-native state</strong> by default. MongoDB was removed; we use etcd + ConfigMaps + Events for everything so the platform has zero hard external deps. The optional SQL backend is purely for long-term retention, never for hot path.</li>
+<li><strong>Stable networking.k8s.io/v1 Ingress</strong> for port forwarding rather than Gateway API. Ingress is universal in K8s 1.27+; Gateway API requires separately-installed CRDs. Operators who prefer Gateway API can switch <code>ingressClassName</code> via Helm values.</li>
+<li><strong>Flat eslint v9 config</strong> and <strong>golangci-lint v1</strong> to keep the dev loop fast; major jumps are held for coordinated upgrades when the ecosystem stabilizes.</li>
+</ul>
 
 
 
