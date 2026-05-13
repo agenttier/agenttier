@@ -1101,21 +1101,21 @@ artifacts.</p>
 <div class="highlight"><pre><span></span><code>cosign<span class="w"> </span>verify<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/agenttier/agenttier/.*&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span><span class="s1">&#39;https://token.actions.githubusercontent.com&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/agenttier/controller:v0.2.0
+<span class="w">  </span>ghcr.io/agenttier/controller:v0.2.2
 </code></pre></div>
 <p>The command prints the certificate chain on success and exits non-zero if the
 signature is missing or the identity does not match the expected issuer and
 workflow.</p>
 <h2 id="pull-an-sbom">Pull an SBOM<a class="headerlink" href="#pull-an-sbom" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># Unsigned download (convenient, not tamper-proof):</span>
-cosign<span class="w"> </span>download<span class="w"> </span>sbom<span class="w"> </span>ghcr.io/agenttier/controller:v0.2.0<span class="w"> </span>&gt;<span class="w"> </span>controller.spdx.json
+cosign<span class="w"> </span>download<span class="w"> </span>sbom<span class="w"> </span>ghcr.io/agenttier/controller:v0.2.2<span class="w"> </span>&gt;<span class="w"> </span>controller.spdx.json
 
 <span class="c1"># Signed attestation (recommended):</span>
 cosign<span class="w"> </span>verify-attestation<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/agenttier/agenttier/.*&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span><span class="s1">&#39;https://token.actions.githubusercontent.com&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>spdx<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/agenttier/controller:v0.2.0
+<span class="w">  </span>ghcr.io/agenttier/controller:v0.2.2
 </code></pre></div>
 <h2 id="policy-engines">Policy engines<a class="headerlink" href="#policy-engines" title="Permanent link">&para;</a></h2>
 <p>The signature format is the standard Sigstore bundle, so any admission
