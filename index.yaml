@@ -2,8 +2,56 @@ apiVersion: v1
 entries:
   agenttier:
   - apiVersion: v2
+    appVersion: 0.2.2
+    created: "2026-05-13T04:39:02.810301992Z"
+    description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
+      agents.
+    digest: 26cccfb0b20dee766ae86220d84cfd71f000e479eede9d6e2887c5e49f6bb139
+    home: https://github.com/agenttier/agenttier
+    icon: https://raw.githubusercontent.com/agenttier/agenttier/main/docs/logo.png
+    keywords:
+    - kubernetes
+    - operator
+    - sandbox
+    - ai-agents
+    - developer-tools
+    maintainers:
+    - name: AgentTier Authors
+      url: https://github.com/agenttier
+    name: agenttier
+    sources:
+    - https://github.com/agenttier/agenttier
+    type: application
+    urls:
+    - https://agenttier.github.io/agenttier/agenttier-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 0.2.2
+    created: "2026-05-13T04:39:02.812991114Z"
+    description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
+      agents.
+    digest: 26cccfb0b20dee766ae86220d84cfd71f000e479eede9d6e2887c5e49f6bb139
+    home: https://github.com/agenttier/agenttier
+    icon: https://raw.githubusercontent.com/agenttier/agenttier/main/docs/logo.png
+    keywords:
+    - kubernetes
+    - operator
+    - sandbox
+    - ai-agents
+    - developer-tools
+    maintainers:
+    - name: AgentTier Authors
+      url: https://github.com/agenttier
+    name: agenttier
+    sources:
+    - https://github.com/agenttier/agenttier
+    type: application
+    urls:
+    - https://agenttier.github.io/agenttier/charts/agenttier-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
     appVersion: 0.2.0
-    created: "2026-05-12T20:01:57.364394115Z"
+    created: "2026-05-13T04:39:02.809529566Z"
     description: Enterprise-grade Kubernetes operator for isolated, persistent sandboxes
       — for humans and AI agents.
     digest: 4e36a5b570c8c1a03b6529035487f2f24c2ba0e2250ec89d2ca4d475685df8c5
@@ -27,7 +75,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2026-05-12T20:01:57.365714082Z"
+    created: "2026-05-13T04:39:02.811900185Z"
     description: Enterprise-grade Kubernetes operator for isolated, persistent sandboxes
       — for humans and AI agents.
     digest: 4e36a5b570c8c1a03b6529035487f2f24c2ba0e2250ec89d2ca4d475685df8c5
@@ -51,7 +99,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-05-12T20:01:57.363692935Z"
+    created: "2026-05-13T04:39:02.808807424Z"
     description: Enterprise-grade Kubernetes operator for managing isolated, persistent
       sandboxes for AI agents
     digest: 75a0795b2a0eb1c69d4ba1b7bced8a1649c89b4910005045f9a2f3bb15c6db79
@@ -75,7 +123,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-05-12T20:01:57.364959764Z"
+    created: "2026-05-13T04:39:02.810863726Z"
     description: Enterprise-grade Kubernetes operator for managing isolated, persistent
       sandboxes for AI agents
     digest: 75a0795b2a0eb1c69d4ba1b7bced8a1649c89b4910005045f9a2f3bb15c6db79
@@ -99,7 +147,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2026-05-12T20:01:57.363059095Z"
+    created: "2026-05-13T04:39:02.808129638Z"
     description: Enterprise-grade Kubernetes operator for managing isolated, persistent
       sandboxes for AI agents
     digest: c05250bde00a61471dffa865b65fdb913c512c52e50b7f04dba57e9a697a3248
@@ -121,4 +169,4 @@ entries:
     urls:
     - https://agenttier.github.io/agenttier/agenttier-0.1.0.tgz
     version: 0.1.0
-generated: "2026-05-12T20:01:57.362309283Z"
+generated: "2026-05-13T04:39:02.807359334Z"
