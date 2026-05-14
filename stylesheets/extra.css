@@ -1,0 +1,71 @@
+/* AgentTier docs — left-nav polish.
+ *
+ * The default Material rendering with `navigation.sections` + `navigation.expand`
+ * shows section labels and child links in roughly the same visual weight, which
+ * makes the nav read as one long list. These overrides:
+ *   - Promote section labels (bold, primary color, larger, more spacing).
+ *   - Indent the child items under each section.
+ *   - Add a soft top border to separate each section.
+ */
+
+:root {
+  --agenttier-nav-section-color: var(--md-primary-fg-color);
+  --agenttier-nav-divider: var(--md-default-fg-color--lightest);
+}
+
+[data-md-color-scheme="slate"] {
+  --agenttier-nav-section-color: #d1b3ff;
+  --agenttier-nav-divider: rgba(255, 255, 255, 0.08);
+}
+
+/* Top-level section labels (Getting started, Tutorials, Product, ...). */
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav__link {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  color: var(--agenttier-nav-section-color);
+  margin-top: 1.4rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.35rem;
+  border-top: 1px solid var(--agenttier-nav-divider);
+  cursor: default;
+}
+
+/* The first section should not have a divider above it. */
+.md-nav--primary > .md-nav__list > .md-nav__item--section:first-of-type > .md-nav__link {
+  margin-top: 0.4rem;
+  padding-top: 0.2rem;
+  border-top: none;
+}
+
+/* The expand-arrow icon next to section labels — keep it subtle. */
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav__link .md-nav__icon {
+  opacity: 0.55;
+}
+
+/* Indent the children of each section. */
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav > .md-nav__list {
+  padding-left: 0.6rem;
+  border-left: 1px solid var(--agenttier-nav-divider);
+  margin-left: 0.35rem;
+}
+
+/* Material renders an a11y-only title inside each nested nav; it's already
+ * shown as the section label above, so hide the duplicate visually. */
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav > .md-nav__title {
+  display: none;
+}
+
+/* Slightly smaller body for child links so they read as supporting text. */
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav .md-nav__link {
+  font-size: 0.78rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+/* Top-level non-section links (currently just "Home") sit above the first
+ * section divider, so add a touch of bottom margin to separate them. */
+.md-nav--primary > .md-nav__list > .md-nav__item:not(.md-nav__item--section) {
+  margin-bottom: 0.2rem;
+}
