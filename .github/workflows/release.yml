@@ -145,7 +145,7 @@ jobs:
             --app-version "${{ steps.version.outputs.VERSION }}" \
             --destination /tmp/charts
       - name: Upload chart as workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: helm-chart
           path: /tmp/charts/*.tgz
@@ -311,7 +311,7 @@ jobs:
           sha256sum "$out" > "${out}.sha256"
           mkdir -p dist
           mv "$out" "${out}.sha256" dist/
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: cli-${{ matrix.goos }}-${{ matrix.goarch }}
           path: dist/*
@@ -422,7 +422,7 @@ jobs:
           python -m build
           twine check dist/*
       - name: Upload SDK artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-sdk-dist
           path: python-sdk/dist/*
