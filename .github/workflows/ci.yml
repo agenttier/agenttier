@@ -158,7 +158,7 @@ jobs:
 
       - name: Upload gosec SARIF to code-scanning
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: gosec.sarif
           category: gosec
@@ -185,7 +185,7 @@ jobs:
 
       - name: Upload Trivy SARIF to code-scanning
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: trivy-fs.sarif
           category: trivy-fs
@@ -223,7 +223,7 @@ jobs:
 
       - name: Upload Trivy controller image SARIF
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: trivy-controller.sarif
           category: trivy-controller
