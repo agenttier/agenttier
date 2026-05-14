@@ -326,7 +326,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: artifacts
           # buildx jobs leave .dockerbuild metadata artifacts behind. The
@@ -334,7 +334,7 @@ jobs:
           # patterns keep the download fast and avoid download errors
           # on the opaque buildx blobs.
           pattern: "cli-*"
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: artifacts
           name: helm-chart
