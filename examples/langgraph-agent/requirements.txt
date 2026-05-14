@@ -3,7 +3,7 @@
 # install is a no-op when you target that image. Listed here for users
 # who want to swap to a different base image and pip-install at /configure
 # time, and for anyone running the example locally without AgentTier.
-langgraph==0.6.4
+langgraph==1.0.10rc1
 langchain==0.3.27
 langchain-core==0.3.78
 httpx==0.28.1
