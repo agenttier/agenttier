@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/quickstart/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/tutorials/web-ui/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../installation/">
+        <link rel="next" href="../python-sdk/">
       
       
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Quickstart - AgentTier</title>
+        <title>Web UI walkthrough - AgentTier</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,7 +53,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart" class="md-skip">
+        <a href="#tutorial-web-ui-walkthrough" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="AgentTier" class="md-header__button md-logo" aria-label="AgentTier" data-md-component="logo">
+    <a href="../.." title="AgentTier" class="md-header__button md-logo" aria-label="AgentTier" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quickstart
+              Web UI walkthrough
             
           </span>
         </div>
@@ -232,7 +232,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="AgentTier" class="md-nav__button md-logo" aria-label="AgentTier" data-md-component="logo">
+    <a href="../.." title="AgentTier" class="md-nav__button md-logo" aria-label="AgentTier" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -262,7 +262,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -286,10 +286,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -306,11 +304,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -331,7 +331,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -346,37 +346,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quickstart
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
         
   
   
@@ -392,114 +365,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#1-install-agenttier" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install AgentTier
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-verify" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Verify
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-create-a-sandbox" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Create a sandbox
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-open-a-terminal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Open a terminal
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-run-commands-programmatically" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Run commands programmatically
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-stop-resume-delete" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Stop, resume, delete
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -512,7 +377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -544,6 +409,8 @@
       
   
   
+    
+  
   
   
     
@@ -570,17 +437,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../tutorials/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -604,7 +469,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -621,10 +486,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../tutorials/web-ui/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web UI walkthrough
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -640,6 +532,158 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-open-the-web-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Open the Web UI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-browse-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Browse templates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-create-your-first-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Create your first sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-open-the-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Open the terminal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-persistent-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Persistent workspace
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-use-the-files-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Use the Files panel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-forward-a-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Forward a port
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-inspect-activity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Inspect activity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-settings-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Settings page
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Delete
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-just-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you just learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-read-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to read next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -652,7 +696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/python-sdk/" class="md-nav__link">
+      <a href="../python-sdk/" class="md-nav__link">
         
   
   
@@ -680,7 +724,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/code-mode/" class="md-nav__link">
+      <a href="../code-mode/" class="md-nav__link">
         
   
   
@@ -708,7 +752,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/agent-mode-tutorial/" class="md-nav__link">
+      <a href="../agent-mode-tutorial/" class="md-nav__link">
         
   
   
@@ -803,7 +847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -831,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -932,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../templates/" class="md-nav__link">
+      <a href="../../templates/" class="md-nav__link">
         
   
   
@@ -960,7 +1004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../governance/" class="md-nav__link">
+      <a href="../../governance/" class="md-nav__link">
         
   
   
@@ -988,7 +1032,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../port-forwarding/" class="md-nav__link">
+      <a href="../../port-forwarding/" class="md-nav__link">
         
   
   
@@ -1016,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../agent-mode/" class="md-nav__link">
+      <a href="../../agent-mode/" class="md-nav__link">
         
   
   
@@ -1044,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../agent-memory/" class="md-nav__link">
+      <a href="../../agent-memory/" class="md-nav__link">
         
   
   
@@ -1139,7 +1183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cli/" class="md-nav__link">
+      <a href="../../cli/" class="md-nav__link">
         
   
   
@@ -1167,7 +1211,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sdk/" class="md-nav__link">
+      <a href="../../sdk/" class="md-nav__link">
         
   
   
@@ -1262,7 +1306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../verifying-images/" class="md-nav__link">
+      <a href="../../verifying-images/" class="md-nav__link">
         
   
   
@@ -1290,7 +1334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshooting/" class="md-nav__link">
+      <a href="../../troubleshooting/" class="md-nav__link">
         
   
   
@@ -1345,10 +1389,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#1-open-the-web-ui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        1. Open the Web UI
       
     </span>
   </a>
@@ -1356,10 +1400,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-install-agenttier" class="md-nav__link">
+  <a href="#2-browse-templates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Install AgentTier
+        2. Browse templates
       
     </span>
   </a>
@@ -1367,10 +1411,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-verify" class="md-nav__link">
+  <a href="#3-create-your-first-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Verify
+        3. Create your first sandbox
       
     </span>
   </a>
@@ -1378,10 +1422,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-create-a-sandbox" class="md-nav__link">
+  <a href="#4-open-the-terminal" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Create a sandbox
+        4. Open the terminal
       
     </span>
   </a>
@@ -1389,10 +1433,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-open-a-terminal" class="md-nav__link">
+  <a href="#5-persistent-workspace" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Open a terminal
+        5. Persistent workspace
       
     </span>
   </a>
@@ -1400,10 +1444,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-run-commands-programmatically" class="md-nav__link">
+  <a href="#6-use-the-files-panel" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Run commands programmatically
+        6. Use the Files panel
       
     </span>
   </a>
@@ -1411,10 +1455,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-stop-resume-delete" class="md-nav__link">
+  <a href="#7-forward-a-port" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Stop, resume, delete
+        7. Forward a port
       
     </span>
   </a>
@@ -1422,10 +1466,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next" class="md-nav__link">
+  <a href="#8-inspect-activity" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next
+        8. Inspect activity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-settings-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Settings page
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Delete
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-just-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you just learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-read-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to read next
       
     </span>
   </a>
@@ -1449,7 +1537,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/quickstart.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/tutorials/web-ui.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1457,101 +1545,111 @@
   
 
 
-<h1 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h1>
-<p>Get from zero to a running sandbox in under ten minutes.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Kubernetes <strong>1.27+</strong> (EKS, GKE, AKS, kind, or any CNI/CSI-capable cluster)</li>
-<li><strong>Helm 3.x</strong> and <strong>kubectl</strong> configured for that cluster</li>
-<li>CNI with NetworkPolicy support (Calico, Cilium, AWS VPC CNI with NetworkPolicy enabled)</li>
-<li>A CSI storage driver (EBS CSI, PD CSI, Azure Disk CSI, or any RWO-capable CSI)</li>
-</ul>
-<p>If you just want to see it work, a local <code>kind</code> cluster with the default CNI + local-path-provisioner is enough.</p>
-<h2 id="1-install-agenttier">1. Install AgentTier<a class="headerlink" href="#1-install-agenttier" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>agenttier<span class="w"> </span>https://agenttier.github.io/agenttier/charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
-helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span>--create-namespace
-</code></pre></div>
-<p>That's it. Images pull anonymously from <code>ghcr.io/agenttier/*</code>. CRDs and the two reference templates (<code>general-coding</code>, <code>claude-code-bedrock</code>) are installed automatically.</p>
-<h2 id="2-verify">2. Verify<a class="headerlink" href="#2-verify" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>agenttier
-<span class="c1"># agenttier-controller-xxx   1/1   Running</span>
-<span class="c1"># agenttier-router-xxx       1/1   Running</span>
-<span class="c1"># agenttier-webui-xxx        1/1   Running</span>
-
-kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>agenttier
-<span class="c1"># clustersandboxtemplates.agenttier.io</span>
-<span class="c1"># sandboxes.agenttier.io</span>
-<span class="c1"># sandboxtemplates.agenttier.io</span>
-
-kubectl<span class="w"> </span>get<span class="w"> </span>clustersandboxtemplates
-<span class="c1"># NAME                    AGE</span>
-<span class="c1"># general-coding          10s</span>
-<span class="c1"># claude-code-bedrock     10s</span>
-</code></pre></div>
-<h2 id="3-create-a-sandbox">3. Create a sandbox<a class="headerlink" href="#3-create-a-sandbox" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;EOF&#39;</span>
-<span class="s">apiVersion: agenttier.io/v1alpha1</span>
-<span class="s">kind: Sandbox</span>
-<span class="s">metadata:</span>
-<span class="s">  name: my-first-sandbox</span>
-<span class="s">  namespace: default</span>
-<span class="s">spec:</span>
-<span class="s">  templateRef:</span>
-<span class="s">    name: general-coding</span>
-<span class="s">    kind: ClusterSandboxTemplate</span>
-<span class="s">EOF</span>
-</code></pre></div>
-<p>Watch it start:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox<span class="w"> </span>-w
-<span class="c1"># NAME                STATUS     TEMPLATE         AGE</span>
-<span class="c1"># my-first-sandbox    Creating   general-coding   5s</span>
-<span class="c1"># my-first-sandbox    Running    general-coding   8s</span>
-</code></pre></div>
-<p>Cold start is ~10 seconds on most clusters. Enable the warm pool (see <a href="../installation/#warm-pool">Installation</a>) to get sub-second creation.</p>
-<h2 id="4-open-a-terminal">4. Open a terminal<a class="headerlink" href="#4-open-a-terminal" title="Permanent link">&para;</a></h2>
-<p>Port-forward the Web UI and open a browser:</p>
+<h1 id="tutorial-web-ui-walkthrough">Tutorial: Web UI walkthrough<a class="headerlink" href="#tutorial-web-ui-walkthrough" title="Permanent link">&para;</a></h1>
+<p>Take a tour of the AgentTier Web UI: create a sandbox, open the terminal, transfer files, forward a port, and stop / resume / delete. By the end you should be comfortable doing day-to-day work entirely in the browser.</p>
+<p><strong>Time:</strong> ~15 minutes
+<strong>Prerequisites:</strong> AgentTier installed (see <a href="../#prerequisites">Tutorials → Prerequisites</a>).</p>
+<h2 id="1-open-the-web-ui">1. Open the Web UI<a class="headerlink" href="#1-open-the-web-ui" title="Permanent link">&para;</a></h2>
+<p>The simplest path is <code>kubectl port-forward</code>:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>port-forward<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>svc/agenttier-webui<span class="w"> </span><span class="m">8080</span>:80
-<span class="c1"># Open http://localhost:8080</span>
+<span class="c1"># open http://localhost:8080</span>
 </code></pre></div>
-<p>Click <strong>Open Terminal</strong> on the sandbox card. You get a full PTY with resize, ANSI colors, and 30-second reconnection on network blips.</p>
-<p>If you prefer the CLI:</p>
-<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>terminal<span class="w"> </span>my-first-sandbox
-</code></pre></div>
-<p>See the <a href="../cli/">CLI guide</a> for install instructions.</p>
-<h2 id="5-run-commands-programmatically">5. Run commands programmatically<a class="headerlink" href="#5-run-commands-programmatically" title="Permanent link">&para;</a></h2>
-<p>Install the Python SDK:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>agenttier
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentTierClient</span>
-
-<span class="k">with</span> <span class="n">AgentTierClient</span><span class="p">(</span><span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:8080&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-    <span class="n">sandbox</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_sandbox</span><span class="p">(</span><span class="s2">&quot;my-first-sandbox&quot;</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">sandbox</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;python -c &#39;print(2+2)&#39;&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>  <span class="c1"># &quot;4\n&quot;</span>
-</code></pre></div>
-<p>See the <a href="../sdk/">SDK guide</a> for the full API surface.</p>
-<h2 id="6-stop-resume-delete">6. Stop, resume, delete<a class="headerlink" href="#6-stop-resume-delete" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># Stop: deletes the Pod, preserves the PVC + files.</span>
-kubectl<span class="w"> </span>annotate<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox<span class="w"> </span>agenttier.io/action<span class="o">=</span>stop
-
-<span class="c1"># Resume later — re-attaches the same PVC to a new Pod. ~2 seconds.</span>
-kubectl<span class="w"> </span>annotate<span class="w"> </span>--overwrite<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox<span class="w"> </span>agenttier.io/action<span class="o">=</span>resume
-
-<span class="c1"># Delete: permanently removes the sandbox and its workspace.</span>
-kubectl<span class="w"> </span>delete<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox
-</code></pre></div>
-<p>The Web UI exposes the same actions as one-click buttons on the sandbox card.</p>
-<h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
+<p>For a real deployment behind an Ingress, use the URL your cluster operator gave you (commonly an ALB, NLB, or your own reverse proxy). The Quickstart documents the development bypass; OIDC is covered in <a href="../../installation/">Installation</a>.</p>
+<p>You should land on the <strong>Dashboard</strong>. It's empty if this is a fresh install.</p>
+<h2 id="2-browse-templates">2. Browse templates<a class="headerlink" href="#2-browse-templates" title="Permanent link">&para;</a></h2>
+<p>Click <strong>Templates</strong> in the left nav. Out of the box you see:</p>
 <ul>
-<li><a href="../tutorials/">Tutorials</a> — hands-on walkthroughs for the Web UI, Python SDK, code mode, and agent mode.</li>
-<li><a href="../installation/">Installation</a> — production Helm values, OIDC, warm pool, ingress.</li>
-<li><a href="../templates/">Templates</a> — author custom agent blueprints.</li>
-<li><a href="../governance/">Governance</a> — cluster and per-namespace policy limits.</li>
-<li><a href="../sdk/">SDK</a> — sync and async Python clients.</li>
-<li><a href="../cli/">CLI</a> — terminal-native management.</li>
-<li><a href="../port-forwarding/">Port forwarding</a> — expose container ports to users.</li>
+<li><code>general-coding</code> — Ubuntu base with Python, Node, and Go preinstalled. The default code-mode sandbox.</li>
+<li><code>claude-code-bedrock</code> — Anthropic Claude Code CLI wired to AWS Bedrock via IRSA.</li>
+<li><code>langgraph-agent</code> — Agent-mode template that runs a LangGraph agent under <code>/invoke</code>.</li>
+</ul>
+<p>Click any template to see its full YAML. Templates are editable: change the image, add env vars, set <code>network.allowedDomains</code>, save. Existing sandboxes are not affected — only new sandboxes pick up the change.</p>
+<blockquote>
+<p><strong>Tip:</strong> click <strong>New template</strong> to create a custom blueprint. Templates support inheritance via <code>parentRef</code> so you can share a base and override per-team.</p>
+</blockquote>
+<h2 id="3-create-your-first-sandbox">3. Create your first sandbox<a class="headerlink" href="#3-create-your-first-sandbox" title="Permanent link">&para;</a></h2>
+<p>Click <strong>+ New sandbox</strong> on the Dashboard. The dialog needs only:</p>
+<ul>
+<li><strong>Name</strong> — must be DNS-friendly: lowercase alphanumeric and hyphens.</li>
+<li><strong>Template</strong> — pick <code>general-coding</code> for this tutorial.</li>
+</ul>
+<p>Click <strong>Create</strong>. The card appears with status <code>Creating</code> and flips to <code>Running</code> in about ten seconds. With the warm pool turned on, it's about one second.</p>
+<p>Watch what happens behind the scenes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sandbox<span class="w"> </span>-A
+<span class="c1"># NAMESPACE   NAME              STATUS    TEMPLATE         AGE</span>
+<span class="c1"># default     tutorial-sbx      Running   general-coding   12s</span>
+
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A<span class="w"> </span>-l<span class="w"> </span>agenttier.io/sandbox<span class="o">=</span>tutorial-sbx
+<span class="c1"># default   tutorial-sbx-xxxxx   1/1   Running</span>
+</code></pre></div>
+<p>The controller created a Pod, a PVC mounted at <code>/workspace</code>, a default-deny NetworkPolicy with DNS allow, and a per-sandbox ServiceAccount.</p>
+<h2 id="4-open-the-terminal">4. Open the terminal<a class="headerlink" href="#4-open-the-terminal" title="Permanent link">&para;</a></h2>
+<p>Click <strong>Open terminal</strong> on the sandbox card. A new tab opens with a full PTY: arrow keys, tab completion, ANSI colors, <code>clear</code>, <code>vim</code>, <code>htop</code> — everything works.</p>
+<p>Try a few things:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$HOME</span><span class="w">           </span><span class="c1"># /workspace</span>
+whoami<span class="w">               </span><span class="c1"># sandbox</span>
+df<span class="w"> </span>-h<span class="w"> </span>/workspace<span class="w">     </span><span class="c1"># the PVC</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;print(2+2)&#39;</span>
+node<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;console.log(&quot;hi&quot;)&#39;</span>
+</code></pre></div>
+<p>The terminal reconnects automatically on a dropped websocket; status indicator at the top right turns yellow → green when it reattaches.</p>
+<h2 id="5-persistent-workspace">5. Persistent workspace<a class="headerlink" href="#5-persistent-workspace" title="Permanent link">&para;</a></h2>
+<p>Drop a file in <code>/workspace</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello tutorial&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/workspace/notes.md
+ls<span class="w"> </span>-la<span class="w"> </span>/workspace
+</code></pre></div>
+<p>Now stop the sandbox from the card menu (<strong>⋯</strong> → <strong>Stop</strong>). Status flips to <code>Stopped</code>. The Pod is gone:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A<span class="w"> </span>-l<span class="w"> </span>agenttier.io/sandbox<span class="o">=</span>tutorial-sbx
+<span class="c1"># (empty)</span>
+</code></pre></div>
+<p>But the PVC is preserved. Click <strong>Resume</strong>. Status flips through <code>Creating</code> back to <code>Running</code>. Click <strong>Open terminal</strong> again:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/workspace/notes.md
+<span class="c1"># Hello tutorial</span>
+</code></pre></div>
+<p>The file is still there. This is the core "disposable Pod, durable PVC" model.</p>
+<h2 id="6-use-the-files-panel">6. Use the Files panel<a class="headerlink" href="#6-use-the-files-panel" title="Permanent link">&para;</a></h2>
+<p>Expand the <strong>Advanced</strong> section on the sandbox card and click <strong>Files</strong>.</p>
+<p>You can:</p>
+<ul>
+<li>Browse <code>/workspace</code> (default) and <code>/tmp</code>.</li>
+<li>Click a file to download it to your laptop.</li>
+<li>Click <strong>Upload file</strong> and pick something locally — it's pushed via the REST API into the sandbox's PVC.</li>
+</ul>
+<p>A 32 MiB ceiling per file applies (configurable in the Router; mostly there to prevent OOM). For big trees, use the SDK's streaming <code>upload_dir</code> helper or <code>kubectl cp</code>.</p>
+<p>Verify in the terminal:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-la<span class="w"> </span>/workspace/&lt;file<span class="w"> </span>you<span class="w"> </span>uploaded&gt;
+</code></pre></div>
+<h2 id="7-forward-a-port">7. Forward a port<a class="headerlink" href="#7-forward-a-port" title="Permanent link">&para;</a></h2>
+<p>Run a local web server inside the sandbox:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/workspace
+python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+<p>Back in the Web UI, on the sandbox card → <strong>Advanced</strong> → <strong>Port forwards</strong>, click <strong>Forward a port</strong>. Enter <code>8000</code> and a name like <code>web</code>. The card now shows a <strong>Preview</strong> link.</p>
+<p>Click it. The link goes through the AgentTier Router with your auth context — no public exposure, no separate Ingress required. You should see the Python server's directory listing.</p>
+<p>Stop the forward by clicking the trash icon next to it. The Service goes away; the in-cluster proxy stops accepting requests for that port.</p>
+<p>If the Helm chart is configured with <code>networking.previewDomain</code>, AgentTier also creates an Ingress so the preview gets its own DNS name. See <a href="../../port-forwarding/">Port forwarding</a>.</p>
+<h2 id="8-inspect-activity">8. Inspect activity<a class="headerlink" href="#8-inspect-activity" title="Permanent link">&para;</a></h2>
+<p>Click <strong>Activity</strong> in the left nav. You see a paginated list of every state transition: created, started, stopped, command exec, file uploads, port forwards. Filter by sandbox, action, user, and time range. This is your audit trail — also available via <code>GET /api/v1/audit/events</code> for shipping into Splunk / Datadog / CloudWatch.</p>
+<h2 id="9-settings-page">9. Settings page<a class="headerlink" href="#9-settings-page" title="Permanent link">&para;</a></h2>
+<p>Click <strong>Settings</strong>. Two important controls:</p>
+<ul>
+<li><strong>Warm pool</strong> — enable to keep N pre-warmed Pods per template. Sandbox creation drops from ~10s to ~1s. Pick low values (1–3 per template) to start; cost grows linearly with the count.</li>
+<li><strong>Governance editor</strong> — admin-only. JSON editor for cluster and per-namespace policies. See the <a href="../../governance/">Governance tutorial section</a>.</li>
+</ul>
+<h2 id="10-delete">10. Delete<a class="headerlink" href="#10-delete" title="Permanent link">&para;</a></h2>
+<p>When you're done, click <strong>⋯</strong> → <strong>Delete</strong> on the card. The CRD is deleted, the controller's finalizer runs, the Pod and PVC are removed. Files are gone permanently. (Keep the sandbox <code>Stopped</code> if you want to come back to it later.)</p>
+<h2 id="what-you-just-learned">What you just learned<a class="headerlink" href="#what-you-just-learned" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Templates are blueprints; sandboxes are instances.</li>
+<li>Stop preserves the PVC, resume re-attaches it. Delete is forever.</li>
+<li>The terminal, files, and port forwards all run through the Router with your auth context — no separate exposure.</li>
+<li>Activity log captures every action for audit.</li>
+</ul>
+<h2 id="what-to-read-next">What to read next<a class="headerlink" href="#what-to-read-next" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../python-sdk/">Python SDK walkthrough</a> — drive the same flows from code.</li>
+<li><a href="../code-mode/">Code mode in depth</a> — IDE-style workflows, IRSA, allowedDomains.</li>
+<li><a href="../agent-mode-tutorial/">Agent mode in depth</a> — <code>/configure</code> → <code>/invoke</code> for AI agents.</li>
 </ul>
 
 
@@ -1624,10 +1722,10 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>sandbox<span class=
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "content.action.edit", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "content.action.edit", "search.highlight", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

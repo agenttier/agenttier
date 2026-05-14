@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/quickstart/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/tutorials/code-mode/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../python-sdk/">
       
       
-        <link rel="next" href="../installation/">
+        <link rel="next" href="../agent-mode-tutorial/">
       
       
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Quickstart - AgentTier</title>
+        <title>Code mode in depth - AgentTier</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,7 +53,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart" class="md-skip">
+        <a href="#tutorial-code-mode-in-depth" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="AgentTier" class="md-header__button md-logo" aria-label="AgentTier" data-md-component="logo">
+    <a href="../.." title="AgentTier" class="md-header__button md-logo" aria-label="AgentTier" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quickstart
+              Code mode in depth
             
           </span>
         </div>
@@ -232,7 +232,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="AgentTier" class="md-nav__button md-logo" aria-label="AgentTier" data-md-component="logo">
+    <a href="../.." title="AgentTier" class="md-nav__button md-logo" aria-label="AgentTier" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -262,7 +262,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -286,10 +286,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -306,11 +304,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -331,7 +331,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -346,37 +346,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quickstart
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
         
   
   
@@ -392,114 +365,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#1-install-agenttier" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install AgentTier
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-verify" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Verify
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-create-a-sandbox" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Create a sandbox
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-open-a-terminal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Open a terminal
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-run-commands-programmatically" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Run commands programmatically
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-stop-resume-delete" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Stop, resume, delete
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -512,7 +377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -544,6 +409,8 @@
       
   
   
+    
+  
   
   
     
@@ -570,17 +437,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../tutorials/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -604,7 +469,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -624,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/web-ui/" class="md-nav__link">
+      <a href="../web-ui/" class="md-nav__link">
         
   
   
@@ -652,7 +517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/python-sdk/" class="md-nav__link">
+      <a href="../python-sdk/" class="md-nav__link">
         
   
   
@@ -677,10 +542,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../tutorials/code-mode/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code mode in depth
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -696,6 +588,169 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-mental-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The mental model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-create-a-code-mode-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Create a code-mode sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-open-a-terminal-from-the-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Open a terminal from the CLI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-use-it-like-a-dev-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Use it like a dev VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-persistence-across-stop-resume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Persistence across stop / resume
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-allowed-egress-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Allowed egress domains
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-inject-credentials-via-irsa-eks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Inject credentials via IRSA (EKS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-claude-code-on-bedrock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Claude Code on Bedrock
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-resource-limits-and-timeouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Resource limits and timeouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-inspect-pod-level-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Inspect Pod-level details
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-clean-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Clean up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-just-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you just learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-read-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to read next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -708,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/agent-mode-tutorial/" class="md-nav__link">
+      <a href="../agent-mode-tutorial/" class="md-nav__link">
         
   
   
@@ -803,7 +858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -831,7 +886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -932,7 +987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../templates/" class="md-nav__link">
+      <a href="../../templates/" class="md-nav__link">
         
   
   
@@ -960,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../governance/" class="md-nav__link">
+      <a href="../../governance/" class="md-nav__link">
         
   
   
@@ -988,7 +1043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../port-forwarding/" class="md-nav__link">
+      <a href="../../port-forwarding/" class="md-nav__link">
         
   
   
@@ -1016,7 +1071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../agent-mode/" class="md-nav__link">
+      <a href="../../agent-mode/" class="md-nav__link">
         
   
   
@@ -1044,7 +1099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../agent-memory/" class="md-nav__link">
+      <a href="../../agent-memory/" class="md-nav__link">
         
   
   
@@ -1139,7 +1194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cli/" class="md-nav__link">
+      <a href="../../cli/" class="md-nav__link">
         
   
   
@@ -1167,7 +1222,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sdk/" class="md-nav__link">
+      <a href="../../sdk/" class="md-nav__link">
         
   
   
@@ -1262,7 +1317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../verifying-images/" class="md-nav__link">
+      <a href="../../verifying-images/" class="md-nav__link">
         
   
   
@@ -1290,7 +1345,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshooting/" class="md-nav__link">
+      <a href="../../troubleshooting/" class="md-nav__link">
         
   
   
@@ -1345,10 +1400,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#1-the-mental-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        1. The mental model
       
     </span>
   </a>
@@ -1356,10 +1411,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-install-agenttier" class="md-nav__link">
+  <a href="#2-create-a-code-mode-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Install AgentTier
+        2. Create a code-mode sandbox
       
     </span>
   </a>
@@ -1367,10 +1422,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-verify" class="md-nav__link">
+  <a href="#3-open-a-terminal-from-the-cli" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Verify
+        3. Open a terminal from the CLI
       
     </span>
   </a>
@@ -1378,10 +1433,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-create-a-sandbox" class="md-nav__link">
+  <a href="#4-use-it-like-a-dev-vm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Create a sandbox
+        4. Use it like a dev VM
       
     </span>
   </a>
@@ -1389,10 +1444,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-open-a-terminal" class="md-nav__link">
+  <a href="#5-persistence-across-stop-resume" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Open a terminal
+        5. Persistence across stop / resume
       
     </span>
   </a>
@@ -1400,10 +1455,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-run-commands-programmatically" class="md-nav__link">
+  <a href="#6-allowed-egress-domains" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Run commands programmatically
+        6. Allowed egress domains
       
     </span>
   </a>
@@ -1411,10 +1466,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-stop-resume-delete" class="md-nav__link">
+  <a href="#7-inject-credentials-via-irsa-eks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Stop, resume, delete
+        7. Inject credentials via IRSA (EKS)
       
     </span>
   </a>
@@ -1422,10 +1477,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next" class="md-nav__link">
+  <a href="#8-claude-code-on-bedrock" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next
+        8. Claude Code on Bedrock
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-resource-limits-and-timeouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Resource limits and timeouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-inspect-pod-level-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Inspect Pod-level details
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-clean-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Clean up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-just-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you just learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-read-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to read next
       
     </span>
   </a>
@@ -1449,7 +1559,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/quickstart.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/tutorials/code-mode.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1457,101 +1567,166 @@
   
 
 
-<h1 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h1>
-<p>Get from zero to a running sandbox in under ten minutes.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<h1 id="tutorial-code-mode-in-depth">Tutorial: Code mode in depth<a class="headerlink" href="#tutorial-code-mode-in-depth" title="Permanent link">&para;</a></h1>
+<p>Code mode is the default sandbox flavor: a long-lived dev environment for humans (or for agents that drive the terminal directly, like Claude Code). This tutorial walks through the production-grade patterns: persistent workspaces, IRSA-backed AWS access, allowed egress domains, and the Claude Code reference image.</p>
+<p><strong>Time:</strong> ~20 minutes
+<strong>Prerequisites:</strong> AgentTier installed; kubectl + the <code>agenttier</code> CLI on your laptop. Some steps assume an EKS cluster with IRSA configured for the AWS-specific section — skip those on non-EKS clusters.</p>
+<h2 id="1-the-mental-model">1. The mental model<a class="headerlink" href="#1-the-mental-model" title="Permanent link">&para;</a></h2>
+<p>Code mode is "give me a Pod with a writable workspace and a way in." AgentTier handles:</p>
 <ul>
-<li>Kubernetes <strong>1.27+</strong> (EKS, GKE, AKS, kind, or any CNI/CSI-capable cluster)</li>
-<li><strong>Helm 3.x</strong> and <strong>kubectl</strong> configured for that cluster</li>
-<li>CNI with NetworkPolicy support (Calico, Cilium, AWS VPC CNI with NetworkPolicy enabled)</li>
-<li>A CSI storage driver (EBS CSI, PD CSI, Azure Disk CSI, or any RWO-capable CSI)</li>
+<li>Pod creation from a template</li>
+<li>Persistent <code>/workspace</code> PVC</li>
+<li>Default-deny egress NetworkPolicy</li>
+<li>Per-sandbox ServiceAccount (for IRSA, GKE workload identity, etc.)</li>
+<li>WebSocket terminal, file API, port forwarding, exec API</li>
 </ul>
-<p>If you just want to see it work, a local <code>kind</code> cluster with the default CNI + local-path-provisioner is enough.</p>
-<h2 id="1-install-agenttier">1. Install AgentTier<a class="headerlink" href="#1-install-agenttier" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>agenttier<span class="w"> </span>https://agenttier.github.io/agenttier/charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
-helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span>--create-namespace
-</code></pre></div>
-<p>That's it. Images pull anonymously from <code>ghcr.io/agenttier/*</code>. CRDs and the two reference templates (<code>general-coding</code>, <code>claude-code-bedrock</code>) are installed automatically.</p>
-<h2 id="2-verify">2. Verify<a class="headerlink" href="#2-verify" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>agenttier
-<span class="c1"># agenttier-controller-xxx   1/1   Running</span>
-<span class="c1"># agenttier-router-xxx       1/1   Running</span>
-<span class="c1"># agenttier-webui-xxx        1/1   Running</span>
-
-kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>agenttier
-<span class="c1"># clustersandboxtemplates.agenttier.io</span>
-<span class="c1"># sandboxes.agenttier.io</span>
-<span class="c1"># sandboxtemplates.agenttier.io</span>
-
-kubectl<span class="w"> </span>get<span class="w"> </span>clustersandboxtemplates
-<span class="c1"># NAME                    AGE</span>
-<span class="c1"># general-coding          10s</span>
-<span class="c1"># claude-code-bedrock     10s</span>
-</code></pre></div>
-<h2 id="3-create-a-sandbox">3. Create a sandbox<a class="headerlink" href="#3-create-a-sandbox" title="Permanent link">&para;</a></h2>
+<p>Anything you would normally do on a long-lived dev VM — clone a repo, run a build, start a server, edit files — works inside the sandbox. The PVC persists across stop / resume so your work survives.</p>
+<h2 id="2-create-a-code-mode-sandbox">2. Create a code-mode sandbox<a class="headerlink" href="#2-create-a-code-mode-sandbox" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;EOF&#39;</span>
 <span class="s">apiVersion: agenttier.io/v1alpha1</span>
 <span class="s">kind: Sandbox</span>
 <span class="s">metadata:</span>
-<span class="s">  name: my-first-sandbox</span>
+<span class="s">  name: dev-tutorial</span>
 <span class="s">  namespace: default</span>
 <span class="s">spec:</span>
 <span class="s">  templateRef:</span>
 <span class="s">    name: general-coding</span>
 <span class="s">    kind: ClusterSandboxTemplate</span>
 <span class="s">EOF</span>
-</code></pre></div>
-<p>Watch it start:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox<span class="w"> </span>-w
-<span class="c1"># NAME                STATUS     TEMPLATE         AGE</span>
-<span class="c1"># my-first-sandbox    Creating   general-coding   5s</span>
-<span class="c1"># my-first-sandbox    Running    general-coding   8s</span>
-</code></pre></div>
-<p>Cold start is ~10 seconds on most clusters. Enable the warm pool (see <a href="../installation/#warm-pool">Installation</a>) to get sub-second creation.</p>
-<h2 id="4-open-a-terminal">4. Open a terminal<a class="headerlink" href="#4-open-a-terminal" title="Permanent link">&para;</a></h2>
-<p>Port-forward the Web UI and open a browser:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>port-forward<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>svc/agenttier-webui<span class="w"> </span><span class="m">8080</span>:80
-<span class="c1"># Open http://localhost:8080</span>
-</code></pre></div>
-<p>Click <strong>Open Terminal</strong> on the sandbox card. You get a full PTY with resize, ANSI colors, and 30-second reconnection on network blips.</p>
-<p>If you prefer the CLI:</p>
-<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>terminal<span class="w"> </span>my-first-sandbox
-</code></pre></div>
-<p>See the <a href="../cli/">CLI guide</a> for install instructions.</p>
-<h2 id="5-run-commands-programmatically">5. Run commands programmatically<a class="headerlink" href="#5-run-commands-programmatically" title="Permanent link">&para;</a></h2>
-<p>Install the Python SDK:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>agenttier
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentTierClient</span>
 
-<span class="k">with</span> <span class="n">AgentTierClient</span><span class="p">(</span><span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:8080&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-    <span class="n">sandbox</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_sandbox</span><span class="p">(</span><span class="s2">&quot;my-first-sandbox&quot;</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">sandbox</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;python -c &#39;print(2+2)&#39;&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>  <span class="c1"># &quot;4\n&quot;</span>
+kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.phase}&#39;</span><span class="o">=</span>Running<span class="w"> </span>sandbox/dev-tutorial<span class="w"> </span>--timeout<span class="o">=</span>120s
 </code></pre></div>
-<p>See the <a href="../sdk/">SDK guide</a> for the full API surface.</p>
-<h2 id="6-stop-resume-delete">6. Stop, resume, delete<a class="headerlink" href="#6-stop-resume-delete" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># Stop: deletes the Pod, preserves the PVC + files.</span>
-kubectl<span class="w"> </span>annotate<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox<span class="w"> </span>agenttier.io/action<span class="o">=</span>stop
-
-<span class="c1"># Resume later — re-attaches the same PVC to a new Pod. ~2 seconds.</span>
-kubectl<span class="w"> </span>annotate<span class="w"> </span>--overwrite<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox<span class="w"> </span>agenttier.io/action<span class="o">=</span>resume
-
-<span class="c1"># Delete: permanently removes the sandbox and its workspace.</span>
-kubectl<span class="w"> </span>delete<span class="w"> </span>sandbox<span class="w"> </span>my-first-sandbox
+<p><code>mode</code> defaults to <code>code</code>, so you do not need to set it. The Pod, PVC, NetworkPolicy, and ServiceAccount are all created automatically.</p>
+<h2 id="3-open-a-terminal-from-the-cli">3. Open a terminal from the CLI<a class="headerlink" href="#3-open-a-terminal-from-the-cli" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>terminal<span class="w"> </span>dev-tutorial
 </code></pre></div>
-<p>The Web UI exposes the same actions as one-click buttons on the sandbox card.</p>
-<h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
+<p>You get the same PTY the Web UI gives you, attached to your terminal emulator. <code>Ctrl+D</code> exits. Reconnect anytime with the same command.</p>
+<h2 id="4-use-it-like-a-dev-vm">4. Use it like a dev VM<a class="headerlink" href="#4-use-it-like-a-dev-vm" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your-org/repo.git<span class="w"> </span>/workspace/repo
+<span class="nb">cd</span><span class="w"> </span>/workspace/repo
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pytest
+</code></pre></div>
+<p>Everything under <code>/workspace</code> lives on the PVC. <code>/tmp</code> is ephemeral on the Pod and clears on resume.</p>
+<p>The general-coding image preinstalls Python 3.11, Node 20, Go 1.22, build-essential, jq, and curl. For other languages, build a custom image with the additions you need and reference it in a SandboxTemplate.</p>
+<h2 id="5-persistence-across-stop-resume">5. Persistence across stop / resume<a class="headerlink" href="#5-persistence-across-stop-resume" title="Permanent link">&para;</a></h2>
+<p>Stop the sandbox:</p>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>stop<span class="w"> </span>dev-tutorial
+kubectl<span class="w"> </span>get<span class="w"> </span>sandbox<span class="w"> </span>dev-tutorial<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.phase}&#39;</span>
+<span class="c1"># Stopped</span>
+</code></pre></div>
+<p>The Pod is gone. The PVC is preserved. Cost drops to whatever your storage provisioner charges per GiB-month for an idle volume.</p>
+<p>Resume:</p>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>resume<span class="w"> </span>dev-tutorial
+agenttier<span class="w"> </span>sandbox<span class="w"> </span>terminal<span class="w"> </span>dev-tutorial
+ls<span class="w"> </span>/workspace/repo<span class="w">  </span><span class="c1"># still there</span>
+</code></pre></div>
+<p>Resume reuses the existing PVC, so you skip both the Pod scheduling delay and any image pull (the image is cached on the node from last time).</p>
+<h2 id="6-allowed-egress-domains">6. Allowed egress domains<a class="headerlink" href="#6-allowed-egress-domains" title="Permanent link">&para;</a></h2>
+<p>The default NetworkPolicy is <code>deny-all</code> for egress except DNS. Most real workflows need outbound HTTPS — <code>pip install</code>, <code>npm install</code>, <code>git push</code>, model APIs.</p>
+<p>Edit the template (<code>Templates → general-coding</code>) and add:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">network</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">allowedDomains</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.com</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pypi.org</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">files.pythonhosted.org</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.npmjs.org</span>
+</code></pre></div>
+<p>The controller turns this into a NetworkPolicy with a <code>to.ipBlock</code> per resolved domain. Domains are re-resolved every 5 minutes; flaky resolutions surface in the Pod's events.</p>
+<p>For tutorials, you can also override at create time:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">network</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">allowedDomains</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;github.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;pypi.org&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<h2 id="7-inject-credentials-via-irsa-eks">7. Inject credentials via IRSA (EKS)<a class="headerlink" href="#7-inject-credentials-via-irsa-eks" title="Permanent link">&para;</a></h2>
+<p>Pre-req: a working IAM role with the AWS permissions you want, and an OIDC trust relationship for your EKS cluster. Standard IRSA setup, see <a href="https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html">AWS docs</a>.</p>
+<p>Annotate the per-sandbox ServiceAccount via the template:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">serviceAccount</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">eks.amazonaws.com/role-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:iam::123456789012:role/AgentTierSandboxRole</span>
+</code></pre></div>
+<p>Now from inside the sandbox:</p>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>sts<span class="w"> </span>get-caller-identity
+<span class="c1"># {&quot;Account&quot;: &quot;123456789012&quot;, &quot;Arn&quot;: &quot;arn:aws:sts::.../AgentTierSandboxRole/...&quot;}</span>
+</code></pre></div>
+<p>The AWS SDKs auto-discover the IRSA token. No env vars, no static keys. The sandbox-claude-code reference image uses this exact mechanism to talk to Bedrock.</p>
+<p>For non-EKS clusters, similar mechanisms exist:</p>
 <ul>
-<li><a href="../tutorials/">Tutorials</a> — hands-on walkthroughs for the Web UI, Python SDK, code mode, and agent mode.</li>
-<li><a href="../installation/">Installation</a> — production Helm values, OIDC, warm pool, ingress.</li>
-<li><a href="../templates/">Templates</a> — author custom agent blueprints.</li>
-<li><a href="../governance/">Governance</a> — cluster and per-namespace policy limits.</li>
-<li><a href="../sdk/">SDK</a> — sync and async Python clients.</li>
-<li><a href="../cli/">CLI</a> — terminal-native management.</li>
-<li><a href="../port-forwarding/">Port forwarding</a> — expose container ports to users.</li>
+<li><strong>GKE</strong>: workload identity (annotate the SA with <code>iam.gke.io/gcp-service-account</code>).</li>
+<li><strong>AKS</strong>: Azure workload identity (annotate with <code>azure.workload.identity/client-id</code>).</li>
+<li><strong>Generic</strong>: mount a Kubernetes Secret with the credentials as env vars or a file.</li>
+</ul>
+<h2 id="8-claude-code-on-bedrock">8. Claude Code on Bedrock<a class="headerlink" href="#8-claude-code-on-bedrock" title="Permanent link">&para;</a></h2>
+<p>The <code>claude-code-bedrock</code> template ships a turnkey AI coding agent. Create one:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;EOF&#39;</span>
+<span class="s">apiVersion: agenttier.io/v1alpha1</span>
+<span class="s">kind: Sandbox</span>
+<span class="s">metadata:</span>
+<span class="s">  name: claude-tutorial</span>
+<span class="s">spec:</span>
+<span class="s">  templateRef:</span>
+<span class="s">    name: claude-code-bedrock</span>
+<span class="s">    kind: ClusterSandboxTemplate</span>
+<span class="s">EOF</span>
+
+kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.phase}&#39;</span><span class="o">=</span>Running<span class="w"> </span>sandbox/claude-tutorial<span class="w"> </span>--timeout<span class="o">=</span>180s
+agenttier<span class="w"> </span>sandbox<span class="w"> </span>terminal<span class="w"> </span>claude-tutorial
+</code></pre></div>
+<p>Inside the sandbox:</p>
+<div class="highlight"><pre><span></span><code>claude<span class="w"> </span>--version<span class="w">             </span><span class="c1"># 2.x</span>
+claude<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;what is 2+2&quot;</span><span class="w">      </span><span class="c1"># routes through Bedrock</span>
+<span class="nb">cd</span><span class="w"> </span>/workspace
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your-org/repo.git
+<span class="nb">cd</span><span class="w"> </span>repo
+claude<span class="w">                       </span><span class="c1"># interactive coding session</span>
+</code></pre></div>
+<p>The image preinstalls <code>@anthropic-ai/claude-code</code>, sets the env vars Bedrock expects, and binds AWS credentials via IRSA. The default model is Claude in Bedrock; override via env in the template.</p>
+<h2 id="9-resource-limits-and-timeouts">9. Resource limits and timeouts<a class="headerlink" href="#9-resource-limits-and-timeouts" title="Permanent link">&para;</a></h2>
+<p>Override defaults at create time:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
+<span class="w">    </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;8Gi&quot;</span>
+<span class="w">    </span><span class="nt">ephemeralStorage</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20Gi&quot;</span>
+<span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;50Gi&quot;</span>
+<span class="w">  </span><span class="nt">idleTimeout</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;8h&quot;</span>
+<span class="w">  </span><span class="nt">maxRuntime</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;24h&quot;</span>
+</code></pre></div>
+<p>Governance policies (cluster + namespace) clamp these. If <code>maxCpu: "4"</code> is set on the namespace, a sandbox requesting <code>cpu: "8"</code> is rejected with a <code>policy_violation</code> error.</p>
+<p><code>idleTimeout</code> triggers an auto-stop after the user disconnects from the terminal for that long. <code>maxRuntime</code> is a hard cap; the sandbox auto-stops at the deadline regardless of activity. Both can be overridden per sandbox up to the governance ceiling.</p>
+<h2 id="10-inspect-pod-level-details">10. Inspect Pod-level details<a class="headerlink" href="#10-inspect-pod-level-details" title="Permanent link">&para;</a></h2>
+<p>The CRD status surfaces the most useful fields:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sandbox<span class="w"> </span>dev-tutorial<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">&#39;.status&#39;</span>
+<span class="c1"># phase, pod, podIP, lastActivityTimestamp, startupDurationMs,</span>
+<span class="c1"># resolvedTemplate (the merged spec), forwardedPorts, conditions</span>
+</code></pre></div>
+<p>For a deep dive, jump to the Pod:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>sandbox<span class="w"> </span>dev-tutorial<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.pod}&#39;</span><span class="k">)</span>
+kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span>default<span class="w"> </span><span class="nv">$POD</span>
+kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>default<span class="w"> </span><span class="nv">$POD</span><span class="w"> </span>--previous<span class="w">   </span><span class="c1"># crashed Pod logs</span>
+</code></pre></div>
+<p>The controller emits Kubernetes events on every transition, so <code>kubectl describe sandbox</code> is the fastest way to debug.</p>
+<h2 id="11-clean-up">11. Clean up<a class="headerlink" href="#11-clean-up" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>delete<span class="w"> </span>dev-tutorial
+agenttier<span class="w"> </span>sandbox<span class="w"> </span>delete<span class="w"> </span>claude-tutorial
+</code></pre></div>
+<h2 id="what-you-just-learned">What you just learned<a class="headerlink" href="#what-you-just-learned" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Code mode is the default; nothing extra is needed.</li>
+<li>PVC persists across stop / resume; delete is permanent.</li>
+<li><code>network.allowedDomains</code> opens egress without giving up default-deny.</li>
+<li>IRSA / workload identity inject AWS / GCP / Azure credentials into the sandbox without baking secrets into images.</li>
+<li>The <code>claude-code-bedrock</code> template is a one-line setup for an AI coding agent on AWS.</li>
+</ul>
+<h2 id="what-to-read-next">What to read next<a class="headerlink" href="#what-to-read-next" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../agent-mode-tutorial/">Agent mode in depth</a> — when you want <code>/configure</code> + <code>/invoke</code> instead of a terminal.</li>
+<li><a href="../../templates/">Templates reference</a> — every field on <code>SandboxTemplate</code>.</li>
+<li><a href="../../governance/">Governance</a> — clamping resources, runtime, and image registries.</li>
 </ul>
 
 
@@ -1624,10 +1799,10 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>sandbox<span class=
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "content.action.edit", "search.highlight", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "content.action.edit", "search.highlight", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

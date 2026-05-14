@@ -56,4 +56,24 @@
          <loc>https://agenttier.github.io/agenttier/verifying-images/</loc>
          <lastmod>2026-05-14</lastmod>
     </url>
+    <url>
+         <loc>https://agenttier.github.io/agenttier/tutorials/</loc>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://agenttier.github.io/agenttier/tutorials/agent-mode-tutorial/</loc>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://agenttier.github.io/agenttier/tutorials/code-mode/</loc>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://agenttier.github.io/agenttier/tutorials/python-sdk/</loc>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://agenttier.github.io/agenttier/tutorials/web-ui/</loc>
+         <lastmod>2026-05-14</lastmod>
+    </url>
 </urlset>
