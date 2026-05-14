@@ -545,6 +545,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -690,6 +694,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#agent-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credentials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#managing-templates" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -763,6 +789,62 @@
     
   
     Port forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent memory
   
 
     
@@ -1089,6 +1171,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#agent-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credentials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#managing-templates" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1197,6 +1301,69 @@ which shell, which tools, and which lifecycle hooks should run.</p>
 order is: sandbox spec → template spec → parent template → controller defaults.
 Env vars are additive with sandbox values winning on key conflicts. Inheritance
 depth is capped at 10 to prevent loops.</p>
+<h2 id="agent-mode">Agent mode<a class="headerlink" href="#agent-mode" title="Permanent link">&para;</a></h2>
+<p>Templates with <code>spec.mode: agent</code> define sandboxes that run a configured entrypoint via <a href="../agent-mode/"><code>POST /configure</code></a> + <a href="../agent-mode/"><code>POST /invoke</code></a> instead of the terminal. The agent contract lives under <code>spec.harness.agent</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agenttier.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterSandboxTemplate</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-agent-template</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agent</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/agenttier/sandbox-langgraph:v0.3.0</span>
+<span class="w">  </span><span class="nt">harness</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">workingDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/workspace</span>
+<span class="w">    </span><span class="nt">agent</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;python&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;/workspace/agent.py&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">installCommand</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;pip&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;install&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-r&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;/workspace/requirements.txt&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">defaultInvokeTimeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30m</span>
+<span class="w">      </span><span class="nt">maxConcurrentInvokes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>entrypoint</code></td>
+<td>Argv <code>/invoke</code> runs on every call. Receives the request body on stdin.</td>
+</tr>
+<tr>
+<td><code>installCommand</code></td>
+<td>Argv run once at <code>/configure</code> time. Idempotent across re-configures.</td>
+</tr>
+<tr>
+<td><code>workingDir</code></td>
+<td>Working directory for both. Defaults to <code>/workspace</code>.</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>Additional env vars merged on top of the template's harness env.</td>
+</tr>
+<tr>
+<td><code>defaultInvokeTimeout</code></td>
+<td>Wall-clock cap per invoke. Callers can lower via <code>?timeout=</code> but not raise. Defaults to 30 minutes.</td>
+</tr>
+<tr>
+<td><code>maxConcurrentInvokes</code></td>
+<td>Cap on parallel invokes per sandbox. Over-cap requests get HTTP 429. Governance can clamp this lower; see <a href="../governance/#agent-mode-policies">governance.md</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>The mode and the agent block are both optional at the template level — a template without them defaults to code mode and the existing harness fields apply unchanged.</p>
+<h2 id="credentials">Credentials<a class="headerlink" href="#credentials" title="Permanent link">&para;</a></h2>
+<p>Inject secrets into the sandbox container via <code>spec.credentials</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">credentials</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openai-api-key</span>
+<span class="w">      </span><span class="nt">mountAs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">env</span>
+<span class="w">      </span><span class="nt">envPrefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OPENAI_</span>
+</code></pre></div>
+<p><code>mountAs: env</code> exposes every key in the Secret as an env var (with the optional <code>envPrefix</code> prepended). <code>mountAs: file</code> mounts the Secret as a read-only volume at <code>mountPath</code>. Combine with IRSA on EKS for AWS-native flows like Bedrock — annotate the sandbox ServiceAccount with the role ARN and skip <code>credentials</code> for AWS calls entirely.</p>
+<p>Agent-mode sandboxes use the same <code>credentials</code> block; nothing special is required for <code>/invoke</code> to inherit them. See <a href="../agent-mode/#memory-model-providers-secrets">agent-mode.md</a> for the canonical patterns.</p>
 <h2 id="managing-templates">Managing templates<a class="headerlink" href="#managing-templates" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Web UI</strong> → Templates tab: inline YAML editor with syntax highlighting,

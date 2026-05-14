@@ -545,6 +545,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -707,6 +711,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#agent-mode-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent-mode policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#violations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -752,6 +767,62 @@
     
   
     Port forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent memory
   
 
     
@@ -1067,6 +1138,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#agent-mode-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent-mode policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#violations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1183,8 +1265,30 @@ and restores the cluster default.</p>
 <td><code>["ghcr.io/agenttier"]</code></td>
 <td>Image overrides must start with one of these prefixes</td>
 </tr>
+<tr>
+<td><code>maxAgentSandboxes</code></td>
+<td><code>10</code></td>
+<td>Per-namespace cap on <code>mode: agent</code> sandboxes; doesn't affect code-mode</td>
+</tr>
+<tr>
+<td><code>allowedAgentImages</code></td>
+<td><code>["ghcr.io/agenttier/sandbox-langgraph"]</code></td>
+<td>Tighter image allowlist applied only to agent-mode sandboxes that override the template image</td>
+</tr>
+<tr>
+<td><code>maxConcurrentInvokesPerSandbox</code></td>
+<td><code>4</code></td>
+<td>Cluster ceiling clamping the per-template <code>agent.maxConcurrentInvokes</code></td>
+</tr>
 </tbody>
 </table>
+<h2 id="agent-mode-policies">Agent-mode policies<a class="headerlink" href="#agent-mode-policies" title="Permanent link">&para;</a></h2>
+<p>The last three rows above only apply to <code>mode: agent</code> sandboxes. They were added in v0.3.0 as part of <a href="../agent-mode/">agent mode</a>. All three default unset for zero behavior change on existing deployments.</p>
+<ul>
+<li><code>maxAgentSandboxes</code> runs alongside <code>maxSandboxesTotal</code>. A namespace with both set rejects new agent sandboxes when either cap is reached. Useful when you want generous code-mode quota but tight agent-mode rationing.</li>
+<li><code>allowedAgentImages</code> is checked only when an agent-mode sandbox overrides the template image. The template's own image is trusted (it was vetted at template-creation time). Distinct from <code>approvedRegistries</code> because agent code typically warrants stricter supply-chain controls than interactive dev environments.</li>
+<li><code>maxConcurrentInvokesPerSandbox</code> clamps at admission time. A sandbox spec asking for more is silently lowered to the ceiling; the resolved value lands on <code>status.agentConfigure.maxConcurrentInvokes</code> so <code>/invoke</code> reads the already-clamped number.</li>
+</ul>
 <h2 id="violations">Violations<a class="headerlink" href="#violations" title="Permanent link">&para;</a></h2>
 <p>When a create request is rejected the response is HTTP 403 with a structured body:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>

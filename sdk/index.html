@@ -543,6 +543,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -661,6 +665,62 @@
     
   
     Port forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent memory
   
 
     
@@ -873,6 +933,17 @@
     <span class="md-ellipsis">
       
         Async
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent mode
       
     </span>
   </a>
@@ -1233,6 +1304,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#agent-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1464,6 +1546,64 @@ PyPI: <a href="https://pypi.org/project/agenttier/">pypi.org/project/agenttier</
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </code></pre></div>
 <p>Both clients share the same exception hierarchy and model types.</p>
+<h2 id="agent-mode">Agent mode<a class="headerlink" href="#agent-mode" title="Permanent link">&para;</a></h2>
+<p><code>mode: agent</code> sandboxes are driven through <code>sandbox.agent.configure(...)</code> and
+<code>sandbox.agent.invoke(...)</code> instead of the terminal. The SDK ships sync and
+async surfaces; both speak the Router's Server-Sent Events wire format
+under the hood and return typed Pydantic models.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentTierClient</span>
+
+<span class="k">with</span> <span class="n">AgentTierClient</span><span class="p">(</span><span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;https://agenttier.company.com&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">sb</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_sandbox</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">&quot;langgraph-agent&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my-agent&quot;</span><span class="p">)</span>
+    <span class="n">sb</span><span class="o">.</span><span class="n">wait_until_running</span><span class="p">()</span>
+
+    <span class="c1"># 1. Upload code + run install + persist the entrypoint</span>
+    <span class="n">sb</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
+        <span class="n">files</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;/workspace/agent.py&quot;</span><span class="p">,</span> <span class="s2">&quot;./agent.py&quot;</span><span class="p">),</span>  <span class="c1"># local path</span>
+            <span class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/workspace/requirements.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;langgraph</span><span class="se">\n</span><span class="s2">httpx</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">},</span>
+        <span class="p">],</span>
+        <span class="n">install_command</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="s2">&quot;/workspace/requirements.txt&quot;</span><span class="p">],</span>
+        <span class="n">entrypoint</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;/workspace/agent.py&quot;</span><span class="p">],</span>
+        <span class="n">on_log</span><span class="o">=</span><span class="k">lambda</span> <span class="n">stream</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[install:</span><span class="si">{</span><span class="n">stream</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 2. Invoke and aggregate the result</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="s2">&quot;summarize this PR&quot;</span><span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">exit_code</span><span class="p">,</span> <span class="s2">&quot;duration:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">duration_ms</span><span class="p">,</span> <span class="s2">&quot;ms&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 3. Or stream events live for a richer UI</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">sb</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">invoke_stream</span><span class="p">({</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">}):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">event</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">event</span> <span class="o">==</span> <span class="s2">&quot;exit&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;done:&quot;</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;exitCode&quot;</span><span class="p">])</span>
+</code></pre></div>
+<p><code>configure</code> accepts:</p>
+<ul>
+<li><code>files</code>: list of <code>(path, source)</code> tuples or <code>{"path": ..., "content": ...}</code> /
+  <code>{"path": ..., "contentBase64": ...}</code> dicts. Tuple sources can be local paths
+  (str / Path) or <code>bytes</code>. Binary input auto-base64s.</li>
+<li><code>install_command</code>: argv list run once. Idempotent — re-running with the
+  same files + command is a no-op.</li>
+<li><code>entrypoint</code>: argv list persisted onto the sandbox so <code>invoke()</code> knows what
+  to run.</li>
+<li><code>on_log=callback(stream, line)</code>: optional live install logs.</li>
+</ul>
+<p><code>invoke</code> accepts a <code>payload</code> (dict / str / bytes), an optional <code>prompt</code>
+(appended as <code>--prompt=</code> to argv and fed to stdin when payload is empty),
+and an <code>invoke_timeout</code> Go duration string (e.g. <code>"5m"</code>) to lower the
+server-side cap below the template's default.</p>
+<p><code>invoke_cancel(invoke_id)</code> terminates an in-flight invoke. Pair it with the
+<code>invoke_id</code> from the first event of <code>invoke_stream</code>. Best-effort: returns
+silently on success, raises <code>NotFoundError</code> if the invoke already
+completed.</p>
+<p>Async users get the same shapes via <code>await sandbox.agent.configure(...)</code>,
+<code>await sandbox.agent.invoke(...)</code>, and <code>async for event in
+sandbox.agent.invoke_stream(...)</code>.</p>
+<p>See <a href="../agent-memory/">agent-memory.md</a> for the three patterns AgentTier
+supports for agent memory.</p>
 <h2 id="api-reference">API reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
 <h3 id="clients">Clients<a class="headerlink" href="#clients" title="Permanent link">&para;</a></h3>
 <ul>
