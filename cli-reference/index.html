@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/cli/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/cli-reference/">
       
       
-        <link rel="prev" href="../agent-memory/">
+        <link rel="prev" href="../cli/">
       
       
-        <link rel="next" href="../cli-reference/">
+        <link rel="next" href="../sdk/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>CLI - AgentTier</title>
+        <title>CLI command reference - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cli" class="md-skip">
+        <a href="#cli-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CLI
+              CLI command reference
             
           </span>
         </div>
@@ -1005,6 +1005,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1024,7 +1052,7 @@
   <span class="md-ellipsis">
     
   
-    CLI
+    CLI command reference
   
 
     
@@ -1042,7 +1070,7 @@
   <span class="md-ellipsis">
     
   
-    CLI
+    CLI command reference
   
 
     
@@ -1068,22 +1096,44 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#synopsis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install
+        Synopsis
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#via-pip" class="md-nav__link">
+  <a href="#agenttier-version" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Via pip
+        agenttier version
       
     </span>
   </a>
@@ -1091,10 +1141,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#via-github-releases-go-binary" class="md-nav__link">
+  <a href="#agenttier-login" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Via GitHub Releases (Go binary)
+        agenttier login
       
     </span>
   </a>
@@ -1102,10 +1152,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#macos-linux" class="md-nav__link">
+  <a href="#agenttier-whoami" class="md-nav__link">
     <span class="md-ellipsis">
       
-        macOS / Linux
+        agenttier whoami
       
     </span>
   </a>
@@ -1113,10 +1163,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
+  <a href="#agenttier-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Windows
+        agenttier sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="agenttier sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox list
       
     </span>
   </a>
@@ -1124,10 +1186,136 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#homebrew" class="md-nav__link">
+  <a href="#agenttier-sandbox-get" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Homebrew
+        agenttier sandbox get
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-resume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox resume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox exec
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox wait
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox ports
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier configure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-invoke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier invoke
       
     </span>
   </a>
@@ -1140,10 +1328,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#exit-codes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Exit codes
       
     </span>
   </a>
@@ -1151,10 +1339,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#output-formats" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Output formats
       
     </span>
   </a>
@@ -1162,49 +1350,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#agent-mode-phase-10" class="md-nav__link">
+  <a href="#configuration-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Agent mode (Phase 10)
+        Configuration file
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Agent mode (Phase 10)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-configure-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier configure &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-invoke-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier invoke &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-use-the-cli-vs-kubectl-or-the-sdk" class="md-nav__link">
+  <a href="#troubleshooting" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why use the CLI vs kubectl or the SDK?
+        Troubleshooting
       
     </span>
   </a>
@@ -1215,34 +1375,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../cli-reference/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    CLI command reference
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1433,22 +1565,44 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#synopsis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install
+        Synopsis
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#via-pip" class="md-nav__link">
+  <a href="#agenttier-version" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Via pip
+        agenttier version
       
     </span>
   </a>
@@ -1456,10 +1610,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#via-github-releases-go-binary" class="md-nav__link">
+  <a href="#agenttier-login" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Via GitHub Releases (Go binary)
+        agenttier login
       
     </span>
   </a>
@@ -1467,10 +1621,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#macos-linux" class="md-nav__link">
+  <a href="#agenttier-whoami" class="md-nav__link">
     <span class="md-ellipsis">
       
-        macOS / Linux
+        agenttier whoami
       
     </span>
   </a>
@@ -1478,10 +1632,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
+  <a href="#agenttier-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Windows
+        agenttier sandbox
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="agenttier sandbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox list
       
     </span>
   </a>
@@ -1489,10 +1655,136 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#homebrew" class="md-nav__link">
+  <a href="#agenttier-sandbox-get" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Homebrew
+        agenttier sandbox get
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-resume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox resume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox exec
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox wait
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-sandbox-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier sandbox ports
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier configure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agenttier-invoke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agenttier invoke
       
     </span>
   </a>
@@ -1505,10 +1797,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#exit-codes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Exit codes
       
     </span>
   </a>
@@ -1516,10 +1808,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#output-formats" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Output formats
       
     </span>
   </a>
@@ -1527,49 +1819,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#agent-mode-phase-10" class="md-nav__link">
+  <a href="#configuration-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Agent mode (Phase 10)
+        Configuration file
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Agent mode (Phase 10)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-configure-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier configure &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-invoke-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier invoke &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-use-the-cli-vs-kubectl-or-the-sdk" class="md-nav__link">
+  <a href="#troubleshooting" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why use the CLI vs kubectl or the SDK?
+        Troubleshooting
       
     </span>
   </a>
@@ -1593,7 +1857,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/cli.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/cli-reference.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1601,207 +1865,387 @@
   
 
 
-<h1 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h1>
-<p>The <code>agenttier</code> CLI manages sandboxes and templates from the terminal. Two distributions, identical command surface:</p>
+<h1 id="cli-reference">CLI reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
+<p>Full command reference for the <code>agenttier</code> CLI. The CLI is distributed two ways:</p>
 <ul>
-<li><strong><code>pip install agenttier</code></strong> — pure-Python CLI installed alongside the SDK. Works on any platform with Python 3.10+. Recommended for Python-first users.</li>
-<li><strong>GitHub Releases</strong> — native Go binaries for Linux, macOS, and Windows on amd64 and arm64. No Python runtime required.</li>
+<li><strong><code>pip install agenttier</code></strong> — pure-Python CLI installed alongside the SDK. Works on any platform with Python 3.10+.</li>
+<li><strong>GitHub Releases</strong> — native Go binaries (<code>linux/darwin/windows × amd64/arm64</code>) for users who do not want a Python runtime.</li>
 </ul>
-<p>Sources: <a href="https://github.com/agenttier/agenttier/tree/main/cmd/cli"><code>cmd/cli/</code></a> (Go), <a href="https://github.com/agenttier/agenttier/tree/main/python-sdk/src/agenttier/cli.py"><code>python-sdk/src/agenttier/cli.py</code></a> (Python).
-Full command reference: <a href="../cli-reference/">CLI command reference</a>.</p>
-<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
-<h3 id="via-pip">Via <code>pip</code><a class="headerlink" href="#via-pip" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>agenttier
-agenttier<span class="w"> </span>--version
+<p>Both share the same command surface and flag names. This reference matches the v0.3.0 release.</p>
+<p>For tutorials, see <a href="../tutorials/web-ui/">Web UI walkthrough</a>, <a href="../tutorials/python-sdk/">Python SDK walkthrough</a>, and <a href="../tutorials/agent-mode-tutorial/">Agent mode in depth</a>.</p>
+<h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>agenttier &lt;command&gt; [&lt;subcommand&gt;] [flags] [arguments]
 </code></pre></div>
-<p>This installs the SDK and the CLI together. The Python CLI exposes the full SDK surface (lifecycle, exec, files, port forwards, templates, agent-mode configure/invoke).</p>
-<h3 id="via-github-releases-go-binary">Via GitHub Releases (Go binary)<a class="headerlink" href="#via-github-releases-go-binary" title="Permanent link">&para;</a></h3>
-<p>Pick the binary for your OS/arch and drop it on your <code>PATH</code>.</p>
-<h3 id="macos-linux">macOS / Linux<a class="headerlink" href="#macos-linux" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nv">VERSION</span><span class="o">=</span>v0.3.0
-<span class="nv">OS</span><span class="o">=</span><span class="k">$(</span>uname<span class="w"> </span>-s<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
-<span class="nv">ARCH</span><span class="o">=</span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/x86_64/amd64/;s/aarch64/arm64/&#39;</span><span class="k">)</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>agenttier<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">&quot;https://github.com/agenttier/agenttier/releases/download/</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">/agenttier-</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">OS</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">ARCH</span><span class="si">}</span><span class="s2">&quot;</span>
-
-<span class="c1"># Verify the SHA256 (recommended)</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>agenttier.sha256<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">&quot;https://github.com/agenttier/agenttier/releases/download/</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">/agenttier-</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">OS</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">ARCH</span><span class="si">}</span><span class="s2">.sha256&quot;</span>
-sha256sum<span class="w"> </span>-c<span class="w"> </span>agenttier.sha256<span class="w"> </span><span class="o">||</span><span class="w"> </span>shasum<span class="w"> </span>-a<span class="w"> </span><span class="m">256</span><span class="w"> </span>-c<span class="w"> </span>agenttier.sha256
-
-chmod<span class="w"> </span>+x<span class="w"> </span>agenttier
-sudo<span class="w"> </span>mv<span class="w"> </span>agenttier<span class="w"> </span>/usr/local/bin/
-agenttier<span class="w"> </span>--version
-</code></pre></div>
-<h3 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h3>
-<p>Download <code>agenttier-vX.Y.Z-windows-amd64.exe</code> from the release page and place
-it somewhere on your <code>PATH</code>. PowerShell one-liner:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$version</span> <span class="p">=</span> <span class="s2">&quot;v0.3.0&quot;</span>
-<span class="nb">Invoke-WebRequest</span> <span class="p">`</span>
-  <span class="n">-Uri</span> <span class="s2">&quot;https://github.com/agenttier/agenttier/releases/download/$version/agenttier-$version-windows-amd64.exe&quot;</span> <span class="p">`</span>
-  <span class="n">-OutFile</span> <span class="s2">&quot;$env:USERPROFILE\bin\agenttier.exe&quot;</span>
-</code></pre></div>
-<h3 id="homebrew">Homebrew<a class="headerlink" href="#homebrew" title="Permanent link">&para;</a></h3>
-<p>A tap is planned; in the meantime use the curl flow above.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The CLI talks to the Router's REST API. Configure the endpoint and credentials
-with environment variables (same as the SDK):</p>
+<h2 id="global-flags">Global flags<a class="headerlink" href="#global-flags" title="Permanent link">&para;</a></h2>
+<p>Available on every command:</p>
 <table>
 <thead>
 <tr>
-<th>Variable</th>
-<th>Effect</th>
+<th>Flag</th>
+<th>Env var</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td><code>--api-url &lt;URL&gt;</code></td>
 <td><code>AGENTTIER_API_URL</code></td>
-<td>Router base URL (<code>https://agenttier.company.com</code>).</td>
+<td>Router base URL. Required unless saved by <code>agenttier login</code>.</td>
 </tr>
 <tr>
+<td><code>--api-key &lt;KEY&gt;</code></td>
 <td><code>AGENTTIER_API_KEY</code></td>
-<td>Preferred auth; sent as <code>X-API-Key</code>.</td>
+<td>Static API key. Sent as <code>X-API-Key</code>.</td>
 </tr>
 <tr>
+<td><code>--token &lt;JWT&gt;</code></td>
 <td><code>AGENTTIER_TOKEN</code></td>
-<td>OIDC bearer token; used if no API key.</td>
+<td>Bearer token / OIDC JWT. Sent as <code>Authorization: Bearer ...</code>.</td>
 </tr>
 <tr>
-<td><code>KUBECONFIG</code></td>
-<td>Falls back to in-cluster ServiceAccount token when on a kubeconfig'd node.</td>
+<td><code>--output text\|json</code></td>
+<td>—</td>
+<td>Output format. <code>text</code> is human-friendly tables; <code>json</code> is machine-readable. Default: <code>text</code>.</td>
+</tr>
+<tr>
+<td><code>-h</code>, <code>--help</code></td>
+<td>—</td>
+<td>Show help for the current command.</td>
+</tr>
+<tr>
+<td><code>--version</code></td>
+<td>—</td>
+<td>Print CLI version.</td>
 </tr>
 </tbody>
 </table>
+<p>Configuration precedence: CLI flag → environment variable → <code>~/.config/agenttier/config.json</code> (set by <code>agenttier login</code>).</p>
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<h3 id="agenttier-version"><code>agenttier version</code><a class="headerlink" href="#agenttier-version" title="Permanent link">&para;</a></h3>
+<p>Print the CLI version string.</p>
+<div class="highlight"><pre><span></span><code>agenttier version
+</code></pre></div>
+<h3 id="agenttier-login"><code>agenttier login</code><a class="headerlink" href="#agenttier-login" title="Permanent link">&para;</a></h3>
+<p>Save endpoint and credentials to <code>~/.config/agenttier/config.json</code> (mode 0600). Verifies the configuration by calling <code>/user/me</code>.</p>
+<div class="highlight"><pre><span></span><code>agenttier login --api-url https://agenttier.example.com [--api-key &lt;KEY&gt; | --token &lt;JWT&gt;]
+</code></pre></div>
+<p>Flags: global only. The path is overridable via <code>AGENTTIER_CONFIG</code>.</p>
+<h3 id="agenttier-whoami"><code>agenttier whoami</code><a class="headerlink" href="#agenttier-whoami" title="Permanent link">&para;</a></h3>
+<p>Print the server's view of the authenticated identity.</p>
+<div class="highlight"><pre><span></span><code>agenttier whoami [--output text|json]
+</code></pre></div>
+<p>Output: <code>email (admin)</code> for admin users, <code>email</code> otherwise. JSON mode returns the full <code>CurrentUser</code> model.</p>
+<h3 id="agenttier-sandbox"><code>agenttier sandbox</code><a class="headerlink" href="#agenttier-sandbox" title="Permanent link">&para;</a></h3>
+<p>Manage sandboxes. Most operations work on the sandbox ID (DNS-friendly name).</p>
+<h4 id="agenttier-sandbox-list"><code>agenttier sandbox list</code><a class="headerlink" href="#agenttier-sandbox-list" title="Permanent link">&para;</a></h4>
+<p>List sandboxes visible to the caller.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox list [--namespace &lt;NS&gt;] [--status Running|Stopped|Error|...]
+</code></pre></div>
+<p>Output columns: ID, NAME, STATUS, TEMPLATE, NAMESPACE.</p>
+<h4 id="agenttier-sandbox-get"><code>agenttier sandbox get</code><a class="headerlink" href="#agenttier-sandbox-get" title="Permanent link">&para;</a></h4>
+<p>Show one sandbox.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox get &lt;sandbox-id&gt;
+</code></pre></div>
+<h4 id="agenttier-sandbox-create"><code>agenttier sandbox create</code><a class="headerlink" href="#agenttier-sandbox-create" title="Permanent link">&para;</a></h4>
+<p>Create a sandbox from a <code>ClusterSandboxTemplate</code>.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox create &lt;name&gt; --template &lt;name&gt; \
+  [--namespace &lt;NS&gt;] \
+  [--timeout &lt;DUR&gt;] [--idle-timeout &lt;DUR&gt;] \
+  [--storage-size &lt;SIZE&gt;] \
+  [--wait] [--wait-timeout &lt;SECONDS&gt;]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;name&gt;</code></td>
+<td>Sandbox name (DNS-friendly: lowercase alphanumeric and hyphens).</td>
+</tr>
+<tr>
+<td><code>--template</code></td>
+<td>Required. Cluster-scoped template name (e.g. <code>general-coding</code>).</td>
+</tr>
+<tr>
+<td><code>--namespace</code></td>
+<td>Default: <code>default</code>.</td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td>Max-runtime duration (Go format, e.g. <code>8h</code>, <code>24h</code>).</td>
+</tr>
+<tr>
+<td><code>--idle-timeout</code></td>
+<td>Auto-stop after this much inactivity (e.g. <code>30m</code>).</td>
+</tr>
+<tr>
+<td><code>--storage-size</code></td>
+<td>PVC size (e.g. <code>10Gi</code>, <code>50Gi</code>).</td>
+</tr>
+<tr>
+<td><code>--wait</code></td>
+<td>Block until sandbox reaches <code>Running</code>.</td>
+</tr>
+<tr>
+<td><code>--wait-timeout</code></td>
+<td>Wait timeout in seconds. Default: <code>180</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="agenttier-sandbox-stop"><code>agenttier sandbox stop</code><a class="headerlink" href="#agenttier-sandbox-stop" title="Permanent link">&para;</a></h4>
+<p>Stop a sandbox. The Pod is deleted; the PVC is preserved.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox stop &lt;sandbox-id&gt;
+</code></pre></div>
+<h4 id="agenttier-sandbox-resume"><code>agenttier sandbox resume</code><a class="headerlink" href="#agenttier-sandbox-resume" title="Permanent link">&para;</a></h4>
+<p>Resume a stopped sandbox. The PVC is re-attached to a fresh Pod.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox resume &lt;sandbox-id&gt;
+</code></pre></div>
+<h4 id="agenttier-sandbox-delete"><code>agenttier sandbox delete</code><a class="headerlink" href="#agenttier-sandbox-delete" title="Permanent link">&para;</a></h4>
+<p>Permanently delete a sandbox and its PVC.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox delete &lt;sandbox-id&gt;
+</code></pre></div>
+<h4 id="agenttier-sandbox-exec"><code>agenttier sandbox exec</code><a class="headerlink" href="#agenttier-sandbox-exec" title="Permanent link">&para;</a></h4>
+<p>Run a one-shot command and stream output. The CLI exits with the command's exit code.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox exec &lt;sandbox-id&gt; [--timeout &lt;SECONDS&gt;] -- &lt;command&gt; [args...]
+</code></pre></div>
+<p>Examples:</p>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>demo<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-lc<span class="w"> </span><span class="s1">&#39;echo $USER&#39;</span>
+agenttier<span class="w"> </span>sandbox<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>demo<span class="w"> </span>--timeout<span class="w"> </span><span class="m">60</span><span class="w"> </span>--<span class="w"> </span>pytest<span class="w"> </span>tests/
+</code></pre></div>
+<h4 id="agenttier-sandbox-wait"><code>agenttier sandbox wait</code><a class="headerlink" href="#agenttier-sandbox-wait" title="Permanent link">&para;</a></h4>
+<p>Block until the sandbox reaches <code>Running</code>.</p>
+<div class="highlight"><pre><span></span><code>agenttier sandbox wait &lt;sandbox-id&gt; [--timeout &lt;SECONDS&gt;]
+</code></pre></div>
+<h4 id="agenttier-sandbox-files"><code>agenttier sandbox files</code><a class="headerlink" href="#agenttier-sandbox-files" title="Permanent link">&para;</a></h4>
+<p>File operations. Each operation goes through the Router with a 32 MiB per-call cap.</p>
+<table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ls</code></td>
+<td><code>agenttier sandbox files ls &lt;id&gt; [--path /workspace]</code></td>
+</tr>
+<tr>
+<td><code>cat</code></td>
+<td><code>agenttier sandbox files cat &lt;id&gt; &lt;path&gt;</code></td>
+</tr>
+<tr>
+<td><code>upload</code></td>
+<td><code>agenttier sandbox files upload &lt;id&gt; &lt;local&gt; &lt;remote&gt;</code></td>
+</tr>
+<tr>
+<td><code>download</code></td>
+<td><code>agenttier sandbox files download &lt;id&gt; &lt;remote&gt; &lt;local&gt;</code></td>
+</tr>
+<tr>
+<td><code>write</code></td>
+<td><code>agenttier sandbox files write &lt;id&gt; &lt;path&gt; --data "..."</code> or <code>--file &lt;local&gt;</code> (use <code>-</code> for stdin)</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>files<span class="w"> </span>ls<span class="w"> </span>demo<span class="w"> </span>--path<span class="w"> </span>/workspace
+agenttier<span class="w"> </span>sandbox<span class="w"> </span>files<span class="w"> </span>upload<span class="w"> </span>demo<span class="w"> </span>./script.py<span class="w"> </span>/workspace/script.py
+agenttier<span class="w"> </span>sandbox<span class="w"> </span>files<span class="w"> </span>cat<span class="w"> </span>demo<span class="w"> </span>/workspace/output.txt<span class="w"> </span>&gt;<span class="w"> </span>local.txt
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>agenttier<span class="w"> </span>sandbox<span class="w"> </span>files<span class="w"> </span>write<span class="w"> </span>demo<span class="w"> </span>/workspace/note.txt<span class="w"> </span>--file<span class="w"> </span>-
+</code></pre></div>
+<h4 id="agenttier-sandbox-ports"><code>agenttier sandbox ports</code><a class="headerlink" href="#agenttier-sandbox-ports" title="Permanent link">&para;</a></h4>
+<p>Manage port forwards. The Router proxies the in-pod port at <code>/api/v1/sandboxes/&lt;id&gt;/preview/&lt;port&gt;/</code>. When <code>networking.previewDomain</code> is set in Helm, an Ingress preview URL is also returned.</p>
+<table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>list</code></td>
+<td><code>agenttier sandbox ports list &lt;id&gt;</code></td>
+</tr>
+<tr>
+<td><code>forward</code></td>
+<td><code>agenttier sandbox ports forward &lt;id&gt; --port &lt;N&gt; [--protocol http\|tcp]</code></td>
+</tr>
+<tr>
+<td><code>remove</code></td>
+<td><code>agenttier sandbox ports remove &lt;id&gt; --port &lt;N&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="agenttier-template"><code>agenttier template</code><a class="headerlink" href="#agenttier-template" title="Permanent link">&para;</a></h3>
+<p>Inspect cluster-scoped templates.</p>
+<table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>list</code></td>
+<td><code>agenttier template list</code> — outputs NAME, IMAGE, DESCRIPTION</td>
+</tr>
+<tr>
+<td><code>get</code></td>
+<td><code>agenttier template get &lt;name&gt;</code> — full template spec as JSON</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agenttier-configure"><code>agenttier configure</code><a class="headerlink" href="#agenttier-configure" title="Permanent link">&para;</a></h3>
+<p>Configure an agent-mode sandbox. Uploads files, runs an install command, and registers the entrypoint. Streams install logs as Server-Sent Events while the command runs.</p>
+<div class="highlight"><pre><span></span><code>agenttier configure &lt;sandbox-id&gt; \
+  [--file &lt;remote&gt;=&lt;local&gt;]... \
+  [--install &quot;&lt;command&gt;&quot;] \
+  [--entrypoint &quot;&lt;command&gt;&quot;]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--file</code></td>
+<td>Upload one local file. Repeatable. Format: <code>remote-path=local-path</code>.</td>
+</tr>
+<tr>
+<td><code>--install</code></td>
+<td>Install command, run once. Idempotent — re-runs with the same files + command short-circuit.</td>
+</tr>
+<tr>
+<td><code>--entrypoint</code></td>
+<td>Command run on every <code>/invoke</code>. Persisted in <code>Sandbox.status.agentConfigure</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>At least one of <code>--file</code>, <code>--install</code>, <code>--entrypoint</code> is required. The sandbox must be <code>mode: agent</code> (rejected with HTTP 400 otherwise).</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AGENTTIER_API_URL</span><span class="o">=</span>https://agenttier.company.com
-<span class="nb">export</span><span class="w"> </span><span class="nv">AGENTTIER_API_KEY</span><span class="o">=</span>sk_live_...
-agenttier<span class="w"> </span>sandbox<span class="w"> </span>list
-</code></pre></div>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>--help
-agenttier<span class="w"> </span>--version
-</code></pre></div>
-<p>The CLI is still lean in v0.3.0 — the core sandbox and template commands are
-there; port forwarding and governance editing will follow the server-side
-maturity. For features the CLI doesn't cover yet, fall back to <code>kubectl</code> on
-CRDs directly (sandboxes, templates) or the Python SDK.</p>
-<h2 id="agent-mode-phase-10">Agent mode (Phase 10)<a class="headerlink" href="#agent-mode-phase-10" title="Permanent link">&para;</a></h2>
-<p>Two commands drive <code>mode: agent</code> sandboxes from the shell:</p>
-<h3 id="agenttier-configure-sandbox-id"><code>agenttier configure &lt;sandbox-id&gt;</code><a class="headerlink" href="#agenttier-configure-sandbox-id" title="Permanent link">&para;</a></h3>
-<p>Uploads files into the sandbox PVC, runs an install command, and records
-the entrypoint. Idempotent: re-running with the same files + install command
-short-circuits.</p>
 <div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>configure<span class="w"> </span>my-agent<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--file<span class="w"> </span>/workspace/agent.py<span class="o">=</span>./agent.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--file<span class="w"> </span>/workspace/requirements.txt<span class="o">=</span>./requirements.txt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--install<span class="w"> </span><span class="s2">&quot;pip install -r /workspace/requirements.txt&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--entrypoint<span class="w"> </span><span class="s2">&quot;python /workspace/agent.py&quot;</span>
 </code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Flag</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--file path=local-path</code></td>
-<td>Upload a file. Repeatable. Binary files auto-base64.</td>
-</tr>
-<tr>
-<td><code>--install "..."</code></td>
-<td>Argv string for the install command. Whitespace-split.</td>
-</tr>
-<tr>
-<td><code>--entrypoint "..."</code></td>
-<td>Argv string for the agent entrypoint. Whitespace-split.</td>
-</tr>
-</tbody>
-</table>
-<p>Install logs stream live to stdout / stderr. Exits 0 on success, 1 if the
-install exited non-zero.</p>
-<h3 id="agenttier-invoke-sandbox-id"><code>agenttier invoke &lt;sandbox-id&gt;</code><a class="headerlink" href="#agenttier-invoke-sandbox-id" title="Permanent link">&para;</a></h3>
-<p>Runs the configured entrypoint and streams its output. The CLI exits with
-the same exit code as the entrypoint, so you can compose it in shell
-pipelines.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Inline prompt</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;what&#39;s the weather?&quot;</span>
-
-<span class="c1"># JSON body fed to the entrypoint on stdin</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span><span class="s1">&#39;{&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;hi&quot;}]}&#39;</span>
-
-<span class="c1"># Body from a file</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span>@./request.json
-
-<span class="c1"># Body from this shell&#39;s stdin</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;from a pipe&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span>-
-
-<span class="c1"># Cap the per-invoke timeout (overrides the template&#39;s defaultInvokeTimeout)</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span>--timeout<span class="w"> </span>5m
-
-<span class="c1"># Cancel an in-flight invoke (use the invokeId printed at the top of the stream)</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--cancel<span class="w"> </span>inv-abc123
+<h3 id="agenttier-invoke"><code>agenttier invoke</code><a class="headerlink" href="#agenttier-invoke" title="Permanent link">&para;</a></h3>
+<p>Run the configured entrypoint and stream stdout / stderr / exit as Server-Sent Events. The CLI exits with the entrypoint's exit code.</p>
+<div class="highlight"><pre><span></span><code>agenttier invoke &lt;sandbox-id&gt; \
+  [--prompt &quot;&lt;text&gt;&quot;] \
+  [--input &quot;&lt;inline string&gt;&quot; | &quot;@/path/to/file&quot; | &quot;-&quot;] \
+  [--timeout &lt;DUR&gt;] \
+  [--cancel &lt;invoke-id&gt;]
 </code></pre></div>
 <table>
 <thead>
 <tr>
 <th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--prompt</code></td>
+<td>Convenience flag — sent as <code>?prompt=&lt;value&gt;</code> query param. The entrypoint can read this from argv as <code>--prompt=&lt;value&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>--input</code></td>
+<td>Body forwarded to the entrypoint on stdin. Inline string, <code>@/path/to/file</code> to read from disk, or <code>-</code> for stdin.</td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td>Server-side per-invoke wall-clock cap (Go duration format, e.g. <code>5m</code>, <code>30s</code>). Defaults to the template's <code>defaultInvokeTimeout</code> (30 min if unset).</td>
+</tr>
+<tr>
+<td><code>--cancel &lt;id&gt;</code></td>
+<td>Cancel an in-flight invoke instead of starting a new one. The invoke ID is printed at the start of every invoke.</td>
+</tr>
+</tbody>
+</table>
+<p>Stdin is accepted in two ways: <code>--input "literal"</code> or piping into the CLI with <code>--input -</code>. JSON bodies are passed through unchanged so frameworks that expect typed dicts (LangGraph, Strands) can decode directly.</p>
+<p>Examples:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Plain prompt</span>
+agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;summarize this PR&quot;</span>
+
+<span class="c1"># JSON body via inline string</span>
+agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span><span class="s1">&#39;{&quot;prompt&quot;:&quot;hello&quot;,&quot;temperature&quot;:0.7}&#39;</span>
+
+<span class="c1"># JSON body from file</span>
+agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span>@./body.json
+
+<span class="c1"># Pipe stdin</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;prompt&quot;:&quot;hello&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span>-
+
+<span class="c1"># Cancel an in-flight invoke</span>
+agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--cancel<span class="w"> </span>inv-7ca109acefc16b71e8c99c03
+
+<span class="c1"># Cap server-side runtime to 5 minutes</span>
+agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;long task&quot;</span><span class="w"> </span>--timeout<span class="w"> </span>5m
+</code></pre></div>
+<h2 id="exit-codes">Exit codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--prompt "..."</code></td>
-<td>Convenience: appended as <code>--prompt=&lt;value&gt;</code> to argv and fed to stdin if <code>--input</code> is empty.</td>
+<td><code>0</code></td>
+<td>Success.</td>
 </tr>
 <tr>
-<td><code>--input STR</code></td>
-<td>Body forwarded to the entrypoint on stdin. Inline string, <code>@/path</code> for a file, <code>-</code> for the CLI's own stdin.</td>
+<td><code>1</code></td>
+<td>Operational error (HTTP 4xx / 5xx, sandbox not found, file I/O, etc.).</td>
 </tr>
 <tr>
-<td><code>--timeout DURATION</code></td>
-<td>Server-side per-invoke timeout (Go duration string like <code>5m</code>).</td>
+<td><code>2</code></td>
+<td>Usage error (bad flag, missing required argument).</td>
 </tr>
 <tr>
-<td><code>--cancel ID</code></td>
-<td>Cancel an in-flight invoke instead of starting a new one.</td>
+<td><code>130</code></td>
+<td>Interrupted by Ctrl+C.</td>
+</tr>
+<tr>
+<td><em>other</em></td>
+<td>For <code>sandbox exec</code> and <code>invoke</code>: the underlying command's exit code.</td>
 </tr>
 </tbody>
 </table>
-<p>Stdout from the entrypoint goes to your stdout, stderr to your stderr, and a
-small status line ("<code>invoke started: inv-...</code>", "<code>invoke completed: exit 0</code>")
-to stderr — so <code>agenttier invoke ... &gt; out.txt 2&gt;/dev/null</code> cleanly captures
-just the agent's output.</p>
-<h2 id="why-use-the-cli-vs-kubectl-or-the-sdk">Why use the CLI vs <code>kubectl</code> or the SDK?<a class="headerlink" href="#why-use-the-cli-vs-kubectl-or-the-sdk" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>Best for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>agenttier</code> CLI</td>
-<td>Quick one-off commands, shell scripting, CI jobs.</td>
-</tr>
-<tr>
-<td><code>kubectl</code> on CRDs</td>
-<td>GitOps, bulk operations, combining with other Kubernetes tooling.</td>
-</tr>
-<tr>
-<td>Python SDK</td>
-<td>Building tools, orchestrating multiple sandboxes, embedding into an agent framework.</td>
-</tr>
-<tr>
-<td>Web UI</td>
-<td>Humans exploring and debugging sandboxes.</td>
-</tr>
-</tbody>
-</table>
-<p>All four drive the same Router API and CRDs, so they are interchangeable at
-any point — pick the right shape for the task.</p>
+<h2 id="output-formats">Output formats<a class="headerlink" href="#output-formats" title="Permanent link">&para;</a></h2>
+<p>Every command supports <code>--output json</code> for scriptable use:</p>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.[] | select(.status == &quot;Running&quot;) | .name&#39;</span>
+agenttier<span class="w"> </span>template<span class="w"> </span>get<span class="w"> </span>general-coding<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.spec.image
+</code></pre></div>
+<p>In <code>json</code> mode, fields are serialized in snake_case from the SDK's pydantic models. The Router responds in camelCase; the SDK normalizes both directions.</p>
+<h2 id="configuration-file">Configuration file<a class="headerlink" href="#configuration-file" title="Permanent link">&para;</a></h2>
+<p><code>agenttier login</code> writes <code>~/.config/agenttier/config.json</code> (mode 0600):</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;api_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://agenttier.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ak_...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Override the path with <code>AGENTTIER_CONFIG=/path/to/config.json</code>.</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>agenttier: no API URL configured</code></strong> — set <code>--api-url</code>, <code>AGENTTIER_API_URL</code>, or run <code>agenttier login</code>.</li>
+<li><strong><code>HTTP 401</code></strong> — pass <code>--api-key</code> or <code>--token</code> (or run <code>agenttier login</code> to save credentials).</li>
+<li><strong><code>HTTP 400: sandbox is in mode "code"</code></strong> — <code>/configure</code> and <code>/invoke</code> are agent-mode only. Create with <code>--template &lt;agent-template&gt;</code> or use <code>sandbox exec</code> for code-mode.</li>
+<li><strong><code>HTTP 429</code></strong> — <code>maxConcurrentInvokes</code> cap hit. The error body includes the <code>limit</code> and <code>Retry-After</code> seconds.</li>
+</ul>
 
 
 
