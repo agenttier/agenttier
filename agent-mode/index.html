@@ -1688,9 +1688,9 @@ agenttier<span class="w"> </span>invoke<span class="w"> </span>demo-agent<span c
 <h2 id="limits-and-trade-offs">Limits and trade-offs<a class="headerlink" href="#limits-and-trade-offs" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>CPU only.</strong> Phase 10 explicitly does not add GPU support. Resource overrides at <code>/configure</code> time are also deferred. Both are tracked for follow-up releases.</li>
-<li><strong>Single Router replica for cancel routing.</strong> The in-process invoke registry means <code>/invoke/cancel</code> only works against the Router instance that started the invoke. Multi-replica routers (rare today) would need a sticky-session ALB or a real registry; not blocking for v0.3.0.</li>
-<li><strong>No payload audit by default.</strong> Argv and stdin are intentionally excluded from audit logs to avoid recording secrets. A Helm-flagged <code>audit.includeInvokePayloads=true</code> toggle is planned but not in v0.3.0.</li>
-<li><strong>One reference image.</strong> v0.3.0 ships <code>sandbox-langgraph</code> only. Strands+Bedrock, OpenHands, OpenClaw, and an RL-rollout image are deferred to v0.4.0.</li>
+<li><strong>Single Router replica for cancel routing.</strong> The in-process invoke registry means <code>/invoke/cancel</code> only works against the Router instance that started the invoke. Multi-replica routers (rare today) would need a sticky-session ALB or a real registry; not blocking for v0.3.5.</li>
+<li><strong>No payload audit by default.</strong> Argv and stdin are intentionally excluded from audit logs to avoid recording secrets. A Helm-flagged <code>audit.includeInvokePayloads=true</code> toggle is planned but not in v0.3.5.</li>
+<li><strong>One reference image.</strong> v0.3.5 ships <code>sandbox-langgraph</code> only. Strands+Bedrock, OpenHands, OpenClaw, and an RL-rollout image are deferred to a future release.</li>
 </ul>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>

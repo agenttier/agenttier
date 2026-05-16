@@ -1658,7 +1658,7 @@
 kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.phase}&#39;</span><span class="o">=</span>Running<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>sandbox/agent-tutorial<span class="w"> </span>--timeout<span class="o">=</span>180s
 </code></pre></div>
-<p>The <code>langgraph-agent</code> template sets <code>mode: agent</code> and points at <code>ghcr.io/agenttier/sandbox-langgraph:v0.3.0</code>, which preinstalls Python 3.11, LangGraph, LangChain, httpx, and the <code>mem0</code> client.</p>
+<p>The <code>langgraph-agent</code> template sets <code>mode: agent</code> and points at <code>ghcr.io/agenttier/sandbox-langgraph:v0.3.5</code>, which preinstalls Python 3.11, LangGraph, LangChain, httpx, and the <code>mem0</code> client.</p>
 <h2 id="3-configure-with-your-agent-code">3. Configure with your agent code<a class="headerlink" href="#3-configure-with-your-agent-code" title="Permanent link">&para;</a></h2>
 <p>The simplest agent code, copied from the bundled example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># /tmp/agent.py</span>
