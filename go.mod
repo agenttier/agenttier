@@ -1,8 +1,6 @@
 module github.com/agenttier/agenttier
 
-go 1.22.0
-
-toolchain go1.22.12
+go 1.25.0
 
 require (
 	github.com/creack/pty v1.1.24
@@ -13,7 +11,7 @@ require (
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.28.0
 	go.opentelemetry.io/otel/sdk v1.28.0
 	go.opentelemetry.io/otel/trace v1.28.0
-	golang.org/x/time v0.3.0
+	golang.org/x/time v0.15.0
 	k8s.io/api v0.30.3
 	k8s.io/apimachinery v0.30.3
 	k8s.io/client-go v0.30.3
