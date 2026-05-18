@@ -1157,6 +1157,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#async" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1351,6 +1362,8 @@
       
         
       
+        
+      
     
     
     
@@ -1413,6 +1426,34 @@
     
   
     Verifying images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scaling
   
 
     
@@ -1514,6 +1555,17 @@
     <span class="md-ellipsis">
       
         Authentication
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retries
       
     </span>
   </a>
@@ -1759,6 +1811,25 @@ PyPI: <a href="https://pypi.org/project/agenttier/">pypi.org/project/agenttier</
     <span class="n">auth</span><span class="o">=</span><span class="n">BearerTokenAuth</span><span class="p">(</span><span class="n">jwt_string</span><span class="p">),</span>
 <span class="p">)</span>
 </code></pre></div>
+<h2 id="retries">Retries<a class="headerlink" href="#retries" title="Permanent link">&para;</a></h2>
+<p>By default the SDK fails fast on transient errors. Enable retries by passing a <code>RetryConfig</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentTierClient</span><span class="p">,</span> <span class="n">RetryConfig</span>
+
+<span class="k">with</span> <span class="n">AgentTierClient</span><span class="p">(</span>
+    <span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;https://agenttier.company.com&quot;</span><span class="p">,</span>
+    <span class="n">retry</span><span class="o">=</span><span class="n">RetryConfig</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">backoff_factor</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">backoff_max</span><span class="o">=</span><span class="mf">8.0</span><span class="p">),</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>Behavior:</p>
+<ul>
+<li>Retries on <strong>408, 429, 500, 502, 503, 504</strong> by default. Override with <code>retry_status=frozenset({...})</code>.</li>
+<li>Retries on connection errors for idempotent methods (<code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code>, <code>PUT</code>, <code>DELETE</code>). <code>POST</code> is retried only when <code>retry_post=True</code> since most Router endpoints are not idempotent.</li>
+<li>Honors the <strong><code>Retry-After</code></strong> header on <code>429</code> and <code>503</code> (capped at <code>backoff_max</code> so a misbehaving server can't park the SDK forever). Disable with <code>respect_retry_after=False</code>.</li>
+<li>Backoff is <code>min(backoff_max, backoff_factor * 2 ** attempt)</code> plus 0–25% random jitter so concurrent clients don't synchronize.</li>
+<li><strong>SSE-streaming endpoints</strong> (<code>/configure</code>, <code>/invoke</code>) bypass retries entirely. Replaying half a stream would emit duplicate events; the SDK detects <code>Accept: text/event-stream</code> and passes the request through unchanged.</li>
+</ul>
+<p>The same <code>retry=</code> parameter works on <code>AsyncAgentTierClient</code>.</p>
 <h2 id="async">Async<a class="headerlink" href="#async" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncAgentTierClient</span>

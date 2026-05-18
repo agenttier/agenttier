@@ -1273,6 +1273,8 @@
       
         
       
+        
+      
     
     
     
@@ -1335,6 +1337,34 @@
     
   
     Verifying images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scaling
   
 
     
@@ -1628,11 +1658,12 @@
 <li><strong>Single Helm chart</strong> — one <code>helm install agenttier agenttier/agenttier</code> deploys controller, router, web UI, CRDs, RBAC, and all opt-ins.</li>
 <li><strong>Multi-cluster</strong> — works on EKS, GKE, AKS, kind, and any self-managed Kubernetes 1.27+ with NetworkPolicy-capable CNI.</li>
 <li><strong>Leader-elected HA</strong> — multi-replica controller with Lease-based election. Graceful degradation for non-critical dependency failures (e.g. can't reach OTel collector).</li>
+<li><strong>Cluster autoscaling out of the box</strong> — opt-in upstream Cluster Autoscaler installs cloud-neutral via Helm (works on EKS, GKE, AKS, OpenStack, Cluster API). Pair with the <code>headroom</code> Deployment for N+1 spare-node capacity: pause Pods at negative priority squat on a spare node, sandboxes preempt them instantly, evicted Pods trigger a fresh node in the background. See <a href="../scaling/">Scaling</a> for sizing math + cost trade-offs.</li>
 <li><strong>Kubernetes-native state</strong> — defaults to Kubernetes etcd + Events + ConfigMaps for all state. An optional SQL backend (Postgres / MySQL / SQLite) is on the roadmap for compliance-driven long-term retention.</li>
 <li><strong>Terraform</strong> — EKS / GKE / AKS modules under <a href="https://github.com/agenttier/agenttier/tree/main/terraform"><code>terraform/</code></a> for fully-provisioned reference deployments.</li>
 </ul>
 <h2 id="what-is-not-here-yet">What is not here yet<a class="headerlink" href="#what-is-not-here-yet" title="Permanent link">&para;</a></h2>
-<p>Roadmap items that are <em>not</em> shipped in v0.3.5 and will return real errors or missing features if you rely on them:</p>
+<p>Roadmap items that are <em>not</em> shipped in v0.4.0 and will return real errors or missing features if you rely on them:</p>
 <ul>
 <li>Sharing and collaboration (viewer/collaborator roles, expiring share links) — planned for 0.2.x.</li>
 <li>File transfer API — planned for 0.2.x.</li>

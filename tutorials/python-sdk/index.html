@@ -1295,6 +1295,8 @@
       
         
       
+        
+      
     
     
     
@@ -1357,6 +1359,34 @@
     
   
     Verifying images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scaling
   
 
     
@@ -1615,7 +1645,7 @@
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentTierClient</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">AgentTierClient</span><span class="p">(</span><span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:8081&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">health</span><span class="p">())</span>  <span class="c1"># {&quot;status&quot;: &quot;ok&quot;, &quot;version&quot;: &quot;0.3.5&quot;}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">health</span><span class="p">())</span>  <span class="c1"># {&quot;status&quot;: &quot;ok&quot;, &quot;version&quot;: &quot;0.4.0&quot;}</span>
 </code></pre></div>
 <p>The client auto-detects credentials in this order: explicit <code>api_key=</code> / <code>bearer_token=</code> / <code>kubeconfig=</code> arguments → <code>AGENTTIER_API_KEY</code> env var → <code>AGENTTIER_BEARER_TOKEN</code> env var → in-cluster service account → kubeconfig. For a port-forwarded dev cluster with the auth bypass on, no credentials are needed.</p>
 <p>For production, prefer:</p>

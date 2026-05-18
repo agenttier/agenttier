@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://agenttier.github.io/agenttier/troubleshooting/">
       
       
-        <link rel="prev" href="../verifying-images/">
+        <link rel="prev" href="../scaling/">
       
       
       
@@ -1105,6 +1105,8 @@
       
         
       
+        
+      
     
     
     
@@ -1165,6 +1167,34 @@
     
   
     Verifying images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scaling
   
 
     
@@ -1243,6 +1273,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#terminal-drops-every-20-60-minutes-older-sandboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal drops every 20-60 minutes (older sandboxes)
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#terminal-disconnects-after-a-long-idle-period" class="md-nav__link">
@@ -1364,6 +1405,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#terminal-drops-every-20-60-minutes-older-sandboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal drops every 20-60 minutes (older sandboxes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#terminal-disconnects-after-a-long-idle-period" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1466,6 +1518,34 @@
 
 
 <h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h1>
+<h2 id="terminal-drops-every-20-60-minutes-older-sandboxes">Terminal drops every 20-60 minutes (older sandboxes)<a class="headerlink" href="#terminal-drops-every-20-60-minutes-older-sandboxes" title="Permanent link">&para;</a></h2>
+<p>If your sandbox uses the legacy SPDY-exec terminal path (any sandbox created
+on a template without <code>harness.useHTTPExec: true</code>, or on a pod that doesn't
+have the in-pod runtime baked in), the browser terminal will reconnect every
+20-60 minutes regardless of LB idle settings. The cause is the EKS apiserver
+recycling long-lived streaming connections, which is unavoidable on the SPDY
+path.</p>
+<p>What you'll see in Router logs: nothing alarming — the WebSocket reconnect is
+fast and the tmux wrap means your shell + running processes survive the drop.
+What you'll see in the browser: a brief "Reconnecting…" banner and your
+prompt re-appears. If you're running a long task (gdownload, builds), it
+keeps going inside tmux even though the terminal blinked.</p>
+<p>To eliminate the drop entirely, opt the template into the in-pod HTTP-PTY
+path:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">harness</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">useHTTPExec</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># also routes /exec, /files, /invoke through the pod runtime</span>
+</code></pre></div>
+<p>The runtime listens on port 9000 inside the pod; the Router dials it directly
+TCP-to-TCP, so the apiserver isn't in the request path and there's nothing to
+recycle. All four reference images (<code>general-coding</code>, <code>claude-code</code>,
+<code>minimal</code>, <code>langgraph</code>) ship with the runtime baked in. Custom images that
+don't have the runtime fall back to SPDY transparently — same behavior as
+before. To verify which transport a session used, look in Router logs for:</p>
+<ul>
+<li><code>terminal session via HTTP-PTY</code> — success on the new path.</li>
+<li><code>HTTP-PTY fallback to SPDY</code> with a structured <code>reason</code> field — fallback
+  (e.g. <code>runtime healthz failed</code>, <code>pod IP not yet assigned</code>).</li>
+</ul>
 <h2 id="terminal-disconnects-after-a-long-idle-period">Terminal disconnects after a long idle period<a class="headerlink" href="#terminal-disconnects-after-a-long-idle-period" title="Permanent link">&para;</a></h2>
 <p>Every released Router sends RFC 6455 WebSocket ping control frames <strong>and</strong>
 application-level heartbeat messages every 30 seconds, so any load balancer

@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/verifying-images/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/scaling/">
       
       
-        <link rel="prev" href="../sdk/">
+        <link rel="prev" href="../verifying-images/">
       
       
-        <link rel="next" href="../scaling/">
+        <link rel="next" href="../troubleshooting/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Verifying images - AgentTier</title>
+        <title>Scaling - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#verifying-released-images" class="md-skip">
+        <a href="#scaling" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Verifying images
+              Scaling
             
           </span>
         </div>
@@ -1158,6 +1158,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../verifying-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verifying images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1177,7 +1205,7 @@
   <span class="md-ellipsis">
     
   
-    Verifying images
+    Scaling
   
 
     
@@ -1195,7 +1223,7 @@
   <span class="md-ellipsis">
     
   
-    Verifying images
+    Scaling
   
 
     
@@ -1221,10 +1249,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verify-a-signature" class="md-nav__link">
+  <a href="#the-two-layers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verify a signature
+        The two layers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The two layers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-cluster-autoscaler-cas-reactive-node-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Cluster Autoscaler (CAS) — reactive node scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-headroom-deployment-proactive-n1-spare-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Headroom Deployment — proactive N+1 spare capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sizing-the-headroom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sizing the headroom
       
     </span>
   </a>
@@ -1232,10 +1299,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pull-an-sbom" class="md-nav__link">
+  <a href="#cost-trade-offs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pull an SBOM
+        Cost trade-offs
       
     </span>
   </a>
@@ -1243,10 +1310,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#policy-engines" class="md-nav__link">
+  <a href="#cloud-specific-node-group-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Policy engines
+        Cloud-specific node group setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloud-specific node group setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EKS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gke-aks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GKE / AKS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#karpenter-aws-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Karpenter (AWS-only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying it works
       
     </span>
   </a>
@@ -1257,34 +1374,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../scaling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Scaling
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1352,10 +1441,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verify-a-signature" class="md-nav__link">
+  <a href="#the-two-layers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verify a signature
+        The two layers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The two layers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-cluster-autoscaler-cas-reactive-node-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Cluster Autoscaler (CAS) — reactive node scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-headroom-deployment-proactive-n1-spare-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Headroom Deployment — proactive N+1 spare capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sizing-the-headroom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sizing the headroom
       
     </span>
   </a>
@@ -1363,10 +1491,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pull-an-sbom" class="md-nav__link">
+  <a href="#cost-trade-offs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pull an SBOM
+        Cost trade-offs
       
     </span>
   </a>
@@ -1374,10 +1502,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#policy-engines" class="md-nav__link">
+  <a href="#cloud-specific-node-group-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Policy engines
+        Cloud-specific node group setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloud-specific node group setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EKS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gke-aks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GKE / AKS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#karpenter-aws-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Karpenter (AWS-only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying it works
       
     </span>
   </a>
@@ -1401,7 +1579,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/verifying-images.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/scaling.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1409,51 +1587,172 @@
   
 
 
-<h1 id="verifying-released-images">Verifying released images<a class="headerlink" href="#verifying-released-images" title="Permanent link">&para;</a></h1>
-<p>From <strong>v0.2.0</strong> onwards, every container image published to <code>ghcr.io/agenttier/*</code>
-is keyless-signed with <a href="https://docs.sigstore.dev/cosign/">cosign</a> using GitHub
-Actions' OIDC identity, and ships with SPDX + CycloneDX SBOMs attached as OCI
-artifacts.</p>
-<h2 id="verify-a-signature">Verify a signature<a class="headerlink" href="#verify-a-signature" title="Permanent link">&para;</a></h2>
-<p>Requires cosign v2+.</p>
-<div class="highlight"><pre><span></span><code>cosign<span class="w"> </span>verify<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/agenttier/agenttier/.*&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span><span class="s1">&#39;https://token.actions.githubusercontent.com&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/agenttier/controller:v0.4.0
+<h1 id="scaling">Scaling<a class="headerlink" href="#scaling" title="Permanent link">&para;</a></h1>
+<p>AgentTier ships two complementary autoscaling layers in the Helm chart. Both
+are off by default; flip them on when you outgrow a fixed-size node group.</p>
+<h2 id="the-two-layers">The two layers<a class="headerlink" href="#the-two-layers" title="Permanent link">&para;</a></h2>
+<h3 id="1-cluster-autoscaler-cas-reactive-node-scaling">1. Cluster Autoscaler (CAS) — reactive node scaling<a class="headerlink" href="#1-cluster-autoscaler-cas-reactive-node-scaling" title="Permanent link">&para;</a></h3>
+<p>The upstream <code>kubernetes/autoscaler</code> Cluster Autoscaler watches for <code>Pending</code>
+pods and adjusts the size of cloud node groups (EKS managed node groups, GKE
+MIGs, AKS VM scale sets, Cluster API MachineDeployments, etc.) to fit them.
+When a node sits idle past <code>scaleDownUnneededTime</code>, CAS removes it.</p>
+<p>Cloud-neutral. Works on EKS, GKE, AKS, OpenStack, vSphere, Cluster API, and
+anything else with a CAS provider. AgentTier's chart installs it as a
+Deployment in the AgentTier namespace; the cloud-provider IAM (IRSA on EKS,
+Workload Identity on GKE) is provisioned out-of-band and supplied via a
+Helm value.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">optional</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">clusterAutoscaler</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">cloudProvider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span><span class="w">            </span><span class="c1"># or gce, azure, clusterapi, externalgrpc</span>
+<span class="w">    </span><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span><span class="w">       </span><span class="c1"># matches the ASG/MIG auto-discovery tag</span>
+<span class="w">    </span><span class="nt">serviceAccountRoleArn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:iam::ACCOUNT:role/my-cluster-autoscaler</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
 </code></pre></div>
-<p>The command prints the certificate chain on success and exits non-zero if the
-signature is missing or the identity does not match the expected issuer and
-workflow.</p>
-<h2 id="pull-an-sbom">Pull an SBOM<a class="headerlink" href="#pull-an-sbom" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># Unsigned download (convenient, not tamper-proof):</span>
-cosign<span class="w"> </span>download<span class="w"> </span>sbom<span class="w"> </span>ghcr.io/agenttier/controller:v0.4.0<span class="w"> </span>&gt;<span class="w"> </span>controller.spdx.json
+<p>Scale-up latency: 60-90 s on EKS (ASG round-trip). Scale-down: a node sits
+idle for <code>scaleDownUnneededTime</code> (default 10 m), then is drained and
+terminated.</p>
+<h3 id="2-headroom-deployment-proactive-n1-spare-capacity">2. Headroom Deployment — proactive N+1 spare capacity<a class="headerlink" href="#2-headroom-deployment-proactive-n1-spare-capacity" title="Permanent link">&para;</a></h3>
+<p>CAS alone is <em>reactive</em>: a sandbox waits on a Pending pod until CAS sees it
+and provisions a node, which is a visible delay for interactive workloads.
+The headroom Deployment fixes that. It runs N pause Pods at a deeply-negative
+PriorityClass, sized to roughly one node's worth of capacity. They squat on a
+spare node. When a real sandbox arrives:</p>
+<ol>
+<li>The scheduler <strong>preempts</strong> a pause Pod (instant — <code>preemptionPolicy:
+   Never</code> ensures the pause Pod itself never preempts anything).</li>
+<li>The real sandbox lands on the now-free slot.</li>
+<li>The evicted pause Pod goes Pending.</li>
+<li>CAS sees the Pending pause Pod and provisions a fresh spare node.</li>
+<li>Equilibrium restored: there is always one extra node beyond what's full.</li>
+</ol>
+<p>Net effect: real sandboxes always land on already-warm nodes. New nodes come
+up in the background without anyone waiting on them.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">optional</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">headroom</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">         </span><span class="c1"># how many pause Pods to run</span>
+<span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500m</span><span class="w">           </span><span class="c1"># per replica</span>
+<span class="w">    </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span><span class="w">         </span><span class="c1"># per replica</span>
+<span class="w">    </span><span class="nt">priorityValue</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1000</span>
+</code></pre></div>
+<p>The pause Pods use <code>registry.k8s.io/pause:3.9</code> (700 KiB binary, ~50 µCPU
+overhead each). The Deployment uses <code>Recreate</code> strategy and soft pod anti-
+affinity so replicas spread across nodes when possible.</p>
+<h2 id="sizing-the-headroom">Sizing the headroom<a class="headerlink" href="#sizing-the-headroom" title="Permanent link">&para;</a></h2>
+<p>Two questions to answer:</p>
+<p><strong>How fast do sandboxes typically arrive?</strong> If your peak burst is 5 sandboxes
+per minute and a typical sandbox uses 500m CPU + 1 Gi memory, you need
+headroom that covers the gap between burst arrival and CAS catching up to
+provision a new node. CAS scale-up on EKS is ~90 s, so you want at least 90s
+× burst-rate worth of capacity = 7-8 sandboxes worth. With 500m/1Gi each
+that's 4 vCPU + 8 Gi.</p>
+<p><strong>What instance type underpins your node group?</strong> Headroom should be sized
+to roughly one node's worth of allocatable so each headroom-evict triggers
+exactly one CAS scale-up. On <code>t3.large</code> (2 vCPU, 8 Gi) with kubelet reserves
+giving ~1.9 vCPU + 7.2 Gi allocatable, set <code>replicas: 3, cpu: 500m, memory:
+2Gi</code> for ~1.5 vCPU + 6 Gi reserved (one node minus daemonset overhead).</p>
+<p>When in doubt, start with <code>replicas: 4, cpu: 500m, memory: 1Gi</code> and watch
+the <code>cluster_autoscaler_unneeded_count</code> metric — if it stays high, headroom
+is too aggressive and you're paying for cold nodes that never get used.</p>
+<h2 id="cost-trade-offs">Cost trade-offs<a class="headerlink" href="#cost-trade-offs" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Always-on cost</th>
+<th>Sandbox-create latency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neither (fixed <code>desired_size</code>)</td>
+<td>Lowest</td>
+<td>None below capacity, hard fail above</td>
+</tr>
+<tr>
+<td>CAS only</td>
+<td>One node always cold-starts during a burst</td>
+<td>60-90 s on the first burst sandbox</td>
+</tr>
+<tr>
+<td>CAS + headroom (<code>replicas: 4</code>)</td>
+<td>One extra node continuously held warm</td>
+<td>~1 s for the first 4 burst sandboxes</td>
+</tr>
+<tr>
+<td>CAS + larger headroom</td>
+<td>More extra nodes held warm</td>
+<td>~1 s for more burst sandboxes</td>
+</tr>
+</tbody>
+</table>
+<p>For a development cluster: skip both. For a production cluster handling
+interactive sandboxes: CAS + headroom. The continuous cost is one always-on
+spare node, which on AWS <code>t3.large</code> is ~$60/month — usually trivial next to
+the latency win. Spot instances cut that further if your tolerance allows.</p>
+<h2 id="cloud-specific-node-group-setup">Cloud-specific node group setup<a class="headerlink" href="#cloud-specific-node-group-setup" title="Permanent link">&para;</a></h2>
+<p>CAS auto-discovers node groups via tags. Tag your existing ASG / MIG /
+scale-set with both:</p>
+<div class="highlight"><pre><span></span><code>k8s.io/cluster-autoscaler/enabled = true
+k8s.io/cluster-autoscaler/&lt;cluster-name&gt; = owned
+</code></pre></div>
+<h3 id="eks">EKS<a class="headerlink" href="#eks" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">&quot;aws_eks_node_group&quot;</span><span class="w"> </span><span class="nv">&quot;main&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nb">scaling_config</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">desired_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+<span class="w">    </span><span class="na">min_size</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="na">max_size</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="c1">           # raise from the chart&#39;s typical 3-4</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="nb">tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;k8s.io/cluster-autoscaler/enabled&quot;</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="w">    </span><span class="s2">&quot;k8s.io/cluster-autoscaler/${cluster_name}&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;owned&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>CAS needs IRSA. The Helm chart's <code>serviceAccountRoleArn</code> value adds the
+<code>eks.amazonaws.com/role-arn</code> annotation; provision the IAM role with the
+standard CAS policy (autoscaling:Describe<em> + autoscaling:SetDesiredCapacity
++ ec2:Describe</em> + the <code>aws:ResourceTag/k8s.io/cluster-autoscaler/&lt;cluster&gt;:
+"owned"</code> condition).</p>
+<h3 id="gke-aks">GKE / AKS<a class="headerlink" href="#gke-aks" title="Permanent link">&para;</a></h3>
+<p>GKE: prefer GKE's native cluster autoscaler instead of CAS — it's tighter
+integration with the cloud control plane. Set <code>optional.clusterAutoscaler.
+enabled: false</code> and enable autoscaling on your GKE node pool.</p>
+<p>AKS: AKS has a built-in cluster autoscaler. Same recommendation — use it,
+not CAS. Headroom still works because it's autoscaler-agnostic.</p>
+<h3 id="karpenter-aws-only">Karpenter (AWS-only)<a class="headerlink" href="#karpenter-aws-only" title="Permanent link">&para;</a></h3>
+<p>If you're on EKS and want sub-30 s scale-up with mixed instance types and
+automatic Spot/On-Demand fallback, Karpenter is a strict upgrade over CAS.
+The Helm chart doesn't ship Karpenter today (tracked as a P2 follow-up);
+install it separately, then enable AgentTier's <code>optional.headroom.enabled:
+true</code>. The headroom pattern works identically — Karpenter respects the same
+negative <code>PriorityClass</code> and provisions a fresh node when the evicted pause
+pods go Pending.</p>
+<h2 id="verifying-it-works">Verifying it works<a class="headerlink" href="#verifying-it-works" title="Permanent link">&para;</a></h2>
+<p>After enabling both flags and running <code>helm upgrade</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># CAS should be Running and discovering your node group:</span>
+kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>deployment/agenttier-cluster-autoscaler<span class="w"> </span>--tail<span class="o">=</span><span class="m">50</span>
 
-<span class="c1"># Signed attestation (recommended):</span>
-cosign<span class="w"> </span>verify-attestation<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/agenttier/agenttier/.*&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span><span class="s1">&#39;https://token.actions.githubusercontent.com&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--type<span class="w"> </span>spdx<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/agenttier/controller:v0.4.0
+<span class="c1"># Headroom Pods should be Running:</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/component<span class="o">=</span>headroom
+
+<span class="c1"># Force a scale-up by creating sandboxes that exceed current capacity:</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">10</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">apiVersion: agenttier.io/v1alpha1</span>
+<span class="s">kind: Sandbox</span>
+<span class="s">metadata: {name: scale-test-$i}</span>
+<span class="s">spec: {templateRef: {name: general-coding, kind: ClusterSandboxTemplate}}</span>
+<span class="s">EOF</span>
+<span class="k">done</span>
+
+<span class="c1"># Watch nodes scale up:</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-w
 </code></pre></div>
-<h2 id="policy-engines">Policy engines<a class="headerlink" href="#policy-engines" title="Permanent link">&para;</a></h2>
-<p>The signature format is the standard Sigstore bundle, so any admission
-controller that speaks cosign / Sigstore policies (Kyverno, OPA Gatekeeper,
-sigstore policy-controller) can enforce "only run AgentTier images signed by
-the official GitHub Actions workflow" with a few lines of policy. Example
-fragment for sigstore policy-controller:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">policy.sigstore.dev/v1beta1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterImagePolicy</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agenttier-signed</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">images</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">glob</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ghcr.io/agenttier/*&quot;</span>
-<span class="w">  </span><span class="nt">authorities</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">keyless</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">identities</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://token.actions.githubusercontent.com</span>
-<span class="w">            </span><span class="nt">subjectRegExp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^https://github.com/agenttier/agenttier/.*$</span>
-</code></pre></div>
+<p>You should see CAS log <code>Scale-up: setting group X size to Y</code> within a few
+seconds, and the new node Ready in 60-90 seconds. Delete the sandboxes and
+nodes scale back down after <code>scaleDownUnneededTime</code>.</p>
 
 
 

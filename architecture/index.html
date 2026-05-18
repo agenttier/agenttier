@@ -1290,6 +1290,8 @@
       
         
       
+        
+      
     
     
     
@@ -1352,6 +1354,34 @@
     
   
     Verifying images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scaling
   
 
     
@@ -1633,7 +1663,7 @@ as a sink. Every transition emits a Kubernetes Event on the Sandbox resource.</p
 <p>A Go HTTP server serving:</p>
 <ul>
 <li>REST API at <code>/api/v1/*</code> (sandboxes, templates, governance, port forwarding, audit, analytics, warm pool, identity)</li>
-<li>WebSocket terminal at <code>/ws/terminal/{id}</code> bridging browser WebSocket to SPDY pod exec</li>
+<li>WebSocket terminal at <code>/ws/terminal/{id}</code> bridging browser WebSocket to either an in-pod HTTP-PTY (when the sandbox has <code>useHTTPExec: true</code>) or SPDY pod exec (legacy fallback)</li>
 <li>Authenticated in-cluster reverse proxy at <code>/api/v1/sandboxes/{id}/preview/{port}/...</code> for forwarded ports</li>
 <li>Prometheus metrics at <code>/metrics</code>, liveness at <code>/healthz</code>, readiness at <code>/readyz</code></li>
 </ul>
@@ -1668,9 +1698,14 @@ cluster permissions.</p>
 <li>Router authenticates via JWT / API key (or grants anonymous admin in dev mode).</li>
 <li>Router looks up the Sandbox, checks it is <code>Running</code>, and finds its Pod name.</li>
 <li>Per-session credential injection — if the template specifies credentials, Router fetches (STS AssumeRole, Kubernetes Secret, …) and injects them into the exec environment.</li>
-<li>Router calls <code>POST /api/v1/namespaces/{ns}/pods/{pod}/exec</code> with <code>tty=true</code>, <code>stdin=true</code>, bridging the SPDY stream to the WebSocket. Resize events flow through the SPDY <code>TerminalSizeQueue</code>.</li>
-<li>The session is tracked in Router memory with a 30-second reconnection window. If the WebSocket drops, the exec stream stays alive for 30 seconds so the client can reconnect without losing shell state.</li>
+<li>Router picks the terminal transport based on <code>harness.useHTTPExec</code>:<ul>
+<li><strong>HTTP-PTY</strong> (preferred when <code>useHTTPExec: true</code> and the in-pod runtime is healthy) — Router dials <code>ws://&lt;pod-ip&gt;:9000/pty?session=agenttier-&lt;sandbox&gt;</code> directly, bridging WebSocket frames TCP-to-TCP. The runtime spawns the shell with a tmux wrap (<code>tmux new-session -A -s &lt;session&gt;</code>) so reconnects re-attach the same shell with running processes intact (gdownload, builds, long apt installs). The kube-apiserver is out of the request path.</li>
+<li><strong>SPDY exec</strong> (legacy, used for non-opted-in sandboxes or when the runtime is unreachable) — Router calls <code>POST /api/v1/namespaces/{ns}/pods/{pod}/exec</code> with <code>tty=true</code>, <code>stdin=true</code>, bridging the SPDY stream to the WebSocket. Resize events flow through the SPDY <code>TerminalSizeQueue</code>. The shell is wrapped in tmux the same way (via <code>bridge.go</code>'s <code>buildShellCommand</code>) so resume-on-reconnect works there too. Shell survives the drop, but the WebSocket itself drops every 20-60 minutes because the EKS apiserver recycles long-lived streaming connections.</li>
+</ul>
+</li>
+<li>The session is tracked in Router memory with a 30-second reconnection window. If the WebSocket drops, the exec stream (or HTTP-PTY connection) stays alive for 30 seconds so the client can reconnect without losing shell state.</li>
 </ol>
+<p>To verify which transport a session used, check Router logs for <code>terminal session via HTTP-PTY</code> (success) or <code>HTTP-PTY fallback to SPDY</code> with a structured <code>reason</code> field (fallback).</p>
 <h2 id="data-flow-port-forwarding">Data flow: port forwarding<a class="headerlink" href="#data-flow-port-forwarding" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Client calls <code>POST /api/v1/sandboxes/{id}/ports {port: 8080}</code>.</li>
