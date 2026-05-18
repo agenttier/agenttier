@@ -1622,6 +1622,7 @@
 <ul>
 <li><strong>Browser terminal</strong> — full PTY over WebSocket with xterm.js. Resize, ANSI colors, paste, copy, and a 30-second reconnection window for network blips.</li>
 <li><strong>Non-interactive exec</strong> — <code>POST /api/v1/sandboxes/{id}/exec</code> returns <code>stdout</code> / <code>stderr</code> / <code>exitCode</code>. Matches how the SDK's <code>sandbox.exec()</code> is wired.</li>
+<li><strong>Hierarchical file browser</strong> — Web UI Settings page lets you click into folders, breadcrumb back, download a single file, download a single folder as <code>.zip</code>, or download the entire workspace as <code>.zip</code>. The archive endpoint streams the tree directly: Router execs <code>tar</code> in the pod and re-encodes to zip on the fly via Go's <code>archive/zip</code>, so no in-pod <code>zip</code> binary is needed and large workspaces stream end-to-end without buffering. Locked to the <code>/workspace</code> subtree. Mirror surface in the SDK (<code>sandbox.files.archive(...)</code>) and CLI (<code>agenttier sandbox files archive ...</code>).</li>
 <li><strong>Port forwarding</strong> — expose any container port with one click (Web UI) or one API call. AgentTier creates a ClusterIP Service, adds an Ingress when a preview domain is configured, and also offers an authenticated in-Router reverse proxy so users can reach ports even without DNS. See <a href="../port-forwarding/">Port forwarding</a>.</li>
 </ul>
 <h2 id="multi-tenancy-and-governance">Multi-tenancy and governance<a class="headerlink" href="#multi-tenancy-and-governance" title="Permanent link">&para;</a></h2>
@@ -1663,7 +1664,7 @@
 <li><strong>Terraform</strong> — EKS / GKE / AKS modules under <a href="https://github.com/agenttier/agenttier/tree/main/terraform"><code>terraform/</code></a> for fully-provisioned reference deployments.</li>
 </ul>
 <h2 id="what-is-not-here-yet">What is not here yet<a class="headerlink" href="#what-is-not-here-yet" title="Permanent link">&para;</a></h2>
-<p>Roadmap items that are <em>not</em> shipped in v0.4.0 and will return real errors or missing features if you rely on them:</p>
+<p>Roadmap items that are <em>not</em> shipped in v0.4.1 and will return real errors or missing features if you rely on them:</p>
 <ul>
 <li>Sharing and collaboration (viewer/collaborator roles, expiring share links) — planned for 0.2.x.</li>
 <li>File transfer API — planned for 0.2.x.</li>
