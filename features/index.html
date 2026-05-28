@@ -1607,7 +1607,7 @@
 <li><strong>Harness config</strong> — tell AgentTier which shell, tools, system prompt, and hooks to run. Hooks fire on start / idle / stop / resume.</li>
 <li><strong>Init scripts</strong> — run cluster-approved setup commands before the container becomes Running (install extra tooling, clone a repo, wait for a service).</li>
 <li><strong>Embedded files</strong> — templates can seed files into the workspace (e.g. a default <code>.tmux.conf</code>, a README, a code-of-conduct).</li>
-<li><strong>Reference images</strong> — <code>general-coding</code> (Ubuntu + Node + Python + Go), <code>claude-code-bedrock</code> (Claude Code CLI wired to AWS Bedrock via IRSA), <code>minimal-shell</code> (Alpine + bash + git + curl). All published on <code>ghcr.io/agenttier/sandbox-*</code>.</li>
+<li><strong>Reference images</strong> — <code>general-coding</code> (Ubuntu + Node + Python + Go), <code>claude-code-bedrock</code> (Claude Code CLI wired to AWS Bedrock via IRSA), <code>openclaw-bedrock</code> (OpenClaw CLI wired to AWS Bedrock via IRSA), <code>strands-bedrock</code> (Strands Agents Python SDK wired to AWS Bedrock via IRSA), <code>minimal-shell</code> (Alpine + bash + git + curl), and <code>langgraph-agent</code> (Python + LangGraph + LangChain for <code>mode: agent</code>). All published on <code>ghcr.io/agenttier/sandbox-*</code>.</li>
 </ul>
 <h2 id="security-and-isolation">Security and isolation<a class="headerlink" href="#security-and-isolation" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1664,7 +1664,7 @@
 <li><strong>Terraform</strong> — EKS / GKE / AKS modules under <a href="https://github.com/agenttier/agenttier/tree/main/terraform"><code>terraform/</code></a> for fully-provisioned reference deployments.</li>
 </ul>
 <h2 id="what-is-not-here-yet">What is not here yet<a class="headerlink" href="#what-is-not-here-yet" title="Permanent link">&para;</a></h2>
-<p>Roadmap items that are <em>not</em> shipped in v0.4.1 and will return real errors or missing features if you rely on them:</p>
+<p>Roadmap items that are <em>not</em> shipped in v0.5.0 and will return real errors or missing features if you rely on them:</p>
 <ul>
 <li>Sharing and collaboration (viewer/collaborator roles, expiring share links) — planned for 0.2.x.</li>
 <li>File transfer API — planned for 0.2.x.</li>

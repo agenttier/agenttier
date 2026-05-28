@@ -920,6 +920,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#re-checked-at-agent-configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Re-checked at agent /configure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#violations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1407,6 +1418,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#re-checked-at-agent-configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Re-checked at agent /configure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#violations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1547,6 +1569,20 @@ and restores the cluster default.</p>
 <li><code>allowedAgentImages</code> is checked only when an agent-mode sandbox overrides the template image. The template's own image is trusted (it was vetted at template-creation time). Distinct from <code>approvedRegistries</code> because agent code typically warrants stricter supply-chain controls than interactive dev environments.</li>
 <li><code>maxConcurrentInvokesPerSandbox</code> clamps at admission time. A sandbox spec asking for more is silently lowered to the ceiling; the resolved value lands on <code>status.agentConfigure.maxConcurrentInvokes</code> so <code>/invoke</code> reads the already-clamped number.</li>
 </ul>
+<h2 id="re-checked-at-agent-configure">Re-checked at agent /configure<a class="headerlink" href="#re-checked-at-agent-configure" title="Permanent link">&para;</a></h2>
+<p>Three of the policy fields are also evaluated when an agent-mode sandbox calls <code>POST /api/v1/sandboxes/{id}/configure</code>. The sandbox already exists (a create-time policy passed), but <code>/configure</code> is the first time user-supplied code lands on the PVC, so a re-check guards against policies that tightened after creation:</p>
+<ul>
+<li><strong><code>allowedTemplates</code></strong> — re-checked against <code>status.resolvedTemplate</code>. If the template fell out of the allowlist after the sandbox was created, the configure is denied (403) before any files are written.</li>
+<li><strong><code>allowedAgentImages</code></strong> — re-checked against the sandbox's <code>spec.image.repository</code> (only when the sandbox overrides the template image). Same prefix-match semantics as the create-time check.</li>
+<li><strong><code>maxConcurrentInvokesPerSandbox</code></strong> — clamped via <code>governance.ClampConcurrency</code> at configure time, with the resolved value persisted on <code>status.agentConfigure.maxConcurrentInvokes</code> so <code>/invoke</code> enforces it without re-resolving the policy on every request.</li>
+</ul>
+<p>Independent of the policy, <code>/configure</code> enforces server-side correctness limits that protect the Router from a misbehaving caller:</p>
+<ul>
+<li>Per-file size cap of 32 MiB (<code>configureFileLimitBytes</code>).</li>
+<li>Aggregate size cap of 128 MiB across all files in one request (<code>configureFileTotalLimitBytes</code>).</li>
+<li>Maximum 200 files per request (<code>configureFileMaxCount</code>).</li>
+</ul>
+<p>A request that violates any of these returns HTTP 403 with the same <code>policy_violation</code> shape and a <code>ConfigureDenied</code> Kubernetes event on the sandbox CR. The audit trail makes it easy to see who attempted what and when.</p>
 <h2 id="violations">Violations<a class="headerlink" href="#violations" title="Permanent link">&para;</a></h2>
 <p>When a create request is rejected the response is HTTP 403 with a structured body:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
