@@ -913,6 +913,8 @@
       
         
       
+        
+      
     
     
     
@@ -1031,6 +1033,34 @@
     
   
     Port forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloning
   
 
     
@@ -1275,6 +1305,8 @@
       
         
       
+        
+      
     
     
     
@@ -1365,6 +1397,34 @@
     
   
     Scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
   
 
     
@@ -1592,6 +1652,7 @@
 <li><strong>Kubernetes CRDs</strong> — <code>Sandbox</code> (namespace-scoped), <code>SandboxTemplate</code> (namespace-scoped), <code>ClusterSandboxTemplate</code> (cluster-scoped). Manage sandboxes with <code>kubectl</code>, GitOps (Argo CD / Flux), or through the REST API, SDK, or Web UI.</li>
 <li><strong>State machine</strong> — Creating → Running → Stopped → Running → Deleting, with an Error sink and Kubernetes Events at every transition so <code>kubectl describe sandbox</code> tells the full story.</li>
 <li><strong>Stop and resume</strong> — Stop deletes the Pod while preserving the PVC. Resume re-attaches the same volume in about two seconds. Workspace contents, installed packages, and git state are exactly as left.</li>
+<li><strong>Cloning via VolumeSnapshot</strong> — <code>POST /api/v1/sandboxes/{id}/clone</code> takes a CSI VolumeSnapshot of the source PVC, then creates a new sandbox whose PVC is hydrated from that snapshot. The clone inherits the source's spec (template, env, ports, agent harness) and its workspace contents byte-for-byte. See <a href="../cloning/">Cloning</a>.</li>
 <li><strong>Idle and max-runtime timeouts</strong> — per-sandbox via <code>spec.idleTimeout</code> / <code>spec.timeout</code>, or per-namespace via governance caps. A configurable grace window notifies connected terminal sessions before auto-stop.</li>
 <li><strong>Self-healing</strong> — restart on transient pod failures (OOM, preemption) with 10s / 20s / 40s / 80s / 160s exponential backoff. Permanent failure modes (image pull forever, config error) are surfaced on the sandbox <code>status.conditions</code>.</li>
 </ul>
@@ -1649,8 +1710,9 @@
 </ul>
 <h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>OpenTelemetry</strong> — distributed traces across controller + router with trace context in structured JSON logs. OTLP exporter wires to any collector; the Helm chart can optionally deploy one as a sidecar.</li>
-<li><strong>Prometheus</strong> — <code>/metrics</code> exposes sandbox counts by status/template, startup-duration histograms, reconciliation queue depth, error counters, terminal session stats. Optional <code>ServiceMonitor</code> for Prometheus Operator.</li>
+<li><strong>OpenTelemetry</strong> — distributed traces across the router and controller. Every HTTP request gets a server span (<code>router.GET</code>, <code>router.POST</code>); agent-mode <code>/configure</code> and <code>/invoke</code> get bounded-cardinality spans (<code>agenttier.configure</code>, <code>agenttier.invoke</code>) with <code>template</code>, <code>outcome</code>, and a non-reversible <code>actor_hash</code>. Wires to any OTLP collector; the chart ships an opt-in collector for clusters without one. See <a href="../observability/">Observability</a> for setup and backend integration.</li>
+<li><strong>Trace-correlated logs</strong> — slog JSON output stamps <code>trace_id</code> and <code>span_id</code> on every log line written under an active span context, so a single trace ID pivots between OTel UI and <code>kubectl logs</code> without any extra setup.</li>
+<li><strong>Prometheus</strong> — <code>/metrics</code> exposes invoke + configure counters and histograms partitioned by template and outcome, plus rate-limit and throttling counters. Optional <code>ServiceMonitor</code> for Prometheus Operator (<code>observability.prometheus.serviceMonitor=true</code>).</li>
 <li><strong>Kubernetes Events</strong> — every lifecycle transition emits a typed Event on the Sandbox resource so <code>kubectl describe sandbox</code> is a first-class debugging surface.</li>
 <li><strong>Startup logging</strong> — <code>startupDurationMs</code> is logged per creation and recorded on an Event for regression tracking.</li>
 </ul>
@@ -1668,7 +1730,6 @@
 <ul>
 <li>Sharing and collaboration (viewer/collaborator roles, expiring share links) — planned for 0.2.x.</li>
 <li>File transfer API — planned for 0.2.x.</li>
-<li>Sandbox cloning via <code>VolumeSnapshot</code> — planned for 0.2.x.</li>
 <li>Notifications (webhook / email / Slack) — planned for 0.2.x.</li>
 <li>WebSocket ping frames + ALB migration — planned for 0.2.x; sessions through AWS Classic ELBs may still need manual reconnection every 60 minutes without the <code>connection-idle-timeout</code> annotation tweak.</li>
 <li>Optional SQL backend for audit + analytics long-term retention — planned for 0.3.x.</li>

@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/cli/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/cloning/">
       
       
-        <link rel="prev" href="../agent-memory/">
+        <link rel="prev" href="../port-forwarding/">
       
       
-        <link rel="next" href="../cli-reference/">
+        <link rel="next" href="../agent-mode/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>CLI - AgentTier</title>
+        <title>Cloning - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cli" class="md-skip">
+        <a href="#sandbox-cloning" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CLI
+              Cloning
             
           </span>
         </div>
@@ -730,8 +730,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -756,13 +758,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -783,7 +783,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -882,10 +882,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../cloning/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloning
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -901,6 +928,103 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-body" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request body
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gets-cloned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What gets cloned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cluster prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#programmatic-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programmatic access
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -973,10 +1097,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -995,11 +1117,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -1020,7 +1144,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1035,37 +1159,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    CLI
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
         
   
   
@@ -1081,170 +1178,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Install">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#via-pip" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Via pip
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#via-github-releases-go-binary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Via GitHub Releases (Go binary)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#macos-linux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        macOS / Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Windows
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#homebrew" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Homebrew
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#agent-mode-phase-10" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Agent mode (Phase 10)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Agent mode (Phase 10)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-configure-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier configure &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-invoke-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier invoke &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-use-the-cli-vs-kubectl-or-the-sdk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why use the CLI vs kubectl or the SDK?
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1523,82 +1456,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Install">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#via-pip" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Via pip
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#via-github-releases-go-binary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Via GitHub Releases (Go binary)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#macos-linux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        macOS / Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Windows
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#homebrew" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Homebrew
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
+        Quick start
       
     </span>
   </a>
@@ -1606,10 +1467,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#request-body" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Request body
       
     </span>
   </a>
@@ -1617,49 +1478,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#agent-mode-phase-10" class="md-nav__link">
+  <a href="#what-gets-cloned" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Agent mode (Phase 10)
+        What gets cloned
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Agent mode (Phase 10)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-configure-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier configure &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#agenttier-invoke-sandbox-id" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        agenttier invoke &lt;sandbox-id&gt;
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-use-the-cli-vs-kubectl-or-the-sdk" class="md-nav__link">
+  <a href="#cluster-prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why use the CLI vs kubectl or the SDK?
+        Cluster prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#programmatic-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programmatic access
       
     </span>
   </a>
@@ -1683,7 +1549,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/cli.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/cloning.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1691,207 +1557,137 @@
   
 
 
-<h1 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h1>
-<p>The <code>agenttier</code> CLI manages sandboxes and templates from the terminal. Two distributions, identical command surface:</p>
+<h1 id="sandbox-cloning">Sandbox cloning<a class="headerlink" href="#sandbox-cloning" title="Permanent link">&para;</a></h1>
+<p><code>POST /api/v1/sandboxes/{id}/clone</code> creates a new sandbox whose workspace is hydrated from a CSI VolumeSnapshot of the source sandbox's PVC. The new sandbox inherits the source's spec — template, image, env, ports, agent harness — so the result is a faithful "fork" of the original at the moment the snapshot is taken.</p>
+<h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://your-agenttier/api/v1/sandboxes/my-sandbox/clone<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer ...&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;: &quot;my-sandbox-fork&quot;}&#39;</span>
+</code></pre></div>
+<p>Response (202 Accepted):</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my-sandbox-fork&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;snapshot&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my-sandbox-snap-1780023662&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;clonedFrom&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my-sandbox&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;phase&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pending&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Clone in progress. Poll GET /api/v1/sandboxes/my-sandbox-fork for status...&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The new sandbox enters <code>Creating</code> while the CSI driver hydrates the volume from the snapshot. On EBS this typically takes 30–90 seconds for a 20 GiB PVC. Poll <code>GET /api/v1/sandboxes/my-sandbox-fork</code> until <code>phase: Running</code>.</p>
+<h2 id="request-body">Request body<a class="headerlink" href="#request-body" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td><code>&lt;source&gt;-clone-&lt;unix-ts&gt;</code></td>
+<td>Must satisfy RFC 1123 label rules.</td>
+</tr>
+<tr>
+<td><code>snapshotClass</code></td>
+<td>string</td>
+<td>cluster default <code>VolumeSnapshotClass</code></td>
+<td>Override when you need a non-default driver or retention policy.</td>
+</tr>
+</tbody>
+</table>
+<p>Both fields are optional. Body itself is optional — <code>POST .../clone</code> with no body produces a clone using all defaults.</p>
+<h2 id="what-gets-cloned">What gets cloned<a class="headerlink" href="#what-gets-cloned" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Cloned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workspace contents (the PVC)</td>
+<td>yes (byte-identical via VolumeSnapshot)</td>
+</tr>
+<tr>
+<td>Sandbox spec (template, env, ports, agent harness)</td>
+<td>yes (deep-copied from source)</td>
+</tr>
+<tr>
+<td>Status fields (phase, podName, conditions)</td>
+<td>no (regenerated for the new sandbox)</td>
+</tr>
+<tr>
+<td><code>CreatedBy</code></td>
+<td>re-stamped from the cloning user, not the original creator</td>
+</tr>
+</tbody>
+</table>
+<p>The new sandbox also stamps <code>status.clonedFrom: &lt;source&gt;</code> for auditability and <code>spec.cloneFromSnapshot: &lt;snapshot-name&gt;</code> so a <code>kubectl get -o yaml</code> on the cloned CR makes the lineage obvious.</p>
+<h2 id="cluster-prerequisites">Cluster prerequisites<a class="headerlink" href="#cluster-prerequisites" title="Permanent link">&para;</a></h2>
+<p>CSI VolumeSnapshot infrastructure must be installed on the cluster. On EKS this is <strong>not</strong> part of the default EBS CSI install — you must add it explicitly:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Snapshot CRDs</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.3.3/client/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.3.3/client/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.3.3/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
+
+<span class="c1"># 2. Snapshot controller</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.3.3/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/v6.3.3/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml
+
+<span class="c1"># 3. Default VolumeSnapshotClass for EBS</span>
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: snapshot.storage.k8s.io/v1</span>
+<span class="s">kind: VolumeSnapshotClass</span>
+<span class="s">metadata:</span>
+<span class="s">  name: ebs-snapshot</span>
+<span class="s">  annotations:</span>
+<span class="s">    snapshot.storage.kubernetes.io/is-default-class: &quot;true&quot;</span>
+<span class="s">driver: ebs.csi.aws.com</span>
+<span class="s">deletionPolicy: Delete</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Other clouds: replace <code>ebs.csi.aws.com</code> with <code>pd.csi.storage.gke.io</code> (GKE), <code>disk.csi.azure.com</code> (AKS), or whatever CSI driver name your cluster uses.</p>
+<p>The IAM role attached to your CSI controller needs <code>ec2:CreateSnapshot</code>, <code>ec2:DeleteSnapshot</code>, <code>ec2:DescribeSnapshots</code>, and <code>ec2:CreateTags</code> on EBS. The default <code>Amazon_EBS_CSI_Driver</code> AWS-managed policy includes them; if you've cut a custom policy, double-check.</p>
+<p>If the snapshot infrastructure is missing, <code>POST /clone</code> returns <code>500 failed to create VolumeSnapshot: no matches for kind "VolumeSnapshot" in version "snapshot.storage.k8s.io/v1"</code>.</p>
+<h2 id="lifecycle">Lifecycle<a class="headerlink" href="#lifecycle" title="Permanent link">&para;</a></h2>
+<p>The VolumeSnapshot the Router creates is <strong>not owner-referenced to the source sandbox</strong> — it's a standalone object. That means deleting the source sandbox does not cascade-delete the snapshot. The snapshot lives until you explicitly delete it (or until its <code>VolumeSnapshotClass</code> retention policy fires, if you configure one).</p>
+<p>The cloned sandbox's PVC, on the other hand, is independent of the snapshot — once the CSI driver finishes hydrating the new volume, you can delete the snapshot without affecting the clone.</p>
+<p>To delete the snapshot manually:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>volumesnapshot<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;source&gt;-snap-&lt;ts&gt;
+</code></pre></div>
+<h2 id="limits">Limits<a class="headerlink" href="#limits" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong><code>pip install agenttier</code></strong> — pure-Python CLI installed alongside the SDK. Works on any platform with Python 3.10+. Recommended for Python-first users.</li>
-<li><strong>GitHub Releases</strong> — native Go binaries for Linux, macOS, and Windows on amd64 and arm64. No Python runtime required.</li>
+<li><strong>Same-namespace only.</strong> The snapshot and the cloned Sandbox CR live in the source's namespace. Cross-namespace clones are rejected.</li>
+<li><strong>Source must have a PVC.</strong> Sandboxes that haven't reached at least the <code>Running</code> (or <code>Stopped</code>) phase don't have a PVC yet and can't be cloned. The endpoint returns 400 with a clear error.</li>
+<li><strong>Same template required.</strong> The cloned sandbox uses the source's template. Cloning across templates would produce a sandbox whose pod expects different image/env contracts than the workspace bytes hydrated into; the spec keeps things consistent on purpose.</li>
+<li><strong>Soft cap on storage class compatibility.</strong> The cloned PVC inherits the source's <code>storageClassName</code>. If your cluster has multiple CSI drivers, ensure the snapshot class you pass matches the source PVC's driver — cross-driver hydration is not supported.</li>
 </ul>
-<p>Sources: <a href="https://github.com/agenttier/agenttier/tree/main/cmd/cli"><code>cmd/cli/</code></a> (Go), <a href="https://github.com/agenttier/agenttier/tree/main/python-sdk/src/agenttier/cli.py"><code>python-sdk/src/agenttier/cli.py</code></a> (Python).
-Full command reference: <a href="../cli-reference/">CLI command reference</a>.</p>
-<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
-<h3 id="via-pip">Via <code>pip</code><a class="headerlink" href="#via-pip" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>agenttier
-agenttier<span class="w"> </span>--version
-</code></pre></div>
-<p>This installs the SDK and the CLI together. The Python CLI exposes the full SDK surface (lifecycle, exec, files, port forwards, templates, agent-mode configure/invoke).</p>
-<h3 id="via-github-releases-go-binary">Via GitHub Releases (Go binary)<a class="headerlink" href="#via-github-releases-go-binary" title="Permanent link">&para;</a></h3>
-<p>Pick the binary for your OS/arch and drop it on your <code>PATH</code>.</p>
-<h3 id="macos-linux">macOS / Linux<a class="headerlink" href="#macos-linux" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nv">VERSION</span><span class="o">=</span>v0.5.0
-<span class="nv">OS</span><span class="o">=</span><span class="k">$(</span>uname<span class="w"> </span>-s<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
-<span class="nv">ARCH</span><span class="o">=</span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/x86_64/amd64/;s/aarch64/arm64/&#39;</span><span class="k">)</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>agenttier<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">&quot;https://github.com/agenttier/agenttier/releases/download/</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">/agenttier-</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">OS</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">ARCH</span><span class="si">}</span><span class="s2">&quot;</span>
+<h2 id="programmatic-access">Programmatic access<a class="headerlink" href="#programmatic-access" title="Permanent link">&para;</a></h2>
+<p>Python SDK (sync and async):</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentTierClient</span>
 
-<span class="c1"># Verify the SHA256 (recommended)</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>agenttier.sha256<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">&quot;https://github.com/agenttier/agenttier/releases/download/</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">/agenttier-</span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">OS</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">ARCH</span><span class="si">}</span><span class="s2">.sha256&quot;</span>
-sha256sum<span class="w"> </span>-c<span class="w"> </span>agenttier.sha256<span class="w"> </span><span class="o">||</span><span class="w"> </span>shasum<span class="w"> </span>-a<span class="w"> </span><span class="m">256</span><span class="w"> </span>-c<span class="w"> </span>agenttier.sha256
+<span class="n">client</span> <span class="o">=</span> <span class="n">AgentTierClient</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 
-chmod<span class="w"> </span>+x<span class="w"> </span>agenttier
-sudo<span class="w"> </span>mv<span class="w"> </span>agenttier<span class="w"> </span>/usr/local/bin/
-agenttier<span class="w"> </span>--version
-</code></pre></div>
-<h3 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h3>
-<p>Download <code>agenttier-vX.Y.Z-windows-amd64.exe</code> from the release page and place
-it somewhere on your <code>PATH</code>. PowerShell one-liner:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$version</span> <span class="p">=</span> <span class="s2">&quot;v0.5.0&quot;</span>
-<span class="nb">Invoke-WebRequest</span> <span class="p">`</span>
-  <span class="n">-Uri</span> <span class="s2">&quot;https://github.com/agenttier/agenttier/releases/download/$version/agenttier-$version-windows-amd64.exe&quot;</span> <span class="p">`</span>
-  <span class="n">-OutFile</span> <span class="s2">&quot;$env:USERPROFILE\bin\agenttier.exe&quot;</span>
-</code></pre></div>
-<h3 id="homebrew">Homebrew<a class="headerlink" href="#homebrew" title="Permanent link">&para;</a></h3>
-<p>A tap is planned; in the meantime use the curl flow above.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The CLI talks to the Router's REST API. Configure the endpoint and credentials
-with environment variables (same as the SDK):</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>AGENTTIER_API_URL</code></td>
-<td>Router base URL (<code>https://agenttier.company.com</code>).</td>
-</tr>
-<tr>
-<td><code>AGENTTIER_API_KEY</code></td>
-<td>Preferred auth; sent as <code>X-API-Key</code>.</td>
-</tr>
-<tr>
-<td><code>AGENTTIER_TOKEN</code></td>
-<td>OIDC bearer token; used if no API key.</td>
-</tr>
-<tr>
-<td><code>KUBECONFIG</code></td>
-<td>Falls back to in-cluster ServiceAccount token when on a kubeconfig'd node.</td>
-</tr>
-</tbody>
-</table>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AGENTTIER_API_URL</span><span class="o">=</span>https://agenttier.company.com
-<span class="nb">export</span><span class="w"> </span><span class="nv">AGENTTIER_API_KEY</span><span class="o">=</span>sk_live_...
-agenttier<span class="w"> </span>sandbox<span class="w"> </span>list
-</code></pre></div>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>--help
-agenttier<span class="w"> </span>--version
-</code></pre></div>
-<p>The CLI is still lean in v0.5.0 — the core sandbox and template commands are
-there; port forwarding and governance editing will follow the server-side
-maturity. For features the CLI doesn't cover yet, fall back to <code>kubectl</code> on
-CRDs directly (sandboxes, templates) or the Python SDK.</p>
-<h2 id="agent-mode-phase-10">Agent mode (Phase 10)<a class="headerlink" href="#agent-mode-phase-10" title="Permanent link">&para;</a></h2>
-<p>Two commands drive <code>mode: agent</code> sandboxes from the shell:</p>
-<h3 id="agenttier-configure-sandbox-id"><code>agenttier configure &lt;sandbox-id&gt;</code><a class="headerlink" href="#agenttier-configure-sandbox-id" title="Permanent link">&para;</a></h3>
-<p>Uploads files into the sandbox PVC, runs an install command, and records
-the entrypoint. Idempotent: re-running with the same files + install command
-short-circuits.</p>
-<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>configure<span class="w"> </span>my-agent<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--file<span class="w"> </span>/workspace/agent.py<span class="o">=</span>./agent.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--file<span class="w"> </span>/workspace/requirements.txt<span class="o">=</span>./requirements.txt<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--install<span class="w"> </span><span class="s2">&quot;pip install -r /workspace/requirements.txt&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--entrypoint<span class="w"> </span><span class="s2">&quot;python /workspace/agent.py&quot;</span>
-</code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Flag</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--file path=local-path</code></td>
-<td>Upload a file. Repeatable. Binary files auto-base64.</td>
-</tr>
-<tr>
-<td><code>--install "..."</code></td>
-<td>Argv string for the install command. Whitespace-split.</td>
-</tr>
-<tr>
-<td><code>--entrypoint "..."</code></td>
-<td>Argv string for the agent entrypoint. Whitespace-split.</td>
-</tr>
-</tbody>
-</table>
-<p>Install logs stream live to stdout / stderr. Exits 0 on success, 1 if the
-install exited non-zero.</p>
-<h3 id="agenttier-invoke-sandbox-id"><code>agenttier invoke &lt;sandbox-id&gt;</code><a class="headerlink" href="#agenttier-invoke-sandbox-id" title="Permanent link">&para;</a></h3>
-<p>Runs the configured entrypoint and streams its output. The CLI exits with
-the same exit code as the entrypoint, so you can compose it in shell
-pipelines.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Inline prompt</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;what&#39;s the weather?&quot;</span>
+<span class="c1"># Take a clone of an existing sandbox</span>
+<span class="n">clone</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">sandboxes</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span>
+    <span class="s2">&quot;my-sandbox&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my-sandbox-fork&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clone</span><span class="o">.</span><span class="n">snapshot</span><span class="p">)</span>  <span class="c1"># the VolumeSnapshot name</span>
 
-<span class="c1"># JSON body fed to the entrypoint on stdin</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span><span class="s1">&#39;{&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;hi&quot;}]}&#39;</span>
-
-<span class="c1"># Body from a file</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span>@./request.json
-
-<span class="c1"># Body from this shell&#39;s stdin</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;from a pipe&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--input<span class="w"> </span>-
-
-<span class="c1"># Cap the per-invoke timeout (overrides the template&#39;s defaultInvokeTimeout)</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span>--timeout<span class="w"> </span>5m
-
-<span class="c1"># Cancel an in-flight invoke (use the invokeId printed at the top of the stream)</span>
-agenttier<span class="w"> </span>invoke<span class="w"> </span>my-agent<span class="w"> </span>--cancel<span class="w"> </span>inv-abc123
+<span class="c1"># Wait for the clone to be Running</span>
+<span class="n">client</span><span class="o">.</span><span class="n">sandboxes</span><span class="o">.</span><span class="n">wait_until_running</span><span class="p">(</span><span class="n">clone</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
 </code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Flag</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--prompt "..."</code></td>
-<td>Convenience: appended as <code>--prompt=&lt;value&gt;</code> to argv and fed to stdin if <code>--input</code> is empty.</td>
-</tr>
-<tr>
-<td><code>--input STR</code></td>
-<td>Body forwarded to the entrypoint on stdin. Inline string, <code>@/path</code> for a file, <code>-</code> for the CLI's own stdin.</td>
-</tr>
-<tr>
-<td><code>--timeout DURATION</code></td>
-<td>Server-side per-invoke timeout (Go duration string like <code>5m</code>).</td>
-</tr>
-<tr>
-<td><code>--cancel ID</code></td>
-<td>Cancel an in-flight invoke instead of starting a new one.</td>
-</tr>
-</tbody>
-</table>
-<p>Stdout from the entrypoint goes to your stdout, stderr to your stderr, and a
-small status line ("<code>invoke started: inv-...</code>", "<code>invoke completed: exit 0</code>")
-to stderr — so <code>agenttier invoke ... &gt; out.txt 2&gt;/dev/null</code> cleanly captures
-just the agent's output.</p>
-<h2 id="why-use-the-cli-vs-kubectl-or-the-sdk">Why use the CLI vs <code>kubectl</code> or the SDK?<a class="headerlink" href="#why-use-the-cli-vs-kubectl-or-the-sdk" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>Best for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>agenttier</code> CLI</td>
-<td>Quick one-off commands, shell scripting, CI jobs.</td>
-</tr>
-<tr>
-<td><code>kubectl</code> on CRDs</td>
-<td>GitOps, bulk operations, combining with other Kubernetes tooling.</td>
-</tr>
-<tr>
-<td>Python SDK</td>
-<td>Building tools, orchestrating multiple sandboxes, embedding into an agent framework.</td>
-</tr>
-<tr>
-<td>Web UI</td>
-<td>Humans exploring and debugging sandboxes.</td>
-</tr>
-</tbody>
-</table>
-<p>All four drive the same Router API and CRDs, so they are interchangeable at
-any point — pick the right shape for the task.</p>
+<p>CLI:</p>
+<div class="highlight"><pre><span></span><code>agenttier<span class="w"> </span>sandbox<span class="w"> </span>clone<span class="w"> </span>my-sandbox<span class="w"> </span>--name<span class="w"> </span>my-sandbox-fork
+</code></pre></div>
 
 
 
