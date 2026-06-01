@@ -933,6 +933,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#enforcement-everywhere-the-admission-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcement everywhere: the admission webhook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#violations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1489,6 +1500,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#enforcement-everywhere-the-admission-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcement everywhere: the admission webhook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#violations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1643,6 +1665,21 @@ and restores the cluster default.</p>
 <li>Maximum 200 files per request (<code>configureFileMaxCount</code>).</li>
 </ul>
 <p>A request that violates any of these returns HTTP 403 with the same <code>policy_violation</code> shape and a <code>ConfigureDenied</code> Kubernetes event on the sandbox CR. The audit trail makes it easy to see who attempted what and when.</p>
+<h2 id="enforcement-everywhere-the-admission-webhook">Enforcement everywhere: the admission webhook<a class="headerlink" href="#enforcement-everywhere-the-admission-webhook" title="Permanent link">&para;</a></h2>
+<p>By default, governance runs in the Router's <code>POST /sandboxes</code> handler. That covers every create that goes through the API — Web UI, SDK, CLI — but <strong>not</strong> a direct <code>kubectl apply</code> of a Sandbox CR by someone with cluster credentials. A direct write would skip the governance check entirely and could even forge <code>spec.createdBy</code> to impersonate another user.</p>
+<p>The opt-in admission webhook closes that gap. Enable it with:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">optional</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">admissionWebhook</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">failurePolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Fail</span><span class="w">   </span><span class="c1"># fail-closed; &quot;Ignore&quot; trades the bypass guarantee for availability</span>
+</code></pre></div>
+<p>When enabled, the controller serves a <code>MutatingWebhookConfiguration</code> that intercepts every Sandbox CREATE and UPDATE — regardless of who issues it. On create it:</p>
+<ul>
+<li><strong>Overwrites <code>spec.createdBy</code></strong> from the authenticated Kubernetes user in the AdmissionReview, so a forged <code>createdBy</code> in a <code>kubectl apply</code> body is replaced with the real caller's identity.</li>
+<li><strong>Runs the same <code>governance.Check</code></strong> the Router runs, denying over-quota / disallowed-template / disallowed-image creates at admission with a structured message.</li>
+</ul>
+<p>On update it rejects changes to immutable fields (<code>mode</code>, <code>templateRef</code>, <code>cloneFromSnapshot</code>) and to <code>createdBy</code>.</p>
+<p><strong>Requires <a href="https://cert-manager.io">cert-manager</a>.</strong> The chart provisions a self-signed Issuer + Certificate and relies on cert-manager's CA injector to populate the webhook's caBundle. If you don't run cert-manager, leave the webhook disabled — Router-side governance still applies to every create that goes through the API; you only lose enforcement on direct <code>kubectl</code>/GitOps writes.</p>
 <h2 id="violations">Violations<a class="headerlink" href="#violations" title="Permanent link">&para;</a></h2>
 <p>When a create request is rejected the response is HTTP 403 with a structured body:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
@@ -1707,8 +1744,10 @@ the rejection.</p>
 <h2 id="admin-access">Admin access<a class="headerlink" href="#admin-access" title="Permanent link">&para;</a></h2>
 <p>In production, the <code>PUT</code>/<code>DELETE</code> governance endpoints require the <code>isAdmin</code>
 claim, derived from OIDC group membership (<code>auth.oidc.adminGroup</code> in Helm
-values). Dev mode — no OIDC configured — auto-grants admin, so the full
-editing flow is exercised locally without extra setup.</p>
+values). For local development, set <code>auth.devAuth: true</code> to auto-grant admin
+so the full editing flow is exercised without an OIDC provider. Without
+either an OIDC issuer or <code>devAuth</code>, the endpoints reject all requests with
+401 (fail-closed) — a missing issuer no longer silently grants admin.</p>
 
 
 

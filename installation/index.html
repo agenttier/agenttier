@@ -1861,8 +1861,12 @@ helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class=
 </thead>
 <tbody>
 <tr>
+<td><code>auth.devAuth</code></td>
+<td>DANGER. When <code>true</code>, bypasses all auth and treats every request as admin. Local dev only. Default <code>false</code> — a missing OIDC issuer fails closed (401), it does NOT grant anonymous admin.</td>
+</tr>
+<tr>
 <td><code>auth.oidc.issuerUrl</code></td>
-<td>OIDC issuer URL. Empty = dev mode (every request is anonymous admin).</td>
+<td>OIDC issuer URL. Empty + <code>devAuth: false</code> = every API request is rejected with 401.</td>
 </tr>
 <tr>
 <td><code>auth.oidc.clientId</code></td>
@@ -1877,8 +1881,8 @@ helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class=
 <td>JWT claim that carries the user's groups (default <code>groups</code>).</td>
 </tr>
 <tr>
-<td><code>auth.apiKeys</code></td>
-<td>List of accepted API keys (SHA-256 hashed on disk).</td>
+<td><code>auth.apiKeys.enabled</code></td>
+<td>Enable X-API-Key authentication. Keys are minted via <code>POST /user/api-keys</code>, stored as SHA-256 hashes in Secrets, returned in plaintext exactly once.</td>
 </tr>
 </tbody>
 </table>

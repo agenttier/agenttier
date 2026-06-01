@@ -1853,8 +1853,12 @@ PyPI: <a href="https://pypi.org/project/agenttier/">pypi.org/project/agenttier</
 <ol>
 <li><code>AGENTTIER_API_KEY</code> env var → sent as <code>X-API-Key</code>.</li>
 <li><code>AGENTTIER_TOKEN</code> env var → sent as <code>Authorization: Bearer &lt;token&gt;</code> (OIDC JWT).</li>
-<li>In-cluster ServiceAccount token at <code>/var/run/secrets/kubernetes.io/serviceaccount/token</code>.</li>
-<li>Unauthenticated — accepted only in the Router's dev mode.</li>
+<li>
+<p>In-cluster ServiceAccount token at <code>/var/run/secrets/kubernetes.io/serviceaccount/token</code>.</p>
+</li>
+<li>
+<p>Unauthenticated — accepted only when the Router is explicitly run with <code>--dev-auth</code> (Helm <code>auth.devAuth: true</code>). A Router with no OIDC issuer and no dev-auth rejects unauthenticated calls with 401.</p>
+</li>
 </ol>
 <p>Or pass an explicit provider:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">agenttier</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentTierClient</span><span class="p">,</span> <span class="n">APIKeyAuth</span><span class="p">,</span> <span class="n">BearerTokenAuth</span>
