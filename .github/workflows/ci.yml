@@ -195,7 +195,7 @@ jobs:
       # that got committed. Complements GitHub's own secret scanning by
       # checking newly-added files in PRs.
       - name: gitleaks
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Exit 0 even on findings; treat as advisory.
