@@ -6,7 +6,7 @@ toolchain go1.22.12
 
 require (
 	github.com/creack/pty v1.1.24
-	github.com/evanphx/json-patch/v5 v5.9.0
+	github.com/evanphx/json-patch/v5 v5.9.11
 	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/websocket v1.5.3
 	github.com/kubernetes-csi/external-snapshotter/client/v6 v6.3.0
