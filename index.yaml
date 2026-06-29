@@ -2,8 +2,56 @@ apiVersion: v1
 entries:
   agenttier:
   - apiVersion: v2
+    appVersion: 0.7.0
+    created: "2026-06-29T14:03:40.675764494Z"
+    description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
+      agents.
+    digest: 390cd81ea32455045ca403c5ccf870a9ec6fddf493b34839b9c69b30721d676b
+    home: https://github.com/agenttier/agenttier
+    icon: https://raw.githubusercontent.com/agenttier/agenttier/main/docs/logo.png
+    keywords:
+    - kubernetes
+    - operator
+    - sandbox
+    - ai-agents
+    - developer-tools
+    maintainers:
+    - name: AgentTier Authors
+      url: https://github.com/agenttier
+    name: agenttier
+    sources:
+    - https://github.com/agenttier/agenttier
+    type: application
+    urls:
+    - https://agenttier.github.io/agenttier/agenttier-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v2
+    appVersion: 0.7.0
+    created: "2026-06-29T14:03:40.690364389Z"
+    description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
+      agents.
+    digest: 390cd81ea32455045ca403c5ccf870a9ec6fddf493b34839b9c69b30721d676b
+    home: https://github.com/agenttier/agenttier
+    icon: https://raw.githubusercontent.com/agenttier/agenttier/main/docs/logo.png
+    keywords:
+    - kubernetes
+    - operator
+    - sandbox
+    - ai-agents
+    - developer-tools
+    maintainers:
+    - name: AgentTier Authors
+      url: https://github.com/agenttier
+    name: agenttier
+    sources:
+    - https://github.com/agenttier/agenttier
+    type: application
+    urls:
+    - https://agenttier.github.io/agenttier/charts/agenttier-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v2
     appVersion: 0.6.5
-    created: "2026-06-29T05:55:52.451489619Z"
+    created: "2026-06-29T14:03:40.689179065Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 1a68028383e06208c9b2a6f6ded17f62417fe8ac18e68e51eef4029fb82f8e41
@@ -27,7 +75,7 @@ entries:
     version: 0.6.5
   - apiVersion: v2
     appVersion: 0.6.5
-    created: "2026-06-29T05:55:52.439484964Z"
+    created: "2026-06-29T14:03:40.673426252Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 1a68028383e06208c9b2a6f6ded17f62417fe8ac18e68e51eef4029fb82f8e41
@@ -51,7 +99,7 @@ entries:
     version: 0.6.5
   - apiVersion: v2
     appVersion: 0.6.0
-    created: "2026-06-29T05:55:52.450263439Z"
+    created: "2026-06-29T14:03:40.687965458Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 3ddad3312612d83b69909fee33e33cb304bbc972bea91a6807cf476149a227e4
@@ -75,7 +123,7 @@ entries:
     version: 0.6.0
   - apiVersion: v2
     appVersion: 0.6.0
-    created: "2026-06-29T05:55:52.43826965Z"
+    created: "2026-06-29T14:03:40.671598098Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 3ddad3312612d83b69909fee33e33cb304bbc972bea91a6807cf476149a227e4
@@ -99,7 +147,7 @@ entries:
     version: 0.6.0
   - apiVersion: v2
     appVersion: 0.5.5
-    created: "2026-06-29T05:55:52.44905097Z"
+    created: "2026-06-29T14:03:40.686722817Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 9ded65a6243de28ebeaace5136562bf9f680c4d64c6e8072dbde05961388a63b
@@ -123,7 +171,7 @@ entries:
     version: 0.5.5
   - apiVersion: v2
     appVersion: 0.5.5
-    created: "2026-06-29T05:55:52.437062893Z"
+    created: "2026-06-29T14:03:40.670365165Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 9ded65a6243de28ebeaace5136562bf9f680c4d64c6e8072dbde05961388a63b
@@ -147,7 +195,7 @@ entries:
     version: 0.5.5
   - apiVersion: v2
     appVersion: 0.5.0
-    created: "2026-06-29T05:55:52.447868263Z"
+    created: "2026-06-29T14:03:40.685517957Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 375caffa5a5b2dea9e0ae6ddb321ede0919ba5fbcb756864ea8fd2c4e1a1fb6a
@@ -171,7 +219,7 @@ entries:
     version: 0.5.0
   - apiVersion: v2
     appVersion: 0.5.0
-    created: "2026-06-29T05:55:52.435922012Z"
+    created: "2026-06-29T14:03:40.669152971Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 375caffa5a5b2dea9e0ae6ddb321ede0919ba5fbcb756864ea8fd2c4e1a1fb6a
@@ -195,7 +243,7 @@ entries:
     version: 0.5.0
   - apiVersion: v2
     appVersion: 0.4.1
-    created: "2026-06-29T05:55:52.445803515Z"
+    created: "2026-06-29T14:03:40.683639056Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 2a116b5622579b8c41ed7e0413d075835ff4a3afbe769530453087c1a9974dd7
@@ -219,7 +267,7 @@ entries:
     version: 0.4.1
   - apiVersion: v2
     appVersion: 0.4.1
-    created: "2026-06-29T05:55:52.434908189Z"
+    created: "2026-06-29T14:03:40.667973298Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 2a116b5622579b8c41ed7e0413d075835ff4a3afbe769530453087c1a9974dd7
@@ -243,31 +291,7 @@ entries:
     version: 0.4.1
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2026-06-29T05:55:52.444803278Z"
-    description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
-      agents.
-    digest: 565281600b50938ae6684a34e73fb7496fbf27450ec2811ace394a1f0b90a63c
-    home: https://github.com/agenttier/agenttier
-    icon: https://raw.githubusercontent.com/agenttier/agenttier/main/docs/logo.png
-    keywords:
-    - kubernetes
-    - operator
-    - sandbox
-    - ai-agents
-    - developer-tools
-    maintainers:
-    - name: AgentTier Authors
-      url: https://github.com/agenttier
-    name: agenttier
-    sources:
-    - https://github.com/agenttier/agenttier
-    type: application
-    urls:
-    - https://agenttier.github.io/agenttier/charts/agenttier-0.4.0.tgz
-    version: 0.4.0
-  - apiVersion: v2
-    appVersion: 0.4.0
-    created: "2026-06-29T05:55:52.43383728Z"
+    created: "2026-06-29T14:03:40.666945789Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 565281600b50938ae6684a34e73fb7496fbf27450ec2811ace394a1f0b90a63c
@@ -290,11 +314,11 @@ entries:
     - https://agenttier.github.io/agenttier/agenttier-0.4.0.tgz
     version: 0.4.0
   - apiVersion: v2
-    appVersion: 0.3.5
-    created: "2026-06-29T05:55:52.432033761Z"
+    appVersion: 0.4.0
+    created: "2026-06-29T14:03:40.682300436Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
-    digest: 4d6303515d2d7d0b56745867d2a452e00d5bb20562decb14ed3253d5e6b11053
+    digest: 565281600b50938ae6684a34e73fb7496fbf27450ec2811ace394a1f0b90a63c
     home: https://github.com/agenttier/agenttier
     icon: https://raw.githubusercontent.com/agenttier/agenttier/main/docs/logo.png
     keywords:
@@ -311,11 +335,11 @@ entries:
     - https://github.com/agenttier/agenttier
     type: application
     urls:
-    - https://agenttier.github.io/agenttier/agenttier-0.3.5.tgz
-    version: 0.3.5
+    - https://agenttier.github.io/agenttier/charts/agenttier-0.4.0.tgz
+    version: 0.4.0
   - apiVersion: v2
     appVersion: 0.3.5
-    created: "2026-06-29T05:55:52.443839494Z"
+    created: "2026-06-29T14:03:40.681214929Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 4d6303515d2d7d0b56745867d2a452e00d5bb20562decb14ed3253d5e6b11053
@@ -338,8 +362,32 @@ entries:
     - https://agenttier.github.io/agenttier/charts/agenttier-0.3.5.tgz
     version: 0.3.5
   - apiVersion: v2
+    appVersion: 0.3.5
+    created: "2026-06-29T14:03:40.665609716Z"
+    description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
+      agents.
+    digest: 4d6303515d2d7d0b56745867d2a452e00d5bb20562decb14ed3253d5e6b11053
+    home: https://github.com/agenttier/agenttier
+    icon: https://raw.githubusercontent.com/agenttier/agenttier/main/docs/logo.png
+    keywords:
+    - kubernetes
+    - operator
+    - sandbox
+    - ai-agents
+    - developer-tools
+    maintainers:
+    - name: AgentTier Authors
+      url: https://github.com/agenttier
+    name: agenttier
+    sources:
+    - https://github.com/agenttier/agenttier
+    type: application
+    urls:
+    - https://agenttier.github.io/agenttier/agenttier-0.3.5.tgz
+    version: 0.3.5
+  - apiVersion: v2
     appVersion: 0.3.0
-    created: "2026-06-29T05:55:52.443106077Z"
+    created: "2026-06-29T14:03:40.68031611Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: cfffa99cd0949aba572248a0686ff920e7546c64fe94206b11013b3a8472cb81
@@ -363,7 +411,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 0.3.0
-    created: "2026-06-29T05:55:52.431262855Z"
+    created: "2026-06-29T14:03:40.663658084Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: cfffa99cd0949aba572248a0686ff920e7546c64fe94206b11013b3a8472cb81
@@ -387,7 +435,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 0.2.2
-    created: "2026-06-29T05:55:52.442385418Z"
+    created: "2026-06-29T14:03:40.679175134Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 26cccfb0b20dee766ae86220d84cfd71f000e479eede9d6e2887c5e49f6bb139
@@ -411,7 +459,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 0.2.2
-    created: "2026-06-29T05:55:52.430522116Z"
+    created: "2026-06-29T14:03:40.662327468Z"
     description: Enterprise-grade Kubernetes-native sandboxes — for humans and AI
       agents.
     digest: 26cccfb0b20dee766ae86220d84cfd71f000e479eede9d6e2887c5e49f6bb139
@@ -435,7 +483,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2026-06-29T05:55:52.441676987Z"
+    created: "2026-06-29T14:03:40.677898339Z"
     description: Enterprise-grade Kubernetes operator for isolated, persistent sandboxes
       — for humans and AI agents.
     digest: 4e36a5b570c8c1a03b6529035487f2f24c2ba0e2250ec89d2ca4d475685df8c5
@@ -459,7 +507,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 0.2.0
-    created: "2026-06-29T05:55:52.429818532Z"
+    created: "2026-06-29T14:03:40.661142385Z"
     description: Enterprise-grade Kubernetes operator for isolated, persistent sandboxes
       — for humans and AI agents.
     digest: 4e36a5b570c8c1a03b6529035487f2f24c2ba0e2250ec89d2ca4d475685df8c5
@@ -483,7 +531,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-06-29T05:55:52.44101884Z"
+    created: "2026-06-29T14:03:40.676707896Z"
     description: Enterprise-grade Kubernetes operator for managing isolated, persistent
       sandboxes for AI agents
     digest: 75a0795b2a0eb1c69d4ba1b7bced8a1649c89b4910005045f9a2f3bb15c6db79
@@ -507,7 +555,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.1
-    created: "2026-06-29T05:55:52.429160837Z"
+    created: "2026-06-29T14:03:40.660039085Z"
     description: Enterprise-grade Kubernetes operator for managing isolated, persistent
       sandboxes for AI agents
     digest: 75a0795b2a0eb1c69d4ba1b7bced8a1649c89b4910005045f9a2f3bb15c6db79
@@ -531,7 +579,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2026-06-29T05:55:52.428517524Z"
+    created: "2026-06-29T14:03:40.659075365Z"
     description: Enterprise-grade Kubernetes operator for managing isolated, persistent
       sandboxes for AI agents
     digest: c05250bde00a61471dffa865b65fdb913c512c52e50b7f04dba57e9a697a3248
@@ -553,4 +601,4 @@ entries:
     urls:
     - https://agenttier.github.io/agenttier/agenttier-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-29T05:55:52.427776931Z"
+generated: "2026-06-29T14:03:40.658042075Z"
