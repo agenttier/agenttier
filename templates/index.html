@@ -913,6 +913,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per-sandbox-cloud-identity-serviceaccount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-sandbox cloud identity (serviceAccount)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1508,6 +1525,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per-sandbox-cloud-identity-serviceaccount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-sandbox cloud identity (serviceAccount)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1681,6 +1715,19 @@ depth is capped at 10 to prevent loops.</p>
 <span class="w">      </span><span class="nt">envPrefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OPENAI_</span>
 </code></pre></div>
 <p><code>mountAs: env</code> exposes every key in the Secret as an env var (with the optional <code>envPrefix</code> prepended). <code>mountAs: file</code> mounts the Secret as a read-only volume at <code>mountPath</code>. Combine with IRSA on EKS for AWS-native flows like Bedrock — annotate the sandbox ServiceAccount with the role ARN and skip <code>credentials</code> for AWS calls entirely.</p>
+<h3 id="per-sandbox-cloud-identity-serviceaccount">Per-sandbox cloud identity (<code>serviceAccount</code>)<a class="headerlink" href="#per-sandbox-cloud-identity-serviceaccount" title="Permanent link">&para;</a></h3>
+<p>Set <code>spec.serviceAccount</code> on a template (or on an individual sandbox, which
+overrides the template) to run every sandbox under a specific Kubernetes
+ServiceAccount — typically one annotated for EKS IRSA or GKE Workload
+Identity. This gives each template's sandboxes a distinct, scoped cloud
+identity instead of sharing the namespace default ServiceAccount:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">serviceAccount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bedrock-reader</span><span class="w">   </span><span class="c1"># must already exist in the sandbox namespace</span>
+</code></pre></div>
+<p>The ServiceAccount must already exist in the namespace where sandboxes are
+created. When unset, the Pod uses the namespace default ServiceAccount
+(prior behavior). This is the recommended way to give different teams or
+templates separate AWS/GCP credentials.</p>
 <p>Agent-mode sandboxes use the same <code>credentials</code> block; nothing special is required for <code>/invoke</code> to inherit them. See <a href="../agent-mode/#memory-model-providers-secrets">agent-mode.md</a> for the canonical patterns.</p>
 <h2 id="managing-templates">Managing templates<a class="headerlink" href="#managing-templates" title="Permanent link">&para;</a></h2>
 <ul>
