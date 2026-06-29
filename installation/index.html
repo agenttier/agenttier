@@ -1980,9 +1980,13 @@ helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class=
 <td><code>warmPool.template</code></td>
 <td>Template the warm Pods use.</td>
 </tr>
+<tr>
+<td><code>defaults.sandboxNamespace</code></td>
+<td>Namespace where Sandboxes (and therefore warm pool Pods + PVCs) are created. Defaults to <code>default</code>. Must match where the Router creates Sandboxes — a claimed pool Pod is reused in place and can't move namespaces.</td>
+</tr>
 </tbody>
 </table>
-<p>The Settings page in the Web UI mutates the same values via the <code>agenttier-warmpool-config</code> ConfigMap, so admins can retune without redeploying the chart.</p>
+<p>The Settings page in the Web UI mutates the same values via the <code>agenttier-warmpool-config</code> ConfigMap, so admins can retune without redeploying the chart. The pool's configuration lives in the install namespace, but the idle Pods themselves are provisioned in <code>defaults.sandboxNamespace</code> so a claimed Pod can be handed directly to a new Sandbox.</p>
 <h3 id="optional-add-ons">Optional add-ons<a class="headerlink" href="#optional-add-ons" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
