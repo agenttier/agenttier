@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/observability/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/performance/">
       
       
-        <link rel="prev" href="../performance/">
+        <link rel="prev" href="../storage/">
       
       
-        <link rel="next" href="../troubleshooting/">
+        <link rel="next" href="../observability/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Observability - AgentTier</title>
+        <title>Performance - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#observability" class="md-skip">
+        <a href="#performance-and-regression-guards" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Observability
+              Performance
             
           </span>
         </div>
@@ -1368,34 +1368,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../performance/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Performance
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -1415,7 +1387,7 @@
   <span class="md-ellipsis">
     
   
-    Observability
+    Performance
   
 
     
@@ -1433,7 +1405,7 @@
   <span class="md-ellipsis">
     
   
-    Observability
+    Performance
   
 
     
@@ -1459,10 +1431,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
+  <a href="#budgets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick start: turn on traces
+        Budgets
       
     </span>
   </a>
@@ -1470,49 +1442,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
+  <a href="#bundle-size-gate-enforced-in-ci" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
+        Bundle-size gate (enforced in CI)
       
     </span>
   </a>
@@ -1520,10 +1453,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
+  <a href="#cold-vs-warm-start-hackperf-smokesh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Logs with trace correlation
+        Cold vs. warm start (hack/perf-smoke.sh)
       
     </span>
   </a>
@@ -1531,10 +1464,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
+  <a href="#load-saturation-hackload-testsh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Metrics
+        Load / saturation (hack/load-test.sh)
       
     </span>
   </a>
@@ -1542,21 +1475,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
+  <a href="#reference-numbers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
+        Reference numbers
       
     </span>
   </a>
@@ -1567,6 +1489,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1634,10 +1584,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
+  <a href="#budgets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick start: turn on traces
+        Budgets
       
     </span>
   </a>
@@ -1645,49 +1595,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
+  <a href="#bundle-size-gate-enforced-in-ci" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
+        Bundle-size gate (enforced in CI)
       
     </span>
   </a>
@@ -1695,10 +1606,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
+  <a href="#cold-vs-warm-start-hackperf-smokesh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Logs with trace correlation
+        Cold vs. warm start (hack/perf-smoke.sh)
       
     </span>
   </a>
@@ -1706,10 +1617,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
+  <a href="#load-saturation-hackload-testsh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Metrics
+        Load / saturation (hack/load-test.sh)
       
     </span>
   </a>
@@ -1717,21 +1628,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
+  <a href="#reference-numbers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
+        Reference numbers
       
     </span>
   </a>
@@ -1755,7 +1655,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/observability.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/performance.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1763,99 +1663,105 @@
   
 
 
-<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h1>
-<p>AgentTier ships built-in observability across three signals — <strong>traces</strong> (OpenTelemetry/OTLP), <strong>metrics</strong> (Prometheus), and <strong>structured logs</strong> (slog JSON with trace correlation). All three are off-by-default with a single Helm flag to opt in.</p>
-<h2 id="quick-start-turn-on-traces">Quick start: turn on traces<a class="headerlink" href="#quick-start-turn-on-traces" title="Permanent link">&para;</a></h2>
-<p>The shortest path to a trace pipeline that works without any external infrastructure is to enable the in-cluster OTel Collector that ships with the chart:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>./helm/agenttier/<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>observability.otelCollector.enabled<span class="o">=</span><span class="nb">true</span>
+<h1 id="performance-and-regression-guards">Performance and regression guards<a class="headerlink" href="#performance-and-regression-guards" title="Permanent link">&para;</a></h1>
+<p>AgentTier commits to a small set of performance budgets. This page states them,
+shows how to measure them, and describes the guard that keeps the Web UI bundle
+from regressing silently.</p>
+<h2 id="budgets">Budgets<a class="headerlink" href="#budgets" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Budget</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cold sandbox start (no warm pool)</td>
+<td>≤ 10 s</td>
+<td>A <code>kubectl apply</code> / API create to a usable <code>Running</code> sandbox.</td>
+</tr>
+<tr>
+<td>Warm sandbox start (warm pool hit)</td>
+<td>≤ 1 s</td>
+<td>A pre-provisioned pool pod is claimed in place.</td>
+</tr>
+<tr>
+<td>Web UI JS bundle</td>
+<td>≤ 750 KB minified</td>
+<td>Keeps first paint fast; enforced in CI.</td>
+</tr>
+<tr>
+<td>Reconciler queue depth (steady state)</td>
+<td>~0</td>
+<td>A queue sitting &gt; 0 for more than a few seconds is a controller bug, not load.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bundle-size-gate-enforced-in-ci">Bundle-size gate (enforced in CI)<a class="headerlink" href="#bundle-size-gate-enforced-in-ci" title="Permanent link">&para;</a></h2>
+<p>The CI <code>build</code> job runs <code>hack/check-bundle-size.sh</code> after <code>npm run build</code> and
+<strong>fails the build</strong> if the emitted Vite JS exceeds 750 KB. Run it locally the
+same way:</p>
+<div class="highlight"><pre><span></span><code><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>web-ui<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>ci<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>run<span class="w"> </span>build<span class="o">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>hack/check-bundle-size.sh
 </code></pre></div>
-<p>That gives you:</p>
-<ul>
-<li>An <code>agenttier-otel-collector</code> Deployment listening on OTLP gRPC <code>:4317</code> and OTLP HTTP <code>:4318</code>.</li>
-<li>The router and controller automatically pointing <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> at the collector's ClusterIP service. No env-var wiring needed.</li>
-<li>A <code>debug</code> exporter on the collector that prints incoming spans to its container logs — handy for verifying the pipeline before you wire up a real backend.</li>
-</ul>
-<p>Verify traces are flowing:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>deployment/agenttier-otel-collector<span class="w"> </span>--tail<span class="o">=</span><span class="m">20</span>
+<p>Override the limit deliberately with <code>BUNDLE_LIMIT_KB=…</code> (and write down why).
+If you blow the budget, split the heavy feature behind a dynamic <code>import()</code>
+rather than raising the ceiling.</p>
+<h2 id="cold-vs-warm-start-hackperf-smokesh">Cold vs. warm start (<code>hack/perf-smoke.sh</code>)<a class="headerlink" href="#cold-vs-warm-start-hackperf-smokesh" title="Permanent link">&para;</a></h2>
+<p>Measures p50/p99 time-to-<code>Running</code> against a live cluster (kind or the e2e
+cluster). Run it twice to compare:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Cold: ensure the template&#39;s warm pool is at 0, then:</span>
+<span class="nv">COUNT</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">NS</span><span class="o">=</span>agenttier<span class="w"> </span><span class="nv">TEMPLATE</span><span class="o">=</span>general-coding<span class="w"> </span>hack/perf-smoke.sh
+
+<span class="c1"># Warm: pre-warm the pool (Web UI Settings → warm pools, or the warmpool API),</span>
+<span class="c1"># wait for the pool to report Ready, then run the same command.</span>
 </code></pre></div>
-<p>You should see one or more <code>Resource SchemaURL</code> blocks per span with attributes like <code>service.name=agenttier-router</code> and span names like <code>router.GET</code> or <code>agenttier.invoke</code>.</p>
-<h2 id="pointing-at-your-own-backend">Pointing at your own backend<a class="headerlink" href="#pointing-at-your-own-backend" title="Permanent link">&para;</a></h2>
-<p>Most production deployments want to ship spans to a real backend. Two paths:</p>
-<h3 id="path-a-replace-the-bundled-collectors-exporter">Path A — replace the bundled collector's exporter<a class="headerlink" href="#path-a-replace-the-bundled-collectors-exporter" title="Permanent link">&para;</a></h3>
-<p>Append a vendor-specific exporter via <code>observability.otelCollector.extraConfig</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">extraConfig</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">exporters:</span>
-<span class="w">        </span><span class="no">otlphttp/honeycomb:</span>
-<span class="w">          </span><span class="no">endpoint: https://api.honeycomb.io</span>
-<span class="w">          </span><span class="no">headers:</span>
-<span class="w">            </span><span class="no">x-honeycomb-team: ${HONEYCOMB_API_KEY}</span>
-<span class="w">      </span><span class="no">service:</span>
-<span class="w">        </span><span class="no">pipelines:</span>
-<span class="w">          </span><span class="no">traces:</span>
-<span class="w">            </span><span class="no">exporters: [debug, otlphttp/honeycomb]</span>
+<p>It prints p50/p99/max and cleans up the sandboxes it created. The warm number
+should land sub-second when a pool pod is claimed; the cold number is dominated
+by image pull + pod scheduling and should stay within the 10 s budget on a
+warm-image node.</p>
+<h2 id="load-saturation-hackload-testsh">Load / saturation (<code>hack/load-test.sh</code>)<a class="headerlink" href="#load-saturation-hackload-testsh" title="Permanent link">&para;</a></h2>
+<p>Drives the Router API with <a href="https://github.com/rakyll/hey"><code>hey</code></a> to exercise
+the opt-in rate limiter and find where a single Router replica saturates:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>port-forward<span class="w"> </span>svc/agenttier-router<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
+<span class="nv">BASE</span><span class="o">=</span>http://localhost:8080<span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span>&lt;api-key&gt;<span class="w"> </span><span class="nv">N</span><span class="o">=</span><span class="m">1000</span><span class="w"> </span><span class="nv">C</span><span class="o">=</span><span class="m">50</span><span class="w"> </span>hack/load-test.sh
 </code></pre></div>
-<p>The <code>debug</code> exporter stays attached so you can keep tailing collector logs while real traffic flows to Honeycomb.</p>
-<h3 id="path-b-bypass-the-bundled-collector-entirely">Path B — bypass the bundled collector entirely<a class="headerlink" href="#path-b-bypass-the-bundled-collector-entirely" title="Permanent link">&para;</a></h3>
-<p>If you already run a cluster-wide collector (or a vendor agent like the Datadog agent), point AgentTier at it directly and skip our collector:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-collector.observability.svc.cluster.local:4317</span>
-<span class="w">    </span><span class="nt">insecure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</code></pre></div>
-<p>When <code>otlp.endpoint</code> is set explicitly it always wins over the bundled collector, so you can leave both knobs untouched and override at the namespace level later.</p>
-<h2 id="span-shape">Span shape<a class="headerlink" href="#span-shape" title="Permanent link">&para;</a></h2>
-<p>Every HTTP request to the router gets a server span named <code>router.&lt;method&gt;</code> (e.g. <code>router.GET</code>, <code>router.POST</code>). Health probes (<code>/healthz</code>, <code>/readyz</code>, <code>/metrics</code>) and WebSocket upgrades are excluded — they would otherwise dominate span volume without carrying any signal.</p>
-<p>Agent-mode operations have their own bounded-cardinality spans:</p>
-<ul>
-<li><strong><code>agenttier.invoke</code></strong> — one span per <code>/invoke</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>bytes_stdout</code>, <code>bytes_stderr</code>.</li>
-<li><strong><code>agenttier.configure</code></strong> — one span per <code>/configure</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>install_command_hash</code>.</li>
-</ul>
-<p>The controller emits a span per reconcile:</p>
-<ul>
-<li><strong><code>controller.reconcile_sandbox</code></strong> — one span each time the controller reconciles a Sandbox. Attributes: <code>sandbox.name</code>, <code>sandbox.namespace</code>, <code>sandbox.phase</code>; the span records an error and sets an error status when the reconcile fails. Combined with the router's request spans, a single sandbox can be traced end-to-end across the API call, the reconcile, and the pod.</li>
-</ul>
-<p><code>actor_hash</code> is a stable, non-reversible 8-character SHA-256 prefix of the OIDC <code>sub</code> claim. The raw subject <strong>never</strong> leaves the process. This satisfies GDPR / SOC2 controls in third-party trace stores while still letting an operator group spans by user within an investigation window.</p>
-<h2 id="logs-with-trace-correlation">Logs with trace correlation<a class="headerlink" href="#logs-with-trace-correlation" title="Permanent link">&para;</a></h2>
-<p>The router and controller emit slog JSON to stdout. When a request is in flight under an active span, every log line picks up two extra fields: <code>trace_id</code> and <code>span_id</code>. That means a single trace ID — copied from the OTel UI or pulled from the response's <code>traceparent</code> header — pivots straight to the matching log lines.</p>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-28T18:30:14.13Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;request&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v1/sandboxes/sb-1/invoke&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1247</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9b3e1f2a8c4d5e6f7a8b9c0d1e2f3a4b&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;span_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1a2b3c4d5e6f7a8b&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>When the process boots without an OTLP exporter (the default), spans are still recorded but never flushed — so the <code>trace_id</code> field above is omitted unless you explicitly set <code>OTEL_EXPORTER_OTLP_ENDPOINT</code>.</p>
-<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
-<p>The Prometheus <code>/metrics</code> endpoint is always on. The router exposes:</p>
-<ul>
-<li><strong><code>agenttier_invoke_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_invoke_duration_seconds{template, outcome}</code></strong> — histogram (0.5s..~34min)</li>
-<li><strong><code>agenttier_invoke_throttled_total</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_duration_seconds{template, outcome}</code></strong> — histogram (0.1s..~7min)</li>
-</ul>
-<p>Plus controller-runtime's standard reconciler metrics on the controller's <code>:8081/metrics</code>.</p>
-<p>To register these with the Prometheus Operator (when installed), set <code>observability.prometheus.serviceMonitor=true</code>. The chart then renders ServiceMonitors for the router and (when enabled) the OTel collector's self-metrics endpoint.</p>
-<h2 id="recommended-dashboards">Recommended dashboards<a class="headerlink" href="#recommended-dashboards" title="Permanent link">&para;</a></h2>
-<p>A starter Grafana dashboard for the metrics above lives in <a href="https://github.com/agenttier/agenttier"><code>hack/dashboards/agenttier.json</code></a> (placeholder; not yet checked in). Until that lands, the per-template invoke duration histogram is usually the single most useful panel — it surfaces latency regressions before they hit error rates.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>No spans in the collector logs</strong> — confirm <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set on the router and controller pods (<code>kubectl describe pod -n agenttier &lt;router-pod&gt; | grep OTEL</code>). When the env var is empty, the SDK installs a <code>NeverSample</code> provider that drops spans cheaply.</li>
-<li><strong>Spans show up but aren't reaching my backend</strong> — tail the collector logs (<code>kubectl logs -n agenttier deployment/agenttier-otel-collector</code>). The collector logs every export failure, and the <code>debug</code> exporter (left attached by default) prints what arrived in case the issue is upstream of the collector.</li>
-<li><strong><code>Connection refused</code> errors at startup</strong> — the router and controller fail closed if <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set but the collector isn't reachable. Either bring the collector up first, leave the env var empty during initial install, or set <code>observability.otelCollector.enabled=true</code> so the chart's manifest order brings the collector up alongside the rest of the install.</li>
-</ul>
+<p>A burst of <code>429</code>s confirms the rate limiter engaging (when enabled); p99 latency
+climbing sharply as concurrency rises is the signal that the single Router
+replica is the bottleneck — the data point that justifies and sizes a
+multi-replica / HPA rollout.</p>
+<h2 id="reference-numbers">Reference numbers<a class="headerlink" href="#reference-numbers" title="Permanent link">&para;</a></h2>
+<p>These are indicative measurements on the <code>agentloft-e2e</code> cluster (2× t3.large,
+EKS 1.30); reproduce with the scripts above on your own cluster.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>p50</th>
+<th>p99</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Warm-pool claim (<code>general-coding</code>)</td>
+<td>~0.8 s</td>
+<td>~1.0 s</td>
+</tr>
+<tr>
+<td>Cold start, image already on node</td>
+<td>~6 s</td>
+<td>~9 s</td>
+</tr>
+<tr>
+<td>Cold start, image pull required</td>
+<td>dominated by pull</td>
+<td>dominated by pull</td>
+</tr>
+</tbody>
+</table>
+<p>Numbers are tracked over time so a regression (a heavy init step, a bundle
+blow-up) shows up against this baseline rather than going unnoticed.</p>
 
 
 

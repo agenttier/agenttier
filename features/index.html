@@ -915,6 +915,8 @@
       
         
       
+        
+      
     
     
     
@@ -1081,6 +1083,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and restore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../agent-mode/" class="md-nav__link">
         
   
@@ -1145,6 +1175,8 @@
   
     
     
+      
+        
       
         
       
@@ -1283,6 +1315,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1298,6 +1358,12 @@
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -1389,6 +1455,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../gvisor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gVisor sandboxing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../scaling/" class="md-nav__link">
         
   
@@ -1397,6 +1491,62 @@
     
   
     Scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
   
 
     
@@ -1711,7 +1861,8 @@
 </ul>
 <h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>OpenTelemetry</strong> — distributed traces across the router and controller. Every HTTP request gets a server span (<code>router.GET</code>, <code>router.POST</code>); agent-mode <code>/configure</code> and <code>/invoke</code> get bounded-cardinality spans (<code>agenttier.configure</code>, <code>agenttier.invoke</code>) with <code>template</code>, <code>outcome</code>, and a non-reversible <code>actor_hash</code>. Wires to any OTLP collector; the chart ships an opt-in collector for clusters without one. See <a href="../observability/">Observability</a> for setup and backend integration.</li>
+<li><strong>OpenTelemetry</strong> — distributed traces across the router and controller. Every HTTP request gets a server span (<code>router.GET</code>, <code>router.POST</code>); agent-mode <code>/configure</code> and <code>/invoke</code> get bounded-cardinality spans (<code>agenttier.configure</code>, <code>agenttier.invoke</code>) with <code>template</code>, <code>outcome</code>, and a non-reversible <code>actor_hash</code>; and every controller reconcile gets a <code>controller.reconcile_sandbox</code> span tagged with the sandbox's name, namespace, and phase, so a sandbox traces end-to-end across the API call, the reconcile, and the pod. Wires to any OTLP collector; the chart ships an opt-in collector for clusters without one. See <a href="../observability/">Observability</a> for setup and backend integration.</li>
+<li><strong>Cluster capacity</strong> — the Web UI Metrics page surfaces per-node allocatable vs. requested CPU/memory, a requests-based saturation percentage, and the managed node group (EKS / Karpenter / GKE / AKS) via the admin-only <code>GET /api/v1/cluster/nodes</code> endpoint, complementing the left-nav node/pod glance widget.</li>
 <li><strong>Trace-correlated logs</strong> — slog JSON output stamps <code>trace_id</code> and <code>span_id</code> on every log line written under an active span context, so a single trace ID pivots between OTel UI and <code>kubectl logs</code> without any extra setup.</li>
 <li><strong>Prometheus</strong> — <code>/metrics</code> exposes invoke + configure counters and histograms partitioned by template and outcome, plus rate-limit and throttling counters. Optional <code>ServiceMonitor</code> for Prometheus Operator (<code>observability.prometheus.serviceMonitor=true</code>).</li>
 <li><strong>Kubernetes Events</strong> — every lifecycle transition emits a typed Event on the Sandbox resource so <code>kubectl describe sandbox</code> is a first-class debugging surface.</li>
@@ -1720,6 +1871,7 @@
 <h2 id="deployment-and-operations">Deployment and operations<a class="headerlink" href="#deployment-and-operations" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Single Helm chart</strong> — one <code>helm install agenttier agenttier/agenttier</code> deploys controller, router, web UI, CRDs, RBAC, and all opt-ins.</li>
+<li><strong>CRDs upgrade automatically</strong> — the controller create-or-updates its bundled CRDs on startup, so <code>helm upgrade</code> (which never upgrades CRDs itself) makes new CRD fields usable immediately and fresh installs need no manual <code>kubectl apply</code>. Disable with <code>controller.manageCRDs=false</code> for GitOps-managed CRDs.</li>
 <li><strong>Multi-cluster</strong> — works on EKS, GKE, AKS, kind, and any self-managed Kubernetes 1.27+ with NetworkPolicy-capable CNI.</li>
 <li><strong>Leader-elected HA</strong> — multi-replica controller with Lease-based election. Graceful degradation for non-critical dependency failures (e.g. can't reach OTel collector).</li>
 <li><strong>Cluster autoscaling out of the box</strong> — opt-in upstream Cluster Autoscaler installs cloud-neutral via Helm (works on EKS, GKE, AKS, OpenStack, Cluster API). Pair with the <code>headroom</code> Deployment for N+1 spare-node capacity: pause Pods at negative priority squat on a spare node, sandboxes preempt them instantly, evicted Pods trigger a fresh node in the background. See <a href="../scaling/">Scaling</a> for sizing math + cost trade-offs.</li>

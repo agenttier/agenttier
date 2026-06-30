@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/observability/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/backup/">
       
       
-        <link rel="prev" href="../performance/">
+        <link rel="prev" href="../cloning/">
       
       
-        <link rel="next" href="../troubleshooting/">
+        <link rel="next" href="../agent-mode/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Observability - AgentTier</title>
+        <title>Backup and restore - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#observability" class="md-skip">
+        <a href="#backup-and-restore" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Observability
+              Backup and restore
             
           </span>
         </div>
@@ -730,8 +730,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -758,13 +760,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -785,7 +785,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -912,10 +912,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../backup/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and restore
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -931,6 +958,87 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-1-scheduled-volumesnapshots-in-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 1 — scheduled VolumeSnapshots (in-cluster)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layer 1 — scheduled VolumeSnapshots (in-cluster)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-2-out-of-cluster-export-recipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 2 — out-of-cluster export (recipe)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acceptance-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acceptance check
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1186,10 +1294,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -1216,11 +1322,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
@@ -1241,7 +1349,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1396,37 +1504,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Observability
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
         
   
   
@@ -1442,131 +1523,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick start: turn on traces
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Logs with trace correlation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1634,10 +1590,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
+  <a href="#why" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick start: turn on traces
+        Why
       
     </span>
   </a>
@@ -1645,33 +1601,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
+  <a href="#layer-1-scheduled-volumesnapshots-in-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pointing at your own backend
+        Layer 1 — scheduled VolumeSnapshots (in-cluster)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pointing at your own backend">
+    <nav class="md-nav" aria-label="Layer 1 — scheduled VolumeSnapshots (in-cluster)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
+  <a href="#restore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
+        Restore
       
     </span>
   </a>
@@ -1684,10 +1629,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
+  <a href="#layer-2-out-of-cluster-export-recipe" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Span shape
+        Layer 2 — out-of-cluster export (recipe)
       
     </span>
   </a>
@@ -1695,43 +1640,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
+  <a href="#acceptance-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Logs with trace correlation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
+        Acceptance check
       
     </span>
   </a>
@@ -1755,7 +1667,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/observability.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/backup.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1763,99 +1675,70 @@
   
 
 
-<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h1>
-<p>AgentTier ships built-in observability across three signals — <strong>traces</strong> (OpenTelemetry/OTLP), <strong>metrics</strong> (Prometheus), and <strong>structured logs</strong> (slog JSON with trace correlation). All three are off-by-default with a single Helm flag to opt in.</p>
-<h2 id="quick-start-turn-on-traces">Quick start: turn on traces<a class="headerlink" href="#quick-start-turn-on-traces" title="Permanent link">&para;</a></h2>
-<p>The shortest path to a trace pipeline that works without any external infrastructure is to enable the in-cluster OTel Collector that ships with the chart:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>./helm/agenttier/<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>observability.otelCollector.enabled<span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-<p>That gives you:</p>
+<h1 id="backup-and-restore">Backup and restore<a class="headerlink" href="#backup-and-restore" title="Permanent link">&para;</a></h1>
+<p>AgentTier sandbox workspaces live on PersistentVolumeClaims. Two layers protect
+them: in-cluster scheduled VolumeSnapshots (Layer 1, shipped) and out-of-cluster
+export (Layer 2, recipe).</p>
+<h2 id="why">Why<a class="headerlink" href="#why" title="Permanent link">&para;</a></h2>
 <ul>
-<li>An <code>agenttier-otel-collector</code> Deployment listening on OTLP gRPC <code>:4317</code> and OTLP HTTP <code>:4318</code>.</li>
-<li>The router and controller automatically pointing <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> at the collector's ClusterIP service. No env-var wiring needed.</li>
-<li>A <code>debug</code> exporter on the collector that prints incoming spans to its container logs — handy for verifying the pipeline before you wire up a real backend.</li>
+<li><strong>Stuck ReadWriteOnce volume.</strong> A node dies with a sandbox PVC attached.
+  AZ-pinned EBS volumes can take several minutes to fail over; a recent snapshot
+  gives you a recovery path.</li>
+<li><strong>No "oops" recovery.</strong> Deleting a sandbox deletes its PVC. A backup snapshot
+  lets you restore the workspace into a new sandbox.</li>
 </ul>
-<p>Verify traces are flowing:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>deployment/agenttier-otel-collector<span class="w"> </span>--tail<span class="o">=</span><span class="m">20</span>
+<h2 id="layer-1-scheduled-volumesnapshots-in-cluster">Layer 1 — scheduled VolumeSnapshots (in-cluster)<a class="headerlink" href="#layer-1-scheduled-volumesnapshots-in-cluster" title="Permanent link">&para;</a></h2>
+<p>Opt-in via Helm. The controller snapshots every managed, non-pool sandbox PVC on
+an interval and prunes snapshots older than the retention window:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">optional</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backup</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">snapshots</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">intervalHours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span><span class="w">      </span><span class="c1"># snapshot cadence</span>
+<span class="w">      </span><span class="nt">retentionDays</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">14</span><span class="w">     </span><span class="c1"># prune backups older than this</span>
+<span class="w">      </span><span class="c1"># snapshotClassName: &quot;&quot;   # empty uses the cluster default VolumeSnapshotClass</span>
 </code></pre></div>
-<p>You should see one or more <code>Resource SchemaURL</code> blocks per span with attributes like <code>service.name=agenttier-router</code> and span names like <code>router.GET</code> or <code>agenttier.invoke</code>.</p>
-<h2 id="pointing-at-your-own-backend">Pointing at your own backend<a class="headerlink" href="#pointing-at-your-own-backend" title="Permanent link">&para;</a></h2>
-<p>Most production deployments want to ship spans to a real backend. Two paths:</p>
-<h3 id="path-a-replace-the-bundled-collectors-exporter">Path A — replace the bundled collector's exporter<a class="headerlink" href="#path-a-replace-the-bundled-collectors-exporter" title="Permanent link">&para;</a></h3>
-<p>Append a vendor-specific exporter via <code>observability.otelCollector.extraConfig</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">extraConfig</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">exporters:</span>
-<span class="w">        </span><span class="no">otlphttp/honeycomb:</span>
-<span class="w">          </span><span class="no">endpoint: https://api.honeycomb.io</span>
-<span class="w">          </span><span class="no">headers:</span>
-<span class="w">            </span><span class="no">x-honeycomb-team: ${HONEYCOMB_API_KEY}</span>
-<span class="w">      </span><span class="no">service:</span>
-<span class="w">        </span><span class="no">pipelines:</span>
-<span class="w">          </span><span class="no">traces:</span>
-<span class="w">            </span><span class="no">exporters: [debug, otlphttp/honeycomb]</span>
+<p>It runs as a leader-elected loop inside the controller (no extra CronJob or
+image), reusing the same <code>VolumeSnapshotClass</code> and CSI snapshotter the
+<a href="../cloning/">cloning</a> feature depends on. Backups are labelled
+<code>agenttier.io/snapshot-kind=scheduled-backup</code>, so the retention sweep only ever
+prunes its own snapshots — never clone or snapshot-on-stop snapshots.</p>
+<p>List a sandbox's backups:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshots<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>agenttier.io/snapshot-kind<span class="o">=</span>scheduled-backup,agenttier.io/source-pvc<span class="o">=</span>&lt;pvc-name&gt;
 </code></pre></div>
-<p>The <code>debug</code> exporter stays attached so you can keep tailing collector logs while real traffic flows to Honeycomb.</p>
-<h3 id="path-b-bypass-the-bundled-collector-entirely">Path B — bypass the bundled collector entirely<a class="headerlink" href="#path-b-bypass-the-bundled-collector-entirely" title="Permanent link">&para;</a></h3>
-<p>If you already run a cluster-wide collector (or a vendor agent like the Datadog agent), point AgentTier at it directly and skip our collector:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-collector.observability.svc.cluster.local:4317</span>
-<span class="w">    </span><span class="nt">insecure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<h3 id="restore">Restore<a class="headerlink" href="#restore" title="Permanent link">&para;</a></h3>
+<p>Restore is the existing <code>spec.cloneFromSnapshot</code> path — create a new sandbox
+whose PVC is provisioned from a backup snapshot:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agenttier.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sandbox</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restored</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agenttier</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">templateRef</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="nv">general-coding</span><span class="p p-Indicator">,</span><span class="nt"> kind</span><span class="p">:</span><span class="w"> </span><span class="nv">ClusterSandboxTemplate</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">cloneFromSnapshot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;backup-snapshot-name&gt;</span>
 </code></pre></div>
-<p>When <code>otlp.endpoint</code> is set explicitly it always wins over the bundled collector, so you can leave both knobs untouched and override at the namespace level later.</p>
-<h2 id="span-shape">Span shape<a class="headerlink" href="#span-shape" title="Permanent link">&para;</a></h2>
-<p>Every HTTP request to the router gets a server span named <code>router.&lt;method&gt;</code> (e.g. <code>router.GET</code>, <code>router.POST</code>). Health probes (<code>/healthz</code>, <code>/readyz</code>, <code>/metrics</code>) and WebSocket upgrades are excluded — they would otherwise dominate span volume without carrying any signal.</p>
-<p>Agent-mode operations have their own bounded-cardinality spans:</p>
+<p>The controller stamps the PVC's <code>dataSource</code> with the VolumeSnapshot and the CSI
+driver hydrates the volume from it. The snapshot must be in the same namespace.</p>
+<h2 id="layer-2-out-of-cluster-export-recipe">Layer 2 — out-of-cluster export (recipe)<a class="headerlink" href="#layer-2-out-of-cluster-export-recipe" title="Permanent link">&para;</a></h2>
+<p>For off-cluster retention (S3, cross-region, long-term), two options:</p>
 <ul>
-<li><strong><code>agenttier.invoke</code></strong> — one span per <code>/invoke</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>bytes_stdout</code>, <code>bytes_stderr</code>.</li>
-<li><strong><code>agenttier.configure</code></strong> — one span per <code>/configure</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>install_command_hash</code>.</li>
+<li><strong>Velero</strong> — the battle-tested choice for enterprise. Install Velero with the
+  CSI plugin, then a <code>Schedule</code> that backs up the sandbox namespace with
+  volume snapshots uploaded to your object store. Velero owns lifecycle,
+  retention, and cross-cluster restore.</li>
+<li><strong>Custom <code>aws s3 sync</code></strong> — for solo operators who want minimal dependencies:
+  a one-shot Job that mounts each PVC read-only and <code>aws s3 sync /workspace
+  s3://&lt;bucket&gt;/&lt;sandbox&gt;/</code> on a schedule. ~30 lines, no new controller.</li>
 </ul>
-<p>The controller emits a span per reconcile:</p>
-<ul>
-<li><strong><code>controller.reconcile_sandbox</code></strong> — one span each time the controller reconciles a Sandbox. Attributes: <code>sandbox.name</code>, <code>sandbox.namespace</code>, <code>sandbox.phase</code>; the span records an error and sets an error status when the reconcile fails. Combined with the router's request spans, a single sandbox can be traced end-to-end across the API call, the reconcile, and the pod.</li>
-</ul>
-<p><code>actor_hash</code> is a stable, non-reversible 8-character SHA-256 prefix of the OIDC <code>sub</code> claim. The raw subject <strong>never</strong> leaves the process. This satisfies GDPR / SOC2 controls in third-party trace stores while still letting an operator group spans by user within an investigation window.</p>
-<h2 id="logs-with-trace-correlation">Logs with trace correlation<a class="headerlink" href="#logs-with-trace-correlation" title="Permanent link">&para;</a></h2>
-<p>The router and controller emit slog JSON to stdout. When a request is in flight under an active span, every log line picks up two extra fields: <code>trace_id</code> and <code>span_id</code>. That means a single trace ID — copied from the OTel UI or pulled from the response's <code>traceparent</code> header — pivots straight to the matching log lines.</p>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-28T18:30:14.13Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;request&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v1/sandboxes/sb-1/invoke&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1247</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9b3e1f2a8c4d5e6f7a8b9c0d1e2f3a4b&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;span_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1a2b3c4d5e6f7a8b&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>When the process boots without an OTLP exporter (the default), spans are still recorded but never flushed — so the <code>trace_id</code> field above is omitted unless you explicitly set <code>OTEL_EXPORTER_OTLP_ENDPOINT</code>.</p>
-<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
-<p>The Prometheus <code>/metrics</code> endpoint is always on. The router exposes:</p>
-<ul>
-<li><strong><code>agenttier_invoke_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_invoke_duration_seconds{template, outcome}</code></strong> — histogram (0.5s..~34min)</li>
-<li><strong><code>agenttier_invoke_throttled_total</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_duration_seconds{template, outcome}</code></strong> — histogram (0.1s..~7min)</li>
-</ul>
-<p>Plus controller-runtime's standard reconciler metrics on the controller's <code>:8081/metrics</code>.</p>
-<p>To register these with the Prometheus Operator (when installed), set <code>observability.prometheus.serviceMonitor=true</code>. The chart then renders ServiceMonitors for the router and (when enabled) the OTel collector's self-metrics endpoint.</p>
-<h2 id="recommended-dashboards">Recommended dashboards<a class="headerlink" href="#recommended-dashboards" title="Permanent link">&para;</a></h2>
-<p>A starter Grafana dashboard for the metrics above lives in <a href="https://github.com/agenttier/agenttier"><code>hack/dashboards/agenttier.json</code></a> (placeholder; not yet checked in). Until that lands, the per-template invoke duration histogram is usually the single most useful panel — it surfaces latency regressions before they hit error rates.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>No spans in the collector logs</strong> — confirm <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set on the router and controller pods (<code>kubectl describe pod -n agenttier &lt;router-pod&gt; | grep OTEL</code>). When the env var is empty, the SDK installs a <code>NeverSample</code> provider that drops spans cheaply.</li>
-<li><strong>Spans show up but aren't reaching my backend</strong> — tail the collector logs (<code>kubectl logs -n agenttier deployment/agenttier-otel-collector</code>). The collector logs every export failure, and the <code>debug</code> exporter (left attached by default) prints what arrived in case the issue is upstream of the collector.</li>
-<li><strong><code>Connection refused</code> errors at startup</strong> — the router and controller fail closed if <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set but the collector isn't reachable. Either bring the collector up first, leave the env var empty during initial install, or set <code>observability.otelCollector.enabled=true</code> so the chart's manifest order brings the collector up alongside the rest of the install.</li>
-</ul>
+<p>Layer 2 is intentionally not bundled into the chart — it's an operator choice
+with real cost and dependency trade-offs. Pick Velero for serious DR; the S3
+snippet for lightweight retention.</p>
+<h2 id="acceptance-check">Acceptance check<a class="headerlink" href="#acceptance-check" title="Permanent link">&para;</a></h2>
+<p>Kill an EKS node hosting a sandbox; confirm the sandbox PVC has a snapshot from
+within the retention window, then restore it into a new sandbox with
+<code>cloneFromSnapshot</code> and verify the files are intact.</p>
 
 
 

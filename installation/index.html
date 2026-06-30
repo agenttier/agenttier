@@ -965,6 +965,8 @@
       
         
       
+        
+      
     
     
     
@@ -1131,6 +1133,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and restore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../agent-mode/" class="md-nav__link">
         
   
@@ -1195,6 +1225,8 @@
   
     
     
+      
+        
       
         
       
@@ -1333,6 +1365,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1348,6 +1408,12 @@
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -1439,6 +1505,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../gvisor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gVisor sandboxing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../scaling/" class="md-nav__link">
         
   
@@ -1447,6 +1541,62 @@
     
   
     Scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
   
 
     
@@ -2034,11 +2184,18 @@ helm<span class="w"> </span>install<span class="w"> </span>agenttier<span class=
 </tbody>
 </table>
 <h2 id="upgrading">Upgrading<a class="headerlink" href="#upgrading" title="Permanent link">&para;</a></h2>
-<p>Helm upgrades are in-place and CRD-aware. Chart versions track the app version.</p>
+<p>Helm upgrades are in-place. Chart versions track the app version.</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>update
 helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span>-f<span class="w"> </span>values.prod.yaml
 </code></pre></div>
+<p><strong>CRDs upgrade automatically.</strong> Helm installs CRDs only on first install and never updates them on
+<code>helm upgrade</code>, which historically left newly added CRD fields unusable until you ran
+<code>kubectl apply -f config/crd/</code> by hand. The controller now applies its bundled CRDs on startup
+(create-or-update), so a <code>helm upgrade</code> that rolls the controller image also brings the CRDs up to
+the running version — no manual step. If you manage CRDs out-of-band (GitOps/Argo CD), set
+<code>controller.manageCRDs=false</code> and apply CRD updates yourself; the controller's ServiceAccount then
+no longer needs <code>customresourcedefinitions</code> write access.</p>
 <p>See the <a href="https://github.com/agenttier/agenttier/blob/main/CHANGELOG.md">CHANGELOG</a> for per-version upgrade notes.</p>
 <h2 id="uninstall">Uninstall<a class="headerlink" href="#uninstall" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>uninstall<span class="w"> </span>agenttier<span class="w"> </span>--namespace<span class="w"> </span>agenttier

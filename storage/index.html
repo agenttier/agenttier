@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/observability/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/storage/">
       
       
-        <link rel="prev" href="../performance/">
+        <link rel="prev" href="../scaling/">
       
       
-        <link rel="next" href="../troubleshooting/">
+        <link rel="next" href="../performance/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Observability - AgentTier</title>
+        <title>Storage backend - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#observability" class="md-skip">
+        <a href="#storage-backend" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Observability
+              Storage backend
             
           </span>
         </div>
@@ -1340,10 +1340,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../storage/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage backend
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1359,6 +1386,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Drivers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enabling-the-bundled-sqlite-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling the bundled SQLite backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-an-external-postgres-mysql-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using an external Postgres / MySQL database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-the-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disabling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disabling
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1396,37 +1498,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Observability
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
         
   
   
@@ -1442,131 +1517,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick start: turn on traces
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Logs with trace correlation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1634,10 +1584,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
+  <a href="#drivers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick start: turn on traces
+        Drivers
       
     </span>
   </a>
@@ -1645,49 +1595,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
+  <a href="#enabling-the-bundled-sqlite-backend" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
+        Enabling the bundled SQLite backend
       
     </span>
   </a>
@@ -1695,10 +1606,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
+  <a href="#using-an-external-postgres-mysql-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Logs with trace correlation
+        Using an external Postgres / MySQL database
       
     </span>
   </a>
@@ -1706,10 +1617,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
+  <a href="#reading-the-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Metrics
+        Reading the data
       
     </span>
   </a>
@@ -1717,21 +1628,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
+  <a href="#disabling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
+        Disabling
       
     </span>
   </a>
@@ -1755,7 +1655,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/observability.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/storage.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1763,99 +1663,97 @@
   
 
 
-<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h1>
-<p>AgentTier ships built-in observability across three signals — <strong>traces</strong> (OpenTelemetry/OTLP), <strong>metrics</strong> (Prometheus), and <strong>structured logs</strong> (slog JSON with trace correlation). All three are off-by-default with a single Helm flag to opt in.</p>
-<h2 id="quick-start-turn-on-traces">Quick start: turn on traces<a class="headerlink" href="#quick-start-turn-on-traces" title="Permanent link">&para;</a></h2>
-<p>The shortest path to a trace pipeline that works without any external infrastructure is to enable the in-cluster OTel Collector that ships with the chart:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>./helm/agenttier/<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>observability.otelCollector.enabled<span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-<p>That gives you:</p>
+<h1 id="storage-backend">Storage backend<a class="headerlink" href="#storage-backend" title="Permanent link">&para;</a></h1>
+<p>AgentTier's source of truth is Kubernetes — Sandboxes, templates, warm-pool
+config, and governance policies all live in etcd, and lifecycle transitions are
+Kubernetes Events. That model needs no external database and is what runs by
+default.</p>
+<p>The <strong>optional SQL storage backend</strong> is an opt-in sink for <em>historical records</em>
+that need to outlive a Sandbox object — Kubernetes Events are garbage-collected
+after about an hour, so they can't answer "who created which sandbox last
+month?". When enabled, the Router persists three record types:</p>
 <ul>
-<li>An <code>agenttier-otel-collector</code> Deployment listening on OTLP gRPC <code>:4317</code> and OTLP HTTP <code>:4318</code>.</li>
-<li>The router and controller automatically pointing <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> at the collector's ClusterIP service. No env-var wiring needed.</li>
-<li>A <code>debug</code> exporter on the collector that prints incoming spans to its container logs — handy for verifying the pipeline before you wire up a real backend.</li>
+<li><strong>Audit events</strong> — user/operator actions (<code>create</code>, <code>stop</code>, <code>share</code>, <code>exec</code>).</li>
+<li><strong>Sandbox events</strong> — lifecycle transitions (phase, reason, message).</li>
+<li><strong>Cost snapshots</strong> — point-in-time CPU / memory / estimated-USD samples.</li>
 </ul>
-<p>Verify traces are flowing:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>deployment/agenttier-otel-collector<span class="w"> </span>--tail<span class="o">=</span><span class="m">20</span>
+<div class="admonition note">
+<p class="admonition-title">Best-effort by design</p>
+<p>Recording is always best-effort. A backend error is logged and <strong>never</strong>
+blocks the request it describes. If the database is down, sandboxes keep
+being created, stopped, and shared exactly as before — you just lose the
+historical row. This is intentional graceful degradation: the SQL store is
+a reporting convenience, not a control-plane dependency.</p>
+</div>
+<h2 id="drivers">Drivers<a class="headerlink" href="#drivers" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Driver</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sqlite</code> (bundled)</td>
+<td>Pure-Go (<a href="https://pkg.go.dev/modernc.org/sqlite"><code>modernc.org/sqlite</code></a>) — no CGO, works on every platform. Persists to a PVC. Good for single-replica installs and evaluation.</td>
+</tr>
+<tr>
+<td>Postgres / MySQL</td>
+<td>Bring-your-own. Point the Router at an external database you already operate. Requires wiring a driver in <code>cmd/router</code> (see below).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="enabling-the-bundled-sqlite-backend">Enabling the bundled SQLite backend<a class="headerlink" href="#enabling-the-bundled-sqlite-backend" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>agenttier<span class="w"> </span>agenttier/agenttier<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>agenttier<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>optional.storage.enabled<span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
-<p>You should see one or more <code>Resource SchemaURL</code> blocks per span with attributes like <code>service.name=agenttier-router</code> and span names like <code>router.GET</code> or <code>agenttier.invoke</code>.</p>
-<h2 id="pointing-at-your-own-backend">Pointing at your own backend<a class="headerlink" href="#pointing-at-your-own-backend" title="Permanent link">&para;</a></h2>
-<p>Most production deployments want to ship spans to a real backend. Two paths:</p>
-<h3 id="path-a-replace-the-bundled-collectors-exporter">Path A — replace the bundled collector's exporter<a class="headerlink" href="#path-a-replace-the-bundled-collectors-exporter" title="Permanent link">&para;</a></h3>
-<p>Append a vendor-specific exporter via <code>observability.otelCollector.extraConfig</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
+<p>That provisions a small <code>ReadWriteOnce</code> PVC (<code>&lt;release&gt;-router-storage</code>,
+default <code>1Gi</code>) mounted at the parent directory of the database path, and sets
+<code>STORAGE_SQLITE_PATH</code> on the Router so it opens the store at startup.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">optional</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">extraConfig</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">exporters:</span>
-<span class="w">        </span><span class="no">otlphttp/honeycomb:</span>
-<span class="w">          </span><span class="no">endpoint: https://api.honeycomb.io</span>
-<span class="w">          </span><span class="no">headers:</span>
-<span class="w">            </span><span class="no">x-honeycomb-team: ${HONEYCOMB_API_KEY}</span>
-<span class="w">      </span><span class="no">service:</span>
-<span class="w">        </span><span class="no">pipelines:</span>
-<span class="w">          </span><span class="no">traces:</span>
-<span class="w">            </span><span class="no">exporters: [debug, otlphttp/honeycomb]</span>
+<span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span>
+<span class="w">    </span><span class="nt">sqlite</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/lib/agenttier/agenttier.db</span>
+<span class="w">      </span><span class="nt">persistence</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">        </span><span class="c1"># set false for ephemeral testing (data lost on restart)</span>
+<span class="w">        </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">  </span><span class="c1"># empty = cluster default StorageClass</span>
 </code></pre></div>
-<p>The <code>debug</code> exporter stays attached so you can keep tailing collector logs while real traffic flows to Honeycomb.</p>
-<h3 id="path-b-bypass-the-bundled-collector-entirely">Path B — bypass the bundled collector entirely<a class="headerlink" href="#path-b-bypass-the-bundled-collector-entirely" title="Permanent link">&para;</a></h3>
-<p>If you already run a cluster-wide collector (or a vendor agent like the Datadog agent), point AgentTier at it directly and skip our collector:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-collector.observability.svc.cluster.local:4317</span>
-<span class="w">    </span><span class="nt">insecure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</code></pre></div>
-<p>When <code>otlp.endpoint</code> is set explicitly it always wins over the bundled collector, so you can leave both knobs untouched and override at the namespace level later.</p>
-<h2 id="span-shape">Span shape<a class="headerlink" href="#span-shape" title="Permanent link">&para;</a></h2>
-<p>Every HTTP request to the router gets a server span named <code>router.&lt;method&gt;</code> (e.g. <code>router.GET</code>, <code>router.POST</code>). Health probes (<code>/healthz</code>, <code>/readyz</code>, <code>/metrics</code>) and WebSocket upgrades are excluded — they would otherwise dominate span volume without carrying any signal.</p>
-<p>Agent-mode operations have their own bounded-cardinality spans:</p>
-<ul>
-<li><strong><code>agenttier.invoke</code></strong> — one span per <code>/invoke</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>bytes_stdout</code>, <code>bytes_stderr</code>.</li>
-<li><strong><code>agenttier.configure</code></strong> — one span per <code>/configure</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>install_command_hash</code>.</li>
-</ul>
-<p>The controller emits a span per reconcile:</p>
-<ul>
-<li><strong><code>controller.reconcile_sandbox</code></strong> — one span each time the controller reconciles a Sandbox. Attributes: <code>sandbox.name</code>, <code>sandbox.namespace</code>, <code>sandbox.phase</code>; the span records an error and sets an error status when the reconcile fails. Combined with the router's request spans, a single sandbox can be traced end-to-end across the API call, the reconcile, and the pod.</li>
-</ul>
-<p><code>actor_hash</code> is a stable, non-reversible 8-character SHA-256 prefix of the OIDC <code>sub</code> claim. The raw subject <strong>never</strong> leaves the process. This satisfies GDPR / SOC2 controls in third-party trace stores while still letting an operator group spans by user within an investigation window.</p>
-<h2 id="logs-with-trace-correlation">Logs with trace correlation<a class="headerlink" href="#logs-with-trace-correlation" title="Permanent link">&para;</a></h2>
-<p>The router and controller emit slog JSON to stdout. When a request is in flight under an active span, every log line picks up two extra fields: <code>trace_id</code> and <code>span_id</code>. That means a single trace ID — copied from the OTel UI or pulled from the response's <code>traceparent</code> header — pivots straight to the matching log lines.</p>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-28T18:30:14.13Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;request&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v1/sandboxes/sb-1/invoke&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1247</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9b3e1f2a8c4d5e6f7a8b9c0d1e2f3a4b&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;span_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1a2b3c4d5e6f7a8b&quot;</span>
+<p>Because SQLite is a single-writer store on a <code>ReadWriteOnce</code> volume, keep the
+Router at a single replica when using it. For multi-replica Routers, use an
+external Postgres backend.</p>
+<h2 id="using-an-external-postgres-mysql-database">Using an external Postgres / MySQL database<a class="headerlink" href="#using-an-external-postgres-mysql-database" title="Permanent link">&para;</a></h2>
+<p>The backend is built on <code>database/sql</code>, so any driver works. The bundled binary
+only registers the SQLite driver to keep the image small and CGO-free; to use
+Postgres or MySQL, import the driver in <code>cmd/router/main.go</code> and construct the
+backend from your DSN:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="s">&quot;github.com/jackc/pgx/v5/stdlib&quot;</span><span class="w"> </span><span class="c1">// or the mysql driver</span>
+
+<span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sql</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;pgx&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;STORAGE_DSN&quot;</span><span class="p">))</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">store</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">storage</span><span class="p">.</span><span class="nx">NewSQLBackend</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">storage</span><span class="p">.</span><span class="nx">DialectPostgres</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">config</span><span class="p">.</span><span class="nx">StorageBackend</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">store</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>When the process boots without an OTLP exporter (the default), spans are still recorded but never flushed — so the <code>trace_id</code> field above is omitted unless you explicitly set <code>OTEL_EXPORTER_OTLP_ENDPOINT</code>.</p>
-<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
-<p>The Prometheus <code>/metrics</code> endpoint is always on. The router exposes:</p>
-<ul>
-<li><strong><code>agenttier_invoke_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_invoke_duration_seconds{template, outcome}</code></strong> — histogram (0.5s..~34min)</li>
-<li><strong><code>agenttier_invoke_throttled_total</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_duration_seconds{template, outcome}</code></strong> — histogram (0.1s..~7min)</li>
-</ul>
-<p>Plus controller-runtime's standard reconciler metrics on the controller's <code>:8081/metrics</code>.</p>
-<p>To register these with the Prometheus Operator (when installed), set <code>observability.prometheus.serviceMonitor=true</code>. The chart then renders ServiceMonitors for the router and (when enabled) the OTel collector's self-metrics endpoint.</p>
-<h2 id="recommended-dashboards">Recommended dashboards<a class="headerlink" href="#recommended-dashboards" title="Permanent link">&para;</a></h2>
-<p>A starter Grafana dashboard for the metrics above lives in <a href="https://github.com/agenttier/agenttier"><code>hack/dashboards/agenttier.json</code></a> (placeholder; not yet checked in). Until that lands, the per-template invoke duration histogram is usually the single most useful panel — it surfaces latency regressions before they hit error rates.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>No spans in the collector logs</strong> — confirm <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set on the router and controller pods (<code>kubectl describe pod -n agenttier &lt;router-pod&gt; | grep OTEL</code>). When the env var is empty, the SDK installs a <code>NeverSample</code> provider that drops spans cheaply.</li>
-<li><strong>Spans show up but aren't reaching my backend</strong> — tail the collector logs (<code>kubectl logs -n agenttier deployment/agenttier-otel-collector</code>). The collector logs every export failure, and the <code>debug</code> exporter (left attached by default) prints what arrived in case the issue is upstream of the collector.</li>
-<li><strong><code>Connection refused</code> errors at startup</strong> — the router and controller fail closed if <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set but the collector isn't reachable. Either bring the collector up first, leave the env var empty during initial install, or set <code>observability.otelCollector.enabled=true</code> so the chart's manifest order brings the collector up alongside the rest of the install.</li>
-</ul>
+<p><code>NewSQLBackend</code> initialises the schema (idempotent <code>CREATE TABLE IF NOT
+EXISTS</code>) and handles placeholder rebinding for the dialect (<code>$1, $2, …</code> for
+Postgres). Inject the DSN from a Kubernetes Secret — never inline credentials in
+values.</p>
+<h2 id="reading-the-data">Reading the data<a class="headerlink" href="#reading-the-data" title="Permanent link">&para;</a></h2>
+<p>The schema is intentionally plain — three tables (<code>audit_events</code>,
+<code>sandbox_events</code>, <code>cost_snapshots</code>) with RFC3339 timestamps — so you can point
+any BI or SQL tool at it. <code>ListAuditEvents</code> supports filtering by actor,
+sandbox, and time window for programmatic access.</p>
+<h2 id="disabling">Disabling<a class="headerlink" href="#disabling" title="Permanent link">&para;</a></h2>
+<p>Set <code>optional.storage.enabled=false</code> (the default). The Router falls back to a
+no-op backend, the PVC and env var are not rendered, and Kubernetes remains the
+sole source of truth.</p>
 
 
 

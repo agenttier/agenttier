@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/observability/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/gvisor/">
       
       
-        <link rel="prev" href="../performance/">
+        <link rel="prev" href="../verifying-images/">
       
       
-        <link rel="next" href="../troubleshooting/">
+        <link rel="next" href="../scaling/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Observability - AgentTier</title>
+        <title>gVisor sandboxing - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#observability" class="md-skip">
+        <a href="#gvisor-sandboxing-runsc" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Observability
+              gVisor sandboxing
             
           </span>
         </div>
@@ -1284,10 +1284,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../gvisor/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gVisor sandboxing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1303,6 +1330,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trade-offs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opt-a-template-or-sandbox-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opt a template (or sandbox) in
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-runsc-on-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing runsc on nodes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1396,37 +1498,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Observability
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
         
   
   
@@ -1442,131 +1517,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick start: turn on traces
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Logs with trace correlation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1634,10 +1584,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
+  <a href="#trade-offs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick start: turn on traces
+        Trade-offs
       
     </span>
   </a>
@@ -1645,49 +1595,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
+  <a href="#enable" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
+        Enable
       
     </span>
   </a>
@@ -1695,10 +1606,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
+  <a href="#opt-a-template-or-sandbox-in" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Logs with trace correlation
+        Opt a template (or sandbox) in
       
     </span>
   </a>
@@ -1706,10 +1617,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
+  <a href="#installing-runsc-on-nodes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Metrics
+        Installing runsc on nodes
       
     </span>
   </a>
@@ -1717,21 +1628,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
+  <a href="#verify" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
+        Verify
       
     </span>
   </a>
@@ -1755,7 +1655,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/observability.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/gvisor.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1763,99 +1663,70 @@
   
 
 
-<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h1>
-<p>AgentTier ships built-in observability across three signals — <strong>traces</strong> (OpenTelemetry/OTLP), <strong>metrics</strong> (Prometheus), and <strong>structured logs</strong> (slog JSON with trace correlation). All three are off-by-default with a single Helm flag to opt in.</p>
-<h2 id="quick-start-turn-on-traces">Quick start: turn on traces<a class="headerlink" href="#quick-start-turn-on-traces" title="Permanent link">&para;</a></h2>
-<p>The shortest path to a trace pipeline that works without any external infrastructure is to enable the in-cluster OTel Collector that ships with the chart:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>./helm/agenttier/<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>observability.otelCollector.enabled<span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-<p>That gives you:</p>
+<h1 id="gvisor-sandboxing-runsc">gVisor sandboxing (runsc)<a class="headerlink" href="#gvisor-sandboxing-runsc" title="Permanent link">&para;</a></h1>
+<p>gVisor (<code>runsc</code>) is a userspace kernel: it intercepts a container's syscalls and
+re-implements the Linux ABI in Go, so sandbox code never talks to the host
+kernel directly. That shrinks the blast radius of a Linux kernel CVE (Dirty
+Pipe, OverlayFS, io_uring, netfilter) from "node compromise" to "single-pod
+compromise" and sanitizes syscall arguments more aggressively than seccomp.</p>
+<p>AgentTier wires gVisor through a <code>RuntimeClass</code>; sandboxes and templates opt in
+per workload.</p>
+<h2 id="trade-offs">Trade-offs<a class="headerlink" href="#trade-offs" title="Permanent link">&para;</a></h2>
 <ul>
-<li>An <code>agenttier-otel-collector</code> Deployment listening on OTLP gRPC <code>:4317</code> and OTLP HTTP <code>:4318</code>.</li>
-<li>The router and controller automatically pointing <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> at the collector's ClusterIP service. No env-var wiring needed.</li>
-<li>A <code>debug</code> exporter on the collector that prints incoming spans to its container logs — handy for verifying the pipeline before you wire up a real backend.</li>
+<li><strong>Cost:</strong> ~10–30% slowdown on syscall-heavy workloads (compilation, large
+  file IO). Negligible for typical agent inference and small builds.</li>
+<li><strong>Limits:</strong> no easy GPU passthrough; some syscalls are unimplemented (parts of
+  io_uring, raw sockets, some ptrace/FUSE paths).</li>
+<li><strong>Posture:</strong> keep it <strong>optional</strong> for single-tenant trusted users; prefer it
+  for agent-mode workloads where tenant code is closer to untrusted.</li>
 </ul>
-<p>Verify traces are flowing:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>deployment/agenttier-otel-collector<span class="w"> </span>--tail<span class="o">=</span><span class="m">20</span>
+<h2 id="enable">Enable<a class="headerlink" href="#enable" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">security</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">gvisor</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                 </span><span class="c1"># renders the `gvisor` RuntimeClass</span>
+<span class="w">    </span><span class="nt">runtimeClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gvisor</span>
+<span class="w">    </span><span class="nt">nodeSelector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">agenttier.io/runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gvisor</span><span class="w">   </span><span class="c1"># gVisor pods pin to nodes labelled this way</span>
+<span class="w">    </span><span class="nt">installer</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">              </span><span class="c1"># see &quot;Installing runsc on nodes&quot; below</span>
 </code></pre></div>
-<p>You should see one or more <code>Resource SchemaURL</code> blocks per span with attributes like <code>service.name=agenttier-router</code> and span names like <code>router.GET</code> or <code>agenttier.invoke</code>.</p>
-<h2 id="pointing-at-your-own-backend">Pointing at your own backend<a class="headerlink" href="#pointing-at-your-own-backend" title="Permanent link">&para;</a></h2>
-<p>Most production deployments want to ship spans to a real backend. Two paths:</p>
-<h3 id="path-a-replace-the-bundled-collectors-exporter">Path A — replace the bundled collector's exporter<a class="headerlink" href="#path-a-replace-the-bundled-collectors-exporter" title="Permanent link">&para;</a></h3>
-<p>Append a vendor-specific exporter via <code>observability.otelCollector.extraConfig</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">extraConfig</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">exporters:</span>
-<span class="w">        </span><span class="no">otlphttp/honeycomb:</span>
-<span class="w">          </span><span class="no">endpoint: https://api.honeycomb.io</span>
-<span class="w">          </span><span class="no">headers:</span>
-<span class="w">            </span><span class="no">x-honeycomb-team: ${HONEYCOMB_API_KEY}</span>
-<span class="w">      </span><span class="no">service:</span>
-<span class="w">        </span><span class="no">pipelines:</span>
-<span class="w">          </span><span class="no">traces:</span>
-<span class="w">            </span><span class="no">exporters: [debug, otlphttp/honeycomb]</span>
+<p>This renders a <code>gvisor</code> RuntimeClass whose <code>scheduling.nodeSelector</code> keeps
+runsc pods on your gVisor node group while the rest of the fleet stays on runc.</p>
+<h2 id="opt-a-template-or-sandbox-in">Opt a template (or sandbox) in<a class="headerlink" href="#opt-a-template-or-sandbox-in" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agenttier.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterSandboxTemplate</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">claude-code-bedrock</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">runtimeClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gvisor</span><span class="w">      </span><span class="c1"># this template&#39;s sandboxes run under runsc</span>
+<span class="w">  </span><span class="c1"># ...</span>
 </code></pre></div>
-<p>The <code>debug</code> exporter stays attached so you can keep tailing collector logs while real traffic flows to Honeycomb.</p>
-<h3 id="path-b-bypass-the-bundled-collector-entirely">Path B — bypass the bundled collector entirely<a class="headerlink" href="#path-b-bypass-the-bundled-collector-entirely" title="Permanent link">&para;</a></h3>
-<p>If you already run a cluster-wide collector (or a vendor agent like the Datadog agent), point AgentTier at it directly and skip our collector:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-collector.observability.svc.cluster.local:4317</span>
-<span class="w">    </span><span class="nt">insecure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<p>A single sandbox can also set <code>spec.runtimeClass: gvisor</code> directly. The pod
+builder sets <code>Pod.spec.runtimeClassName</code>, and the scheduler places it on a
+gVisor-labelled node.</p>
+<h2 id="installing-runsc-on-nodes">Installing runsc on nodes<a class="headerlink" href="#installing-runsc-on-nodes" title="Permanent link">&para;</a></h2>
+<p>The <code>gvisor</code> RuntimeClass needs <code>runsc</code> present on the node. Three options:</p>
+<ol>
+<li><strong>Node image / Bottlerocket variant (recommended for production).</strong> Bake
+   runsc into the AMI or use a Bottlerocket variant with gVisor. The
+   <a href="https://github.com/agenttier/agenttier/tree/main/terraform">Terraform module</a>
+   provisions a dedicated gVisor node group labelled <code>agenttier.io/runtime=gvisor</code>.</li>
+<li><strong>Installer DaemonSet (opt-in).</strong> Set <code>security.gvisor.installer.enabled=true</code>
+   to run a privileged DaemonSet that downloads runsc + the containerd shim onto
+   labelled nodes and registers the runsc runtime in containerd. <strong>Standard
+   containerd nodes only</strong> (AL2 / AL2023 / Ubuntu with systemd); not for
+   Bottlerocket or read-only-root images. It needs host mounts + privileged —
+   review it before enabling.</li>
+<li><strong>Manual.</strong> Follow the upstream gVisor containerd quick-start on each node.</li>
+</ol>
+<h2 id="verify">Verify<a class="headerlink" href="#verify" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>runtimeclass<span class="w"> </span>gvisor
+kubectl<span class="w"> </span>run<span class="w"> </span>gv<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--overrides<span class="o">=</span><span class="s1">&#39;{&quot;spec&quot;:{&quot;runtimeClassName&quot;:&quot;gvisor&quot;}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>public.ecr.aws/docker/library/alpine:3.20<span class="w"> </span>--<span class="w"> </span>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
 </code></pre></div>
-<p>When <code>otlp.endpoint</code> is set explicitly it always wins over the bundled collector, so you can leave both knobs untouched and override at the namespace level later.</p>
-<h2 id="span-shape">Span shape<a class="headerlink" href="#span-shape" title="Permanent link">&para;</a></h2>
-<p>Every HTTP request to the router gets a server span named <code>router.&lt;method&gt;</code> (e.g. <code>router.GET</code>, <code>router.POST</code>). Health probes (<code>/healthz</code>, <code>/readyz</code>, <code>/metrics</code>) and WebSocket upgrades are excluded — they would otherwise dominate span volume without carrying any signal.</p>
-<p>Agent-mode operations have their own bounded-cardinality spans:</p>
-<ul>
-<li><strong><code>agenttier.invoke</code></strong> — one span per <code>/invoke</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>bytes_stdout</code>, <code>bytes_stderr</code>.</li>
-<li><strong><code>agenttier.configure</code></strong> — one span per <code>/configure</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>install_command_hash</code>.</li>
-</ul>
-<p>The controller emits a span per reconcile:</p>
-<ul>
-<li><strong><code>controller.reconcile_sandbox</code></strong> — one span each time the controller reconciles a Sandbox. Attributes: <code>sandbox.name</code>, <code>sandbox.namespace</code>, <code>sandbox.phase</code>; the span records an error and sets an error status when the reconcile fails. Combined with the router's request spans, a single sandbox can be traced end-to-end across the API call, the reconcile, and the pod.</li>
-</ul>
-<p><code>actor_hash</code> is a stable, non-reversible 8-character SHA-256 prefix of the OIDC <code>sub</code> claim. The raw subject <strong>never</strong> leaves the process. This satisfies GDPR / SOC2 controls in third-party trace stores while still letting an operator group spans by user within an investigation window.</p>
-<h2 id="logs-with-trace-correlation">Logs with trace correlation<a class="headerlink" href="#logs-with-trace-correlation" title="Permanent link">&para;</a></h2>
-<p>The router and controller emit slog JSON to stdout. When a request is in flight under an active span, every log line picks up two extra fields: <code>trace_id</code> and <code>span_id</code>. That means a single trace ID — copied from the OTel UI or pulled from the response's <code>traceparent</code> header — pivots straight to the matching log lines.</p>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-28T18:30:14.13Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;request&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v1/sandboxes/sb-1/invoke&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1247</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9b3e1f2a8c4d5e6f7a8b9c0d1e2f3a4b&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;span_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1a2b3c4d5e6f7a8b&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>When the process boots without an OTLP exporter (the default), spans are still recorded but never flushed — so the <code>trace_id</code> field above is omitted unless you explicitly set <code>OTEL_EXPORTER_OTLP_ENDPOINT</code>.</p>
-<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
-<p>The Prometheus <code>/metrics</code> endpoint is always on. The router exposes:</p>
-<ul>
-<li><strong><code>agenttier_invoke_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_invoke_duration_seconds{template, outcome}</code></strong> — histogram (0.5s..~34min)</li>
-<li><strong><code>agenttier_invoke_throttled_total</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_duration_seconds{template, outcome}</code></strong> — histogram (0.1s..~7min)</li>
-</ul>
-<p>Plus controller-runtime's standard reconciler metrics on the controller's <code>:8081/metrics</code>.</p>
-<p>To register these with the Prometheus Operator (when installed), set <code>observability.prometheus.serviceMonitor=true</code>. The chart then renders ServiceMonitors for the router and (when enabled) the OTel collector's self-metrics endpoint.</p>
-<h2 id="recommended-dashboards">Recommended dashboards<a class="headerlink" href="#recommended-dashboards" title="Permanent link">&para;</a></h2>
-<p>A starter Grafana dashboard for the metrics above lives in <a href="https://github.com/agenttier/agenttier"><code>hack/dashboards/agenttier.json</code></a> (placeholder; not yet checked in). Until that lands, the per-template invoke duration histogram is usually the single most useful panel — it surfaces latency regressions before they hit error rates.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>No spans in the collector logs</strong> — confirm <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set on the router and controller pods (<code>kubectl describe pod -n agenttier &lt;router-pod&gt; | grep OTEL</code>). When the env var is empty, the SDK installs a <code>NeverSample</code> provider that drops spans cheaply.</li>
-<li><strong>Spans show up but aren't reaching my backend</strong> — tail the collector logs (<code>kubectl logs -n agenttier deployment/agenttier-otel-collector</code>). The collector logs every export failure, and the <code>debug</code> exporter (left attached by default) prints what arrived in case the issue is upstream of the collector.</li>
-<li><strong><code>Connection refused</code> errors at startup</strong> — the router and controller fail closed if <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set but the collector isn't reachable. Either bring the collector up first, leave the env var empty during initial install, or set <code>observability.otelCollector.enabled=true</code> so the chart's manifest order brings the collector up alongside the rest of the install.</li>
-</ul>
+<p>Under runsc, <code>dmesg</code> shows the gVisor kernel banner rather than the host kernel
+ring buffer — a quick confirmation the pod is sandboxed.</p>
 
 
 

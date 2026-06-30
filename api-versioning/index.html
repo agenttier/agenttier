@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://agenttier.github.io/agenttier/observability/">
+        <link rel="canonical" href="https://agenttier.github.io/agenttier/api-versioning/">
       
       
-        <link rel="prev" href="../performance/">
+        <link rel="prev" href="../sdk/">
       
       
-        <link rel="next" href="../troubleshooting/">
+        <link rel="next" href="../verifying-images/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Observability - AgentTier</title>
+        <title>API versioning - AgentTier</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#observability" class="md-skip">
+        <a href="#api-versioning-and-deprecation" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Observability
+              API versioning
             
           </span>
         </div>
@@ -1003,8 +1003,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1025,13 +1027,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -1052,7 +1052,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1151,10 +1151,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api-versioning/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API versioning
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1170,6 +1197,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-clients-do-with-the-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What clients do with the headers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current state
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1186,10 +1266,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -1216,11 +1294,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
@@ -1241,7 +1321,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1396,37 +1476,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Observability
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
         
   
   
@@ -1442,131 +1495,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick start: turn on traces
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Logs with trace correlation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1634,10 +1562,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-start-turn-on-traces" class="md-nav__link">
+  <a href="#policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quick start: turn on traces
+        Policy
       
     </span>
   </a>
@@ -1645,49 +1573,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pointing-at-your-own-backend" class="md-nav__link">
+  <a href="#what-clients-do-with-the-headers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pointing at your own backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pointing at your own backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#path-a-replace-the-bundled-collectors-exporter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path A — replace the bundled collector's exporter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-b-bypass-the-bundled-collector-entirely" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Path B — bypass the bundled collector entirely
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#span-shape" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Span shape
+        What clients do with the headers
       
     </span>
   </a>
@@ -1695,43 +1584,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#logs-with-trace-correlation" class="md-nav__link">
+  <a href="#current-state" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Logs with trace correlation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended dashboards
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
+        Current state
       
     </span>
   </a>
@@ -1755,7 +1611,7 @@
 
 
   
-    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/observability.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/agenttier/agenttier/edit/main/docs/docs/api-versioning.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1763,99 +1619,51 @@
   
 
 
-<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h1>
-<p>AgentTier ships built-in observability across three signals — <strong>traces</strong> (OpenTelemetry/OTLP), <strong>metrics</strong> (Prometheus), and <strong>structured logs</strong> (slog JSON with trace correlation). All three are off-by-default with a single Helm flag to opt in.</p>
-<h2 id="quick-start-turn-on-traces">Quick start: turn on traces<a class="headerlink" href="#quick-start-turn-on-traces" title="Permanent link">&para;</a></h2>
-<p>The shortest path to a trace pipeline that works without any external infrastructure is to enable the in-cluster OTel Collector that ships with the chart:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>agenttier<span class="w"> </span>./helm/agenttier/<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>observability.otelCollector.enabled<span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-<p>That gives you:</p>
+<h1 id="api-versioning-and-deprecation">API versioning and deprecation<a class="headerlink" href="#api-versioning-and-deprecation" title="Permanent link">&para;</a></h1>
+<p>AgentTier's REST API is served under a version path prefix: today that is
+<code>/api/v1</code>. This page documents how the API evolves and how clients are warned
+before anything breaks.</p>
+<h2 id="policy">Policy<a class="headerlink" href="#policy" title="Permanent link">&para;</a></h2>
 <ul>
-<li>An <code>agenttier-otel-collector</code> Deployment listening on OTLP gRPC <code>:4317</code> and OTLP HTTP <code>:4318</code>.</li>
-<li>The router and controller automatically pointing <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> at the collector's ClusterIP service. No env-var wiring needed.</li>
-<li>A <code>debug</code> exporter on the collector that prints incoming spans to its container logs — handy for verifying the pipeline before you wire up a real backend.</li>
+<li><strong>Breaking changes bump the path component.</strong> Renaming or removing a request
+  field, removing an endpoint, or changing a response shape incompatibly ships
+  under <code>/api/v2</code> — never as an in-place change to <code>/api/v1</code>.</li>
+<li><strong>Overlap window.</strong> When <code>/api/v2</code> reaches GA, <code>/api/v1</code> remains supported for
+  <strong>at least two minor releases</strong>. Deprecated <code>/api/v1</code> endpoints continue to
+  work during that window.</li>
+<li><strong>Deprecation signalling.</strong> Deprecated endpoints emit standard HTTP headers
+  clients can detect generically:<ul>
+<li><code>Deprecation: true</code> — the endpoint is deprecated.</li>
+<li><code>Sunset: &lt;HTTP-date&gt;</code> — when it will be removed
+  (<a href="https://www.rfc-editor.org/rfc/rfc9745.html">RFC 9745</a>).</li>
+<li><code>Link: &lt;successor&gt;; rel="successor-version"</code> — the replacement endpoint.</li>
 </ul>
-<p>Verify traces are flowing:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>agenttier<span class="w"> </span>deployment/agenttier-otel-collector<span class="w"> </span>--tail<span class="o">=</span><span class="m">20</span>
-</code></pre></div>
-<p>You should see one or more <code>Resource SchemaURL</code> blocks per span with attributes like <code>service.name=agenttier-router</code> and span names like <code>router.GET</code> or <code>agenttier.invoke</code>.</p>
-<h2 id="pointing-at-your-own-backend">Pointing at your own backend<a class="headerlink" href="#pointing-at-your-own-backend" title="Permanent link">&para;</a></h2>
-<p>Most production deployments want to ship spans to a real backend. Two paths:</p>
-<h3 id="path-a-replace-the-bundled-collectors-exporter">Path A — replace the bundled collector's exporter<a class="headerlink" href="#path-a-replace-the-bundled-collectors-exporter" title="Permanent link">&para;</a></h3>
-<p>Append a vendor-specific exporter via <code>observability.otelCollector.extraConfig</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">extraConfig</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">exporters:</span>
-<span class="w">        </span><span class="no">otlphttp/honeycomb:</span>
-<span class="w">          </span><span class="no">endpoint: https://api.honeycomb.io</span>
-<span class="w">          </span><span class="no">headers:</span>
-<span class="w">            </span><span class="no">x-honeycomb-team: ${HONEYCOMB_API_KEY}</span>
-<span class="w">      </span><span class="no">service:</span>
-<span class="w">        </span><span class="no">pipelines:</span>
-<span class="w">          </span><span class="no">traces:</span>
-<span class="w">            </span><span class="no">exporters: [debug, otlphttp/honeycomb]</span>
-</code></pre></div>
-<p>The <code>debug</code> exporter stays attached so you can keep tailing collector logs while real traffic flows to Honeycomb.</p>
-<h3 id="path-b-bypass-the-bundled-collector-entirely">Path B — bypass the bundled collector entirely<a class="headerlink" href="#path-b-bypass-the-bundled-collector-entirely" title="Permanent link">&para;</a></h3>
-<p>If you already run a cluster-wide collector (or a vendor agent like the Datadog agent), point AgentTier at it directly and skip our collector:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">observability</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">otelCollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-collector.observability.svc.cluster.local:4317</span>
-<span class="w">    </span><span class="nt">insecure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</code></pre></div>
-<p>When <code>otlp.endpoint</code> is set explicitly it always wins over the bundled collector, so you can leave both knobs untouched and override at the namespace level later.</p>
-<h2 id="span-shape">Span shape<a class="headerlink" href="#span-shape" title="Permanent link">&para;</a></h2>
-<p>Every HTTP request to the router gets a server span named <code>router.&lt;method&gt;</code> (e.g. <code>router.GET</code>, <code>router.POST</code>). Health probes (<code>/healthz</code>, <code>/readyz</code>, <code>/metrics</code>) and WebSocket upgrades are excluded — they would otherwise dominate span volume without carrying any signal.</p>
-<p>Agent-mode operations have their own bounded-cardinality spans:</p>
+</li>
+<li><strong>Additive changes are not breaking.</strong> New optional fields, new endpoints, and
+  new enum values can land within the current version. SDK and CLI consumers
+  should ignore unknown fields.</li>
+<li><strong>1.0 contract.</strong> While AgentTier is pre-1.0 (<code>v0.x</code>) we accept that breaking
+  changes happen between minor releases, but the <strong>shape of <code>/api/v1</code> is stable
+  from the 1.0 release forward</strong> — consumers can rely on it from then on.</li>
+</ul>
+<p>This mirrors the CRD-evolution rules (<code>v1alpha1</code> → <code>v1alpha2</code> → … → <code>v1</code>) the
+project applies to Kubernetes resources, extended to the REST surface.</p>
+<h2 id="what-clients-do-with-the-headers">What clients do with the headers<a class="headerlink" href="#what-clients-do-with-the-headers" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong><code>agenttier.invoke</code></strong> — one span per <code>/invoke</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>bytes_stdout</code>, <code>bytes_stderr</code>.</li>
-<li><strong><code>agenttier.configure</code></strong> — one span per <code>/configure</code> call. Attributes: <code>sandbox</code>, <code>template</code>, <code>actor_hash</code>, <code>outcome</code>, <code>install_command_hash</code>.</li>
+<li><strong>Python SDK</strong> raises a one-time <code>DeprecationWarning</code> the first time a process
+  hits a deprecated endpoint, naming the endpoint and its sunset date. Silence
+  it with <code>AGENTTIER_DEPRECATION_WARNINGS=off</code> (or Python's standard
+  <code>warnings</code> filters).</li>
+<li><strong>CLI</strong> prints a one-time <code>stderr</code> notice per deprecated endpoint per run.
+  Silence with <code>AGENTTIER_DEPRECATION_WARNINGS=off</code>.</li>
 </ul>
-<p>The controller emits a span per reconcile:</p>
-<ul>
-<li><strong><code>controller.reconcile_sandbox</code></strong> — one span each time the controller reconciles a Sandbox. Attributes: <code>sandbox.name</code>, <code>sandbox.namespace</code>, <code>sandbox.phase</code>; the span records an error and sets an error status when the reconcile fails. Combined with the router's request spans, a single sandbox can be traced end-to-end across the API call, the reconcile, and the pod.</li>
-</ul>
-<p><code>actor_hash</code> is a stable, non-reversible 8-character SHA-256 prefix of the OIDC <code>sub</code> claim. The raw subject <strong>never</strong> leaves the process. This satisfies GDPR / SOC2 controls in third-party trace stores while still letting an operator group spans by user within an investigation window.</p>
-<h2 id="logs-with-trace-correlation">Logs with trace correlation<a class="headerlink" href="#logs-with-trace-correlation" title="Permanent link">&para;</a></h2>
-<p>The router and controller emit slog JSON to stdout. When a request is in flight under an active span, every log line picks up two extra fields: <code>trace_id</code> and <code>span_id</code>. That means a single trace ID — copied from the OTel UI or pulled from the response's <code>traceparent</code> header — pivots straight to the matching log lines.</p>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-28T18:30:14.13Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;request&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v1/sandboxes/sb-1/invoke&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;duration_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1247</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;trace_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9b3e1f2a8c4d5e6f7a8b9c0d1e2f3a4b&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;span_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1a2b3c4d5e6f7a8b&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>When the process boots without an OTLP exporter (the default), spans are still recorded but never flushed — so the <code>trace_id</code> field above is omitted unless you explicitly set <code>OTEL_EXPORTER_OTLP_ENDPOINT</code>.</p>
-<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
-<p>The Prometheus <code>/metrics</code> endpoint is always on. The router exposes:</p>
-<ul>
-<li><strong><code>agenttier_invoke_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_invoke_duration_seconds{template, outcome}</code></strong> — histogram (0.5s..~34min)</li>
-<li><strong><code>agenttier_invoke_throttled_total</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_requests_total{template, outcome}</code></strong> — counter</li>
-<li><strong><code>agenttier_configure_duration_seconds{template, outcome}</code></strong> — histogram (0.1s..~7min)</li>
-</ul>
-<p>Plus controller-runtime's standard reconciler metrics on the controller's <code>:8081/metrics</code>.</p>
-<p>To register these with the Prometheus Operator (when installed), set <code>observability.prometheus.serviceMonitor=true</code>. The chart then renders ServiceMonitors for the router and (when enabled) the OTel collector's self-metrics endpoint.</p>
-<h2 id="recommended-dashboards">Recommended dashboards<a class="headerlink" href="#recommended-dashboards" title="Permanent link">&para;</a></h2>
-<p>A starter Grafana dashboard for the metrics above lives in <a href="https://github.com/agenttier/agenttier"><code>hack/dashboards/agenttier.json</code></a> (placeholder; not yet checked in). Until that lands, the per-template invoke duration histogram is usually the single most useful panel — it surfaces latency regressions before they hit error rates.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>No spans in the collector logs</strong> — confirm <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set on the router and controller pods (<code>kubectl describe pod -n agenttier &lt;router-pod&gt; | grep OTEL</code>). When the env var is empty, the SDK installs a <code>NeverSample</code> provider that drops spans cheaply.</li>
-<li><strong>Spans show up but aren't reaching my backend</strong> — tail the collector logs (<code>kubectl logs -n agenttier deployment/agenttier-otel-collector</code>). The collector logs every export failure, and the <code>debug</code> exporter (left attached by default) prints what arrived in case the issue is upstream of the collector.</li>
-<li><strong><code>Connection refused</code> errors at startup</strong> — the router and controller fail closed if <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> is set but the collector isn't reachable. Either bring the collector up first, leave the env var empty during initial install, or set <code>observability.otelCollector.enabled=true</code> so the chart's manifest order brings the collector up alongside the rest of the install.</li>
-</ul>
+<p>Both are best-effort and never change exit codes or program flow — they only
+inform.</p>
+<h2 id="current-state">Current state<a class="headerlink" href="#current-state" title="Permanent link">&para;</a></h2>
+<p>Nothing is deprecated yet — <code>/api/v1</code> is the only version and the deprecation
+middleware is a no-op. The mechanism is in place so the day a breaking change is
+needed, flagging an endpoint is a one-line change (a <code>deprecatedRoutes</code> entry in
+the Router) and every shipped SDK/CLI already reacts to it.</p>
 
 
 
