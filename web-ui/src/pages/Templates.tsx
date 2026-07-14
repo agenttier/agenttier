@@ -6,15 +6,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchTemplates, createTemplate, updateTemplate, deleteTemplate } from '../api/client';
 import type { Template } from '../types';
-import yaml from 'js-yaml';
+import { dump as yamlDump, load as yamlLoad } from 'js-yaml';
 
 function specToYaml(spec: any): string {
   if (!spec) return '';
-  return yaml.dump(spec, { indent: 2, lineWidth: 120, noRefs: true });
+  return yamlDump(spec, { indent: 2, lineWidth: 120, noRefs: true });
 }
 
 function yamlToSpec(text: string): any {
-  return yaml.load(text);
+  return yamlLoad(text);
 }
 
 const STARTER_YAML = `description: My custom template

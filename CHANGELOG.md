@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `docs/docs/security.md` — trust model, endpoint modes, CRD source-of-truth, and audit-finding dispositions.
 
 ### Changed
+- **Web UI dependency refresh (closes Dependabot #74–#77).** `js-yaml` 4.3 → 5.2.1 (ESM named imports; the local `js-yaml.d.ts` `any`-typed shim is deleted in favor of the package's own bundled TypeScript types), `eslint` + `@eslint/js` 9.39.4 → 9.39.5, `typescript-eslint` 8.62.1 → 8.64.0. All 71 web-ui tests pass on js-yaml 5 and the bundle stays under the 750 KB gate. Held per the dependency policy: `vite` 5 → 8 (#61, awaits the coordinated tooling refresh), `vitest` 2 → 3 (#80, same batch), and the `k8s.io/*` 0.36 / `controller-runtime` 0.24 group (#72, awaits the Go 1.26 toolchain bump).
 
 - **Repo layout:** `hack/` → `scripts/`, root Dockerfiles → `docker/`, root `buildspec.yml` → `ci/buildspec.yml` (env-driven `ECR_REPO_PREFIX`/`IMAGE_TAG` contract, core images hard-required, agent sandboxes best-effort). CI, release workflow, Makefile, and docs updated together.
 - **Supply chain:** every Dockerfile base is digest-pinned, Go builds are hermetic (`GOTOOLCHAIN=local`, toolchain go1.25.11), the web-ui image builds with `npm ci` + a `.dockerignore`, and the license-header check now covers Python and TypeScript.
