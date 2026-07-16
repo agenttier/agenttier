@@ -43,6 +43,7 @@ before you push the tag.
 ### Versioning (all four must match)
 
 - [ ] `helm/agenttier/Chart.yaml` — `version` and `appVersion` updated
+- [ ] `VERSION` — bare version updated (e.g. `0.9.0`, no `v` prefix; `deploy.sh`/`scripts/lib/version.sh` derive image tags from it, so a stale value deploys old-looking tags from source builds)
 - [ ] `python-sdk/pyproject.toml` — `version` updated
 - [ ] `python-sdk/src/agenttier/_version.py` — `__version__` constant updated (this is imported by the SDK's runtime and `User-Agent` header; hatchling reads pyproject.toml separately)
 - [ ] (Go: version is set via ldflags in `make build`; no source change)
