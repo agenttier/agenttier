@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **`sandbox-general` image build no longer breaks when npm ships a new major.** The general-coding Dockerfile ran an unpinned `npm install -g npm@latest` after installing Node 20; npm 12 (2026-07) requires Node >= 22, so every fresh build failed with `EBADENGINE`. The image now keeps the npm bundled with the pinned Node major. Found by the post-merge end-to-end deploy validation.
 - **The `claude-code-bedrock` default template was silently dropped on every install.** A missing `---` document separator merged it into the next YAML document, so only 5 of 6 ClusterSandboxTemplates ever reached the API server.
 - **Security audit findings:** the Router's CORS middleware reflected `*` while accepting credentialed headers — replaced with a strict origin allowlist (`cors.allowedOrigins`, disallowed preflights get 403, `Vary: Origin` set); `/admin/sandboxes` and `/admin/sharing` were reachable without admin — now behind `requireAdmin`; API-key hash comparison is constant-time; Router shutdown drains on an independent 30 s budget via `signal.NotifyContext`; dev-auth and webhook `failurePolicy != Fail` now log unmissable warnings.
 - Helm chart bundles CRDs in `crds/` so a fresh `helm install` registers CRD kinds before the default-template CRs render; rename-drift leftovers (LICENSE copyright, CODEOWNERS, nginx.conf upstream, e2e-test names) corrected; `make verify-codegen` no longer crashes on a dead controller-gen flag and scopes its diff to actual generated files.
