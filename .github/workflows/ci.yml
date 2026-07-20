@@ -24,7 +24,7 @@ jobs:
           version: v2.12.2
       - name: License header check
         run: ./scripts/check-license-headers.sh
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Lint Web UI
