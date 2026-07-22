@@ -58,11 +58,20 @@ What AgentTier ships today, grouped by what you probably need first.
 - **Cost Estimator** — current monthly cost based on running resources.
 - **Settings** — governance policies, warm pool sizing and template, operational defaults. Admin-gated.
 
+## Agent-first API surface
+
+- **Live sandbox mutation** — `PATCH /api/v1/sandboxes/{id}` updates idle timeout, resource requests/limits, labels, and annotations on a running sandbox without recreating it; the response reports whether each field applied immediately or needs a stop+resume. See [New API endpoints](api/new-endpoints.md#patch-apiv1sandboxesid-live-mutation).
+- **Backup/restore API** — trigger on-demand backups, list, restore, and delete snapshots over REST instead of `kubectl` — a thin surface over the existing scheduled-VolumeSnapshot mechanism. See [Backup and restore](backup.md).
+- **Bulk operations** — create or stop/resume/delete many sandboxes in one call, with per-item results so one bad item never loses its siblings; governance sandbox-count caps are checked fail-fast for the whole batch up front. See [Bulk operations](api/new-endpoints.md#bulk-operations-apiv1sandboxesbulk-and-bulk-action).
+- **Webhooks** — HMAC-signed, at-least-once event subscriptions covering the full FR5.2 vocabulary (sandbox phase transitions, backup created/pruned, share granted/revoked, agent invoke started/completed/failed) so agents/orchestrators react instead of poll. Delivered by a leader-elected controller loop with retry/backoff and auto-disable. See [Webhooks](api/new-endpoints.md#webhooks-apiv1webhooks).
+- **Sandbox-scoped API keys** — a credential narrower than a full user-level key: bound to one sandbox plus an explicit action-group set (never `delete`), auto-minted into every sandbox so an agent can call back into the Router without its owner's full-access key. See [Sandbox-scoped API keys](api/new-endpoints.md#sandbox-scoped-api-keys).
+- **MCP server (optional)** — `pip install agenttier[mcp]` mirrors the Python SDK 1:1 as MCP tools, stdio and HTTP/SSE transports. See [SDK → MCP server](sdk.md#mcp-server-optional-extra).
+
 ## Client tooling
 
-- **Python SDK** — `pip install agenttier`. Sync + async clients, typed Pydantic models, auto-detected auth, structured exception hierarchy. See [SDK](sdk.md).
-- **CLI** — `agenttier` Go binary for linux / macOS / Windows on amd64 + arm64. See [CLI](cli.md).
-- **REST API** — sandboxes, templates, governance, port forwarding, audit, analytics, warm pool, identity. Documented inline in [`pkg/router/server.go`](https://github.com/agenttier/agenttier/blob/main/pkg/router/server.go) and exercised by the SDK.
+- **Python SDK** — `pip install agenttier`. Sync + async clients, typed Pydantic models, auto-detected auth, structured exception hierarchy, full coverage of sharing/governance/audit/analytics/admin/user/API-keys/warm-pool/cluster/webhooks/backups/bulk/PATCH. See [SDK](sdk.md).
+- **CLI** — `agenttier`, in both a pure-Python distribution and a native Go binary (linux/macOS/Windows, amd64+arm64) at full command-family parity. See [CLI](cli.md) and [CLI command reference](cli-reference.md).
+- **REST API** — sandboxes, templates, governance, port forwarding, audit, analytics, warm pool, identity, backups, bulk operations, webhooks, sandbox-scoped keys. Documented inline in [`pkg/router/server.go`](https://github.com/agenttier/agenttier/blob/main/pkg/router/server.go), the [new API endpoints](api/new-endpoints.md) page, and exercised by the SDK.
 
 ## Observability
 
@@ -89,7 +98,7 @@ Roadmap items that are *not* shipped in the current release and will return real
 
 - Sharing and collaboration (viewer/collaborator roles, expiring share links) — planned for 0.2.x.
 - File transfer API — planned for 0.2.x.
-- Notifications (webhook / email / Slack) — planned for 0.2.x.
+- Email/Slack notification targets — webhooks (see [Webhooks](api/new-endpoints.md#webhooks-apiv1webhooks)) are the one delivery mechanism; there is no plan to add SMTP/Slack as first-class webhook targets beyond what a subscriber's own receiver can do with the payload.
 - WebSocket ping frames + ALB migration — planned for 0.2.x; sessions through AWS Classic ELBs may still need manual reconnection every 60 minutes without the `connection-idle-timeout` annotation tweak.
 - Optional SQL backend for audit + analytics long-term retention — planned for 0.3.x.
 

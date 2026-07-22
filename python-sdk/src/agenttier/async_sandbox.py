@@ -6,9 +6,10 @@
 from __future__ import annotations
 
 import asyncio
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Mapping, Optional
 
 from agenttier._http import raise_for_status
+from agenttier.bulk import PatchResult, async_patch_sandbox
 from agenttier.exceptions import SandboxErrorState, SandboxTimeoutError
 from agenttier.models import CommandResult, FileEntry, ForwardedPort, SandboxPhase, SandboxSummary
 
@@ -16,6 +17,8 @@ if TYPE_CHECKING:  # pragma: no cover
     import httpx
 
     from agenttier.async_agent import AsyncAgentAPI
+    from agenttier.backups import AsyncBackupsAPI
+    from agenttier.sharing import AsyncSharingAPI
 
 _DEFAULT_WAIT_TIMEOUT = 120.0
 _DEFAULT_POLL_INTERVAL = 2.0
@@ -141,6 +144,38 @@ class AsyncSandbox:
         from agenttier.async_agent import AsyncAgentAPI
 
         return AsyncAgentAPI(self)
+
+    @property
+    def sharing(self) -> "AsyncSharingAPI":
+        """Async mirror of :pyattr:`agenttier.sandbox.Sandbox.sharing`."""
+        from agenttier.sharing import AsyncSharingAPI
+
+        return AsyncSharingAPI(self)
+
+    @property
+    def backups(self) -> "AsyncBackupsAPI":
+        """Async mirror of :pyattr:`agenttier.sandbox.Sandbox.backups`."""
+        from agenttier.backups import AsyncBackupsAPI
+
+        return AsyncBackupsAPI(self)
+
+    async def update(
+        self,
+        *,
+        idle_timeout: Optional[str] = None,
+        resources: Optional[Mapping[str, Any]] = None,
+        labels: Optional[Mapping[str, str]] = None,
+        annotations: Optional[Mapping[str, str]] = None,
+    ) -> PatchResult:
+        """Async mirror of :meth:`agenttier.sandbox.Sandbox.update`."""
+        return await async_patch_sandbox(
+            self._http,
+            self.id,
+            idle_timeout=idle_timeout,
+            resources=resources,
+            labels=labels,
+            annotations=annotations,
+        )
 
     def __repr__(self) -> str:
         return f"AsyncSandbox(id={self.id!r}, name={self.name!r}, namespace={self.namespace!r})"

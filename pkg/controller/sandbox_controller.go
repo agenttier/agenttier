@@ -358,6 +358,18 @@ func (r *SandboxReconciler) reconcileCreating(ctx context.Context, sandbox *agen
 			return r.transitionToError(ctx, sandbox, fmt.Sprintf("Runtime-token secret failed: %v", err))
 		}
 		mergedConfig.RuntimeTokenSecret = secretName
+
+		// FR6 sandbox-scoped API key: auto-minted alongside the runtime
+		// token, under the same HTTP-exec opt-in gate (design.md DD6) —
+		// an agent that can reach the Router via the runtime token is
+		// exactly the agent that needs its own scoped key to call back
+		// into the Router. See scoped_key.go for the namespace-aware
+		// revoke-on-delete rationale (DL7).
+		scopedKeySecretName, err := r.ensureSandboxAPIKeySecret(ctx, sandbox, r.InstallNamespace)
+		if err != nil {
+			return r.transitionToError(ctx, sandbox, fmt.Sprintf("Scoped API key secret failed: %v", err))
+		}
+		mergedConfig.SandboxAPIKeySecret = scopedKeySecretName
 	}
 
 	// Step 3: Create PVC (if not already exists)
@@ -640,6 +652,17 @@ func (r *SandboxReconciler) reconcileDelete(ctx context.Context, sandbox *agentt
 	// Delete NetworkPolicy
 	np := &networkingv1.NetworkPolicy{ObjectMeta: metav1.ObjectMeta{Name: sandbox.Name + "-netpol", Namespace: sandbox.Namespace}}
 	if err := r.Delete(ctx, np); err != nil && !errors.IsNotFound(err) {
+		return ctrl.Result{}, err
+	}
+
+	// FR6.5: revoke the sandbox's scoped API key. This CANNOT rely on
+	// owner-reference GC — the hashed record lives in r.InstallNamespace
+	// while the Sandbox lives in sandbox.Namespace, and owner references
+	// don't cross namespaces (DL7, decisions.md). Explicit delete here,
+	// from the finalizer path, is the only mechanism that actually fires.
+	// The plaintext injection Secret (same namespace as the Pod) is
+	// unaffected — it's still owner-ref GC'd like runtime_token.go's.
+	if err := r.revokeSandboxAPIKey(ctx, sandbox, r.InstallNamespace); err != nil {
 		return ctrl.Result{}, err
 	}
 

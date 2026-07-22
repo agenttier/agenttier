@@ -60,6 +60,7 @@ nav:
     - CLI command reference: cli-reference.md
     - Python SDK: sdk.md
     - API versioning: api-versioning.md
+    - New API endpoints (0.9.x): api/new-endpoints.md
   - Operations:
     - Verifying images: verifying-images.md
     - gVisor sandboxing: gvisor.md

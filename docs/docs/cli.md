@@ -1,9 +1,11 @@
 # CLI
 
-The `agenttier` CLI manages sandboxes and templates from the terminal. Two distributions with **different command surfaces**:
+The `agenttier` CLI manages sandboxes and templates from the terminal. Two distributions, now at **full command-family parity** (as of 0.9.x) — pick based on runtime, not capability:
 
-- **`pip install agenttier`** — pure-Python CLI installed alongside the SDK. Works on any platform with Python 3.10+. Full surface: sandbox/template CRUD, files, ports, agent mode. Recommended for Python-first users.
-- **GitHub Releases** — native Go binaries for Linux, macOS, and Windows on amd64 and arm64. No Python runtime required. Minimal surface: `configure`, `invoke`, `version`, `help` only — no sandbox/template CRUD.
+- **`pip install agenttier`** — pure-Python CLI installed alongside the SDK. Works on any platform with Python 3.10+.
+- **GitHub Releases** — native Go binaries for Linux, macOS, and Windows on amd64 and arm64. No Python runtime required.
+
+Both cover the same command families: `sandbox` (list/get/create/stop/resume/delete/clone/exec/wait/patch/bulk-create/bulk-action/files/ports/sharing/backups), `template`, `governance`, `audit`, `analytics`, `admin`, `user`, `apikeys`, `warmpool`, `cluster`, `webhooks`, plus the original `configure`/`invoke`/`version`. Both support `--output text|json`, `--api-url`/`--api-key`/`--token`, and a saved config file written by `agenttier login`. The Go CLI additionally has `~/.config/agenttier/config.json` support and a shared `pkg/agenttierclient` HTTP client under the hood — see [`pkg/agenttierclient`](https://github.com/agenttier/agenttier/tree/main/pkg/agenttierclient) if you're embedding it in Go tooling of your own.
 
 Sources: [`cmd/cli/`](https://github.com/agenttier/agenttier/tree/main/cmd/cli) (Go), [`python-sdk/src/agenttier/cli.py`](https://github.com/agenttier/agenttier/tree/main/python-sdk/src/agenttier/cli.py) (Python).
 Full command reference: [CLI command reference](cli-reference.md).
@@ -17,7 +19,7 @@ pip install agenttier
 agenttier --version
 ```
 
-This installs the SDK and the CLI together. The Python CLI exposes the full SDK surface (lifecycle, exec, files, port forwards, templates, agent-mode configure/invoke).
+This installs the SDK and the CLI together. The Python CLI exposes the full SDK surface (lifecycle, exec, files, port forwards, sharing, backups, bulk operations, governance, audit, analytics, admin, user preferences, API keys, warm pool, cluster status, webhooks, templates, agent-mode configure/invoke).
 
 ### Via GitHub Releases (Go binary)
 
@@ -67,8 +69,9 @@ with environment variables (same as the SDK):
 | --- | --- | --- |
 | `AGENTTIER_API_URL` | Router base URL (`https://agenttier.company.com`). | both |
 | `AGENTTIER_API_KEY` | Preferred auth; sent as `X-API-Key`. | both |
-| `AGENTTIER_TOKEN` | OIDC bearer token; used if no API key. | Python only |
+| `AGENTTIER_TOKEN` | OIDC bearer token; used if no API key. | both |
 | `AGENTTIER_DEPRECATION_WARNINGS` | Set to `off` to silence one-time deprecation notices. | both |
+| `AGENTTIER_CONFIG` | Override the saved config file path (default `~/.config/agenttier/config.json`, written by `agenttier login`). | both |
 
 Example (Python CLI):
 
@@ -85,12 +88,13 @@ agenttier --help
 agenttier --version
 ```
 
-The Python CLI covers the full sandbox and template command surface (list, get,
-create, stop, resume, delete, clone, exec, wait, files, ports; template list/get).
-The Go binary covers only `configure`, `invoke`, `version`, and `help` — for
-sandbox/template CRUD with the Go binary, fall back to `kubectl` on the CRDs
-directly (`sandboxes`, `templates`, `clustersandboxtemplates`) or use the Python
-SDK/CLI.
+Both distributions cover the full command surface — see
+[CLI command reference](cli-reference.md) for every subcommand and flag. One
+difference remains: `agenttier sandbox files archive` (download the whole
+`/workspace` tree as a `.zip`) is Python-CLI-only for now — the Go binary has
+`ls`/`cat`/`upload`/`download`/`write` but no `archive` subcommand yet. For
+either binary, `kubectl` on the CRDs directly (`sandboxes`, `templates`,
+`clustersandboxtemplates`) remains available as a GitOps-friendly fallback.
 
 ## Agent mode (Phase 10)
 

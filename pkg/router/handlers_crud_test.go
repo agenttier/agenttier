@@ -23,6 +23,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -32,6 +33,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	agenttierv1alpha1 "github.com/agenttier/agenttier/api/v1alpha1"
+	"github.com/agenttier/agenttier/pkg/apikeystore"
+	"github.com/agenttier/agenttier/pkg/router/auth"
 )
 
 // statusSubresourceFixture is like apiKeyFixture but registers Sandbox's
@@ -595,15 +598,101 @@ func TestHandleGetCostEstimates_ComputesRunningCost(t *testing.T) {
 	}
 }
 
-func TestHandleAdminListSandboxesAndSharing_ReturnPlaceholderShapes(t *testing.T) {
+func TestHandleAdminListSharing_ReturnsPlaceholderShape(t *testing.T) {
 	s, _ := apiKeyFixture(t)
-	rec := doJSON(t, s, http.MethodGet, "/api/v1/admin/sandboxes", "")
+	rec := doJSON(t, s, http.MethodGet, "/api/v1/admin/sharing", "")
 	if rec.Code != http.StatusOK {
 		t.Fatalf("expected 200, got %d", rec.Code)
 	}
-	rec2 := doJSON(t, s, http.MethodGet, "/api/v1/admin/sharing", "")
-	if rec2.Code != http.StatusOK {
-		t.Fatalf("expected 200, got %d", rec2.Code)
+}
+
+// TestHandleAdminListSandboxes_JoinsScopedApiKeyMetadata is the FR6.6
+// regression test (task #48 — handleAdminListSandboxes used to be a stub
+// that always returned an empty list). Covers: (a) a sandbox WITH a scoped
+// key shows its metadata, (b) a sandbox with NO scoped key shows an
+// absent field (not an error), (c) never the plaintext or hash.
+func TestHandleAdminListSandboxes_JoinsScopedApiKeyMetadata(t *testing.T) {
+	withKey := &agenttierv1alpha1.Sandbox{
+		ObjectMeta: metav1.ObjectMeta{Name: "sbx-with-key", Namespace: "default"},
+		Status:     agenttierv1alpha1.SandboxStatus{Phase: agenttierv1alpha1.SandboxPhaseRunning},
+	}
+	withoutKey := &agenttierv1alpha1.Sandbox{
+		ObjectMeta: metav1.ObjectMeta{Name: "sbx-no-key", Namespace: "default"},
+		Status:     agenttierv1alpha1.SandboxStatus{Phase: agenttierv1alpha1.SandboxPhaseRunning},
+	}
+	s, c := apiKeyFixture(t)
+	for _, sb := range []*agenttierv1alpha1.Sandbox{withKey, withoutKey} {
+		if err := c.Create(context.Background(), sb); err != nil {
+			t.Fatalf("create sandbox %s: %v", sb.Name, err)
+		}
+	}
+
+	store := apikeystore.New(c, "agenttier")
+	if err := store.Create(context.Background(), "deadbeef", &auth.APIKeyRecord{
+		UserID:       "u-1",
+		Name:         "sandbox-scoped: sbx-with-key",
+		SandboxID:    "sbx-with-key",
+		ActionGroups: []string{"run-command", "resume", "stop"},
+		CreatedAt:    time.Now(),
+	}); err != nil {
+		t.Fatalf("seed scoped key record: %v", err)
+	}
+
+	rec := doJSON(t, s, http.MethodGet, "/api/v1/admin/sandboxes", "")
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d body=%s", rec.Code, rec.Body.String())
+	}
+
+	var resp struct {
+		Sandboxes []map[string]interface{} `json:"sandboxes"`
+	}
+	if err := json.Unmarshal(rec.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+	// The scoped key's ID (a Secret name derived from the hash, per
+	// apikeystore.Metadata — same accepted shape as GET /user/api-keys)
+	// is fine to expose; the plaintext key and raw "keyHash" field are
+	// the things that must never appear. Checked per-entry below.
+	if len(resp.Sandboxes) != 2 {
+		t.Fatalf("expected 2 sandboxes, got %d", len(resp.Sandboxes))
+	}
+
+	byName := map[string]map[string]interface{}{}
+	for _, sb := range resp.Sandboxes {
+		byName[sb["sandboxId"].(string)] = sb
+	}
+
+	withKeyEntry, ok := byName["sbx-with-key"]
+	if !ok {
+		t.Fatal("sbx-with-key missing from response")
+	}
+	scoped, ok := withKeyEntry["scopedApiKeys"].([]interface{})
+	if !ok || len(scoped) != 1 {
+		t.Fatalf("expected exactly 1 scoped key entry for sbx-with-key, got %#v", withKeyEntry["scopedApiKeys"])
+	}
+	first, ok := scoped[0].(map[string]interface{})
+	if !ok {
+		t.Fatalf("scoped key entry not a JSON object: %#v", scoped[0])
+	}
+	if first["sandboxId"] != "sbx-with-key" {
+		t.Errorf("scoped key sandboxId = %v, want sbx-with-key", first["sandboxId"])
+	}
+	groups, ok := first["actionGroups"].([]interface{})
+	if !ok || len(groups) != 3 {
+		t.Errorf("expected 3 actionGroups, got %#v", first["actionGroups"])
+	}
+	for _, sensitive := range []string{"keyHash", "key"} {
+		if _, present := first[sensitive]; present {
+			t.Errorf("scoped key entry must never include %q, got %#v", sensitive, first)
+		}
+	}
+
+	noKeyEntry, ok := byName["sbx-no-key"]
+	if !ok {
+		t.Fatal("sbx-no-key missing from response")
+	}
+	if _, present := noKeyEntry["scopedApiKeys"]; present {
+		t.Errorf("sbx-no-key must not carry a scopedApiKeys field, got %#v", noKeyEntry["scopedApiKeys"])
 	}
 }
 

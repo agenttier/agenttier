@@ -10,9 +10,10 @@ to obtain instances — don't construct :class:`Sandbox` directly.
 from __future__ import annotations
 
 import time
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Mapping, Optional
 
 from agenttier._http import raise_for_status
+from agenttier.bulk import PatchResult, patch_sandbox
 from agenttier.exceptions import SandboxErrorState, SandboxTimeoutError
 from agenttier.models import CommandResult, FileEntry, ForwardedPort, SandboxPhase, SandboxSummary
 
@@ -20,6 +21,8 @@ if TYPE_CHECKING:  # pragma: no cover
     import httpx
 
     from agenttier.agent import AgentAPI
+    from agenttier.backups import BackupsAPI
+    from agenttier.sharing import SharingAPI
 
 _DEFAULT_WAIT_TIMEOUT = 120.0
 _DEFAULT_POLL_INTERVAL = 2.0
@@ -221,6 +224,68 @@ class Sandbox:
         from agenttier.agent import AgentAPI
 
         return AgentAPI(self)
+
+    # ------- sharing -------------------------------------------------------
+
+    @property
+    def sharing(self) -> "SharingAPI":
+        """Namespace for the sandbox sharing REST surface.
+
+        Returns a facade for ``GET/POST /share``, ``DELETE /share/{userId}``,
+        and ``POST /share-links``. See :class:`agenttier.sharing.SharingAPI`.
+        """
+        from agenttier.sharing import SharingAPI
+
+        return SharingAPI(self)
+
+    # ------- backups ---------------------------------------------------------
+
+    @property
+    def backups(self) -> "BackupsAPI":
+        """Namespace for the sandbox backup/restore REST surface.
+
+        Returns a facade for ``GET/POST /backups``,
+        ``POST /backups/{snapshotName}/restore``, and
+        ``DELETE /backups/{snapshotName}``. See
+        :class:`agenttier.backups.BackupsAPI`.
+        """
+        from agenttier.backups import BackupsAPI
+
+        return BackupsAPI(self)
+
+    # ------- live mutation -------------------------------------------------
+
+    def update(
+        self,
+        *,
+        idle_timeout: Optional[str] = None,
+        resources: Optional[Mapping[str, Any]] = None,
+        labels: Optional[Mapping[str, str]] = None,
+        annotations: Optional[Mapping[str, str]] = None,
+    ) -> PatchResult:
+        """Live-mutate this sandbox via ``PATCH /sandboxes/{id}``.
+
+        At least one of ``idle_timeout``, ``resources``, ``labels``,
+        ``annotations`` must be provided — omitting all four raises
+        :class:`ValueError` locally before any network call (FR1.10).
+        ``idle_timeout``/``labels``/``annotations`` changes apply
+        immediately; ``resources`` changes are persisted but only take
+        effect after the sandbox is stopped and resumed (the controller has
+        no in-place pod resize) — check the returned
+        :class:`~agenttier.bulk.PatchResult.restart_required` flag.
+
+        A PATCH that would exceed the effective governance policy (e.g.
+        ``maxCpu``) raises :class:`agenttier.exceptions.PolicyViolationError`,
+        the same as ``create_sandbox``.
+        """
+        return patch_sandbox(
+            self._http,
+            self.id,
+            idle_timeout=idle_timeout,
+            resources=resources,
+            labels=labels,
+            annotations=annotations,
+        )
 
     # ------- misc --------------------------------------------------------
 

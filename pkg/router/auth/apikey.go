@@ -40,6 +40,15 @@ type APIKeyStore interface {
 }
 
 // APIKeyRecord represents a stored API key.
+//
+// SandboxID and ActionGroups implement the sandbox-scoped key type (FR6): a
+// non-empty SandboxID marks this as a scoped key bound to exactly one
+// sandbox, restricted to the action groups listed in ActionGroups (e.g.
+// "run-command", "files:read", "resume"). User-level keys leave both fields
+// empty/nil and are unaffected. This finishes wiring the previously-dead
+// Scopes field into an enforced model — Scopes is retained for backward
+// compatibility with any existing records but is no longer the enforcement
+// mechanism.
 type APIKeyRecord struct {
 	KeyHash           string     `json:"keyHash"`
 	UserID            string     `json:"userId"`
@@ -47,6 +56,8 @@ type APIKeyRecord struct {
 	Name              string     `json:"name"`
 	Scopes            []string   `json:"scopes"`
 	AllowedNamespaces []string   `json:"allowedNamespaces"`
+	SandboxID         string     `json:"sandboxId,omitempty"`
+	ActionGroups      []string   `json:"actionGroups,omitempty"`
 	CreatedAt         time.Time  `json:"createdAt"`
 	ExpiresAt         *time.Time `json:"expiresAt,omitempty"`
 	LastUsedAt        *time.Time `json:"lastUsedAt,omitempty"`
@@ -93,11 +104,16 @@ func (v *APIKeyValidator) ValidateKey(ctx context.Context, key string) (*Claims,
 		return nil, fmt.Errorf("API key expired")
 	}
 
-	// Build claims
+	// Build claims. SandboxID/ActionGroups are carried straight from the
+	// record so a scoped key's Claims reach the router with enough
+	// information for scopedkey middleware to enforce bound-sandbox +
+	// action-group checks; a user-level record leaves both empty.
 	claims := &Claims{
-		Sub:   record.UserID,
-		Email: record.Email,
-		Name:  record.Name,
+		Sub:          record.UserID,
+		Email:        record.Email,
+		Name:         record.Name,
+		SandboxID:    record.SandboxID,
+		ActionGroups: record.ActionGroups,
 	}
 
 	// Cache the result

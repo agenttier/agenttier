@@ -46,6 +46,12 @@ dev = [
     "ruff>=0.5",
     "mypy>=1.10",
 ]
+# FR7 (stretch): MCP server mirroring the SDK 1:1. Kept optional so the base
+# SDK install stays free of the mcp package's own dependency tree (uvicorn,
+# starlette, etc.) for callers who only want the REST client.
+mcp = [
+    "mcp>=1.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/agenttier/agenttier"
@@ -56,6 +62,8 @@ Changelog = "https://github.com/agenttier/agenttier/blob/main/CHANGELOG.md"
 
 [project.scripts]
 agenttier = "agenttier.cli:main"
+agenttier-mcp = "agenttier.mcp.stdio_main:main"
+agenttier-mcp-http = "agenttier.mcp.http_main:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/agenttier"]
@@ -70,6 +78,29 @@ line-length = 100
 [tool.mypy]
 python_version = "3.10"
 strict = true
+
+# The mcp extra (FR7, stretch) is optional — `pip install agenttier[mcp]`.
+# Without it installed, mypy has no stubs for mcp.server.fastmcp and fails
+# import-not-found on the whole SDK gate. ignore_missing_imports makes the
+# module resolve as Any in that case; when the extra IS installed, mcp
+# ships its own inline types and mypy uses those instead (this override
+# only kicks in when stubs are genuinely absent).
+[[tool.mypy.overrides]]
+module = "mcp.*"
+ignore_missing_imports = true
+
+# agenttier.mcp.server's FastMCP(**fastmcp_kwargs) call carries a
+# `# type: ignore[arg-type]` that is genuinely needed only when mcp IS
+# installed (FastMCP's real stubs reject **dict-typed kwargs under strict
+# mode — 15 concrete arg-type errors without it, verified). When mcp is
+# NOT installed, the override above resolves FastMCP as Any, which accepts
+# any call shape with zero checking — so the same ignore comment becomes
+# "unused" in that state. Since the ignore's necessity is conditional on an
+# optional dependency neither install state can satisfy on its own, disable
+# the unused-ignore check for this one file rather than the whole package.
+[[tool.mypy.overrides]]
+module = "agenttier.mcp.server"
+warn_unused_ignores = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

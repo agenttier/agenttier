@@ -90,6 +90,16 @@ nodes.
   LRU caching). The `iss` and `aud` claims are checked.
 - **API keys** are stored as SHA-256 hashes in Kubernetes Secrets and compared
   in constant time. A key is returned in plaintext exactly once (at creation).
+- **Sandbox-scoped API keys** narrow a key to one sandbox plus an explicit
+  action-group set (never `delete`), auto-minted into every sandbox as
+  `AGENTTIER_SANDBOX_API_KEY`. Enforcement is default-deny: the middleware's
+  allow-map is the *only* path to a 200 for a scoped key, so a future route
+  added without an explicit scoped-key decision fails closed rather than
+  silently admitting one. A mismatch (wrong sandbox, or an action outside the
+  key's groups) is 403, not 404 — the caller already proved it holds a key
+  for some sandbox, so there's nothing to hide by pretending the target
+  doesn't exist. See [Sandbox-scoped API keys](api/new-endpoints.md#sandbox-scoped-api-keys)
+  for the full model.
 - **Dev auth** (`auth.devAuth=true`) disables all authentication and treats
   every request as admin. It must never be enabled on a publicly-reachable
   Router. The controller logs a loud `AUTHENTICATION DISABLED — LOCAL DEV ONLY`
@@ -97,6 +107,17 @@ nodes.
 - **Admin routes** (`/admin/sandboxes`, `/admin/sharing`, cluster/namespace
   policy endpoints) are gated by `requireAdmin` middleware. Non-admin
   identities receive 403.
+
+## Webhook subscription SSRF guard
+
+Webhook subscription URLs ([Webhooks](api/new-endpoints.md#webhooks-apiv1webhooks))
+are fully caller-controlled, and the controller — which has broader network
+reach than any sandboxed workload — makes the outbound delivery call. Every
+subscription URL is validated at creation and **re-validated immediately
+before each delivery attempt**: `https://` only, and the resolved IP address
+(after DNS resolution, not a hostname string match — a string match is
+defeated by DNS rebinding) must not fall in a loopback, link-local (including
+the `169.254.169.254` cloud metadata address), or RFC 1918 private range.
 
 ## Pod security defaults
 

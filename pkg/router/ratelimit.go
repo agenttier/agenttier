@@ -17,7 +17,9 @@ limitations under the License.
 package router
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"strings"
@@ -26,6 +28,13 @@ import (
 
 	"golang.org/x/time/rate"
 )
+
+// routeCostMaxPeekBytes bounds how much of a request body costForRequest
+// will buffer to let a RouteCostFunc inspect it (e.g. counting bulk items).
+// Generous enough for any realistic bulk payload while capping the memory a
+// pathological request can force the limiter to hold before the handler's
+// own body-size limits ever run.
+const routeCostMaxPeekBytes = 8 * 1024 * 1024 // 8 MiB
 
 // RateLimitConfig configures the per-IP and per-user rate limiters. All
 // fields are optional; zero values disable that layer entirely so an
@@ -95,6 +104,93 @@ type rateLimiter struct {
 	byUser   map[string]*limiterEntry
 	stopOnce sync.Once
 	stop     chan struct{}
+
+	// costMu guards costFuncs, the per-route cost hook registry (DD5). It is
+	// a separate lock from mu (which guards the limiter maps) since route
+	// registration happens once at startup wiring time and must never
+	// contend with the hot per-request limiter path.
+	costMu    sync.RWMutex
+	costFuncs map[string]RouteCostFunc
+}
+
+// RouteCostFunc computes the token cost of a request for the per-user rate
+// limiter. Registered per mux path template via registerRouteCost so bulk
+// endpoints (FR4.5/NFR6) can charge N tokens for an N-item batch instead of
+// the default 1 — a bulk call must never cost less than the sum of its
+// per-item equivalents. Returning a value < 1 is treated as 1.
+//
+// The function may read r.Body (e.g. to decode a bulk request and count
+// items) — costForRequest buffers the body first and restores it on r.Body
+// afterwards, so the handler downstream still sees the full, unconsumed
+// stream. A malformed body should make the function return a small cost
+// (e.g. 1) and let the handler itself reject the request with a proper
+// error; the limiter is not the place to validate payload shape.
+type RouteCostFunc func(r *http.Request) int
+
+// registerRouteCost associates a mux path template (as returned by
+// route.GetPathTemplate(), e.g. "/api/v1/sandboxes/bulk") with a cost
+// function. Safe to call concurrently; intended to be called once per route
+// during server wiring (G2b), not per-request. A route with no registered
+// cost function costs 1 token per request (today's behavior, unchanged).
+func (rl *rateLimiter) registerRouteCost(pathTemplate string, fn RouteCostFunc) {
+	rl.costMu.Lock()
+	defer rl.costMu.Unlock()
+	if rl.costFuncs == nil {
+		rl.costFuncs = make(map[string]RouteCostFunc)
+	}
+	rl.costFuncs[pathTemplate] = fn
+}
+
+// costForRequest looks up the registered cost function for the request's
+// matched route and evaluates it. Returns 1 (the default, unchanged cost)
+// when no route matched or no cost function is registered for it.
+//
+// If a cost function is registered, the request body is buffered up to
+// routeCostMaxPeekBytes so the function can inspect it (e.g. decode a bulk
+// payload to count items), then r.Body is reset to a fresh reader over the
+// buffered bytes so the handler that runs afterward still sees the complete,
+// unconsumed body. This buffering only happens for routes that actually
+// registered a cost function — the common case (cost 1, no function) never
+// touches the body.
+func (rl *rateLimiter) costForRequest(r *http.Request) int {
+	tmpl := routePathTemplate(r)
+	if tmpl == "" {
+		return 1
+	}
+	rl.costMu.RLock()
+	fn, ok := rl.costFuncs[tmpl]
+	rl.costMu.RUnlock()
+	if !ok || fn == nil {
+		return 1
+	}
+
+	var cost int
+	if r.Body != nil {
+		data, err := io.ReadAll(io.LimitReader(r.Body, routeCostMaxPeekBytes))
+		_ = r.Body.Close()
+		if err != nil {
+			// Body unreadable — restore an empty reader so the handler gets
+			// a clean (if empty) body rather than a half-drained stream,
+			// and fall back to the default cost; the handler's own
+			// decoding will surface the real error to the caller.
+			r.Body = io.NopCloser(bytes.NewReader(nil))
+			return 1
+		}
+		// fn reads from a throwaway reader over our buffered copy so it can
+		// fully drain it without affecting what the handler sees next: we
+		// always reset r.Body from the retained `data`, not from whatever
+		// fn left behind.
+		r.Body = io.NopCloser(bytes.NewReader(data))
+		cost = fn(r)
+		r.Body = io.NopCloser(bytes.NewReader(data))
+	} else {
+		cost = fn(r)
+	}
+
+	if cost < 1 {
+		return 1
+	}
+	return cost
 }
 
 type limiterEntry struct {
@@ -158,22 +254,43 @@ func (rl *rateLimiter) evictStale() {
 	rl.mu.Unlock()
 }
 
-// gateRequest applies both the per-IP and per-user limits. Returns nil when
-// the request should proceed and a structured error otherwise. The error's
-// message is what we surface to the client; it includes Retry-After context.
+// gateRequest applies both the per-IP and per-user limits at the default
+// cost of one token. Returns nil when the request should proceed and a
+// structured error otherwise. The error's message is what we surface to the
+// client; it includes Retry-After context.
 //
 // Order matters: per-IP runs first because we want to throttle abusive
 // callers before we even look at their auth context. Per-user runs second
 // and only when claims are present.
 func (rl *rateLimiter) gateRequest(ip, userSub string) (allowed bool, retryAfter time.Duration) {
+	return rl.gateRequestN(ip, userSub, 1)
+}
+
+// gateRequestN is gateRequest with an explicit token cost, backing the
+// per-route cost hook (DD5/FR4.5/NFR6): a bulk endpoint whose body carries N
+// items must charge N tokens so that one bulk call of N items costs exactly
+// as much as N individual calls — never less (a bulk endpoint must not
+// become a rate-limit-bypass for N operations). cost < 1 is normalized to 1;
+// a request always costs at least one token even if a cost function has a
+// bug that returns zero or negative.
+//
+// Order matters: per-IP runs first because we want to throttle abusive
+// callers before we even look at their auth context. Per-user runs second
+// and only when claims are present.
+func (rl *rateLimiter) gateRequestN(ip, userSub string, cost int) (allowed bool, retryAfter time.Duration) {
+	if cost < 1 {
+		cost = 1
+	}
+
 	// Per-IP — applies regardless of auth state.
 	if rl.cfg.PerIPRate > 0 && ip != "" {
 		l := rl.getOrCreate(rl.byIP, ip, rl.cfg.PerIPRate, rl.cfg.PerIPBurst)
-		if !l.Allow() {
-			// Reserve a single token to compute when the next allowance
+		now := time.Now()
+		if !l.AllowN(now, cost) {
+			// Reserve `cost` tokens to compute when the next allowance
 			// arrives, then cancel the reservation so we don't burn the
 			// quota for a request we're rejecting.
-			r := l.Reserve()
+			r := l.ReserveN(now, cost)
 			delay := r.Delay()
 			r.Cancel()
 			return false, delay
@@ -184,8 +301,9 @@ func (rl *rateLimiter) gateRequest(ip, userSub string) (allowed bool, retryAfter
 	// pays the IP cost above.
 	if rl.cfg.PerUserRate > 0 && userSub != "" {
 		l := rl.getOrCreate(rl.byUser, userSub, rl.cfg.PerUserRate, rl.cfg.PerUserBurst)
-		if !l.Allow() {
-			r := l.Reserve()
+		now := time.Now()
+		if !l.AllowN(now, cost) {
+			r := l.ReserveN(now, cost)
 			delay := r.Delay()
 			r.Cancel()
 			return false, delay
@@ -250,8 +368,14 @@ func (s *Server) rateLimitMiddleware(next http.Handler) http.Handler {
 }
 
 // rateLimitAuthenticatedMiddleware enforces the per-user (Sub claim)
-// budget. Mounted after authMiddleware so claims are available. It does
-// NOT re-do the IP check — that already ran in rateLimitMiddleware.
+// budget. Mounted after authMiddleware (and after mux has resolved the
+// route, since it's mounted on the /api/v1 subrouter) so both claims and the
+// matched route are available. It does NOT re-do the IP check — that
+// already ran in rateLimitMiddleware.
+//
+// Cost defaults to 1 token per request; a route registered via
+// registerRouteCost (DD5/FR4.5/NFR6, e.g. a bulk endpoint) charges N tokens
+// for an N-item request so bulk calls can't undercut the per-item rate.
 func (s *Server) rateLimitAuthenticatedMiddleware(next http.Handler) http.Handler {
 	if s.rateLimiter == nil {
 		return next
@@ -266,9 +390,10 @@ func (s *Server) rateLimitAuthenticatedMiddleware(next http.Handler) http.Handle
 			next.ServeHTTP(w, r) // auth not present — IP layer already ran
 			return
 		}
-		// Skip the IP path inside gateRequest since we already paid that
+		// Skip the IP path inside gateRequestN since we already paid that
 		// cost in rateLimitMiddleware: pass an empty IP here.
-		allowed, retryAfter := s.rateLimiter.gateRequest("", claims.Sub)
+		cost := s.rateLimiter.costForRequest(r)
+		allowed, retryAfter := s.rateLimiter.gateRequestN("", claims.Sub, cost)
 		if !allowed {
 			writeRateLimitResponse(w, retryAfter)
 			return

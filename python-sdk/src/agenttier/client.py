@@ -13,9 +13,19 @@ import httpx
 from agenttier._http import default_user_agent, raise_for_status
 from agenttier._retry import RetryConfig, wrap_transport
 from agenttier._version import __version__
+from agenttier.admin import AdminAPI
+from agenttier.analytics import AnalyticsAPI
+from agenttier.apikeys import APIKeysAPI
+from agenttier.audit import AuditAPI
 from agenttier.auth import AuthProvider, auto_detect_auth
+from agenttier.bulk import SandboxesAPI
+from agenttier.cluster import ClusterAPI
+from agenttier.governance import GovernanceAPI
 from agenttier.models import CurrentUser, SandboxSummary, Template
 from agenttier.sandbox import Sandbox
+from agenttier.user import UserAPI
+from agenttier.warmpool import WarmPoolAPI
+from agenttier.webhooks import WebhooksAPI
 
 _API_PREFIX = "/api/v1"
 _DEFAULT_TIMEOUT = 30.0
@@ -31,8 +41,18 @@ class AgentTierClient:
         with AgentTierClient(api_url="https://agenttier.company.com") as client:
             sandbox = client.create_sandbox(template="general-coding", name="demo")
             sandbox.wait_until_running()
-            print(sandbox.exec("uname -a").stdout)
+            result = sandbox.exec("uname -a")
+            print(result.stdout)
             sandbox.terminate()
+
+    Beyond sandbox CRUD, the client exposes one sub-client attribute per
+    resource group: :attr:`governance`, :attr:`analytics`, :attr:`audit`,
+    :attr:`admin`, :attr:`user`, :attr:`api_keys`, :attr:`warmpool`,
+    :attr:`cluster`, :attr:`webhooks`, and :attr:`sandboxes` (bulk create/
+    action). Each is documented in its own module (e.g.
+    :mod:`agenttier.governance`); most admin-scoped calls require the
+    caller's identity to carry the admin group/claim the Router is
+    configured with.
     """
 
     def __init__(
@@ -61,6 +81,20 @@ class AgentTierClient:
             headers={"User-Agent": default_user_agent(__version__)},
             event_hooks={"request": [self._apply_auth]},
         )
+
+        # Sub-clients for the newer resource groups (FR1). Each takes only
+        # ``self._http`` (via this client), so constructing them here is
+        # cheap and side-effect-free — no extra network calls at __init__.
+        self.governance = GovernanceAPI(self)
+        self.analytics = AnalyticsAPI(self)
+        self.audit = AuditAPI(self)
+        self.admin = AdminAPI(self)
+        self.user = UserAPI(self)
+        self.api_keys = APIKeysAPI(self)
+        self.warmpool = WarmPoolAPI(self)
+        self.cluster = ClusterAPI(self)
+        self.webhooks = WebhooksAPI(self)
+        self.sandboxes = SandboxesAPI(self)
 
     # ------- context manager --------------------------------------------
 

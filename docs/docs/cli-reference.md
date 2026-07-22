@@ -1,16 +1,23 @@
 # CLI reference
 
-Full command reference for the **Python `agenttier` CLI** (`pip install agenttier`,
-installed alongside the SDK; works on any platform with Python 3.10+). This is the
-full-surface distribution — sandbox/template CRUD, files, ports, plus `configure`/`invoke`.
+Full command reference for the `agenttier` CLI. As of 0.9.x, both
+distributions — the **Python CLI** (`pip install agenttier`, installed
+alongside the SDK; any platform with Python 3.10+) and the **Go binary**
+(native builds from GitHub Releases, `linux/darwin/windows × amd64/arm64`, no
+Python runtime required) — cover the same command families: `sandbox`
+(including `files`, `ports`, `sharing`, `backups`, `patch`, `bulk-create`,
+`bulk-action`), `template`, `governance`, `audit`, `analytics`, `admin`,
+`user`, `apikeys`, `warmpool`, `cluster`, `webhooks`, `configure`, `invoke`.
 
-A second distribution — native Go binaries from GitHub Releases
-(`linux/darwin/windows × amd64/arm64`, no Python runtime required) — ships a
-**much smaller surface**: only `configure`, `invoke`, `version`, and `help`.
-Everything in this reference EXCEPT the `agenttier configure` and `agenttier invoke`
-sections (and their documented flags) is Python-CLI-only. See [CLI](cli.md) for
-the two-distribution overview and [`cmd/cli/`](https://github.com/agenttier/agenttier/tree/main/cmd/cli)
-for the Go binary's source.
+The two exceptions, called out inline below: `agenttier sandbox files
+archive` (whole-workspace `.zip` download) exists only in the Python CLI, and
+flag/output styling differs slightly (the Go binary's flag parser is
+`flag.FlagSet`-based rather than `argparse`-based, though flag names match).
+See [CLI](cli.md) for the two-distribution overview and
+[`cmd/cli/`](https://github.com/agenttier/agenttier/tree/main/cmd/cli) for the
+Go binary's source, or
+[`python-sdk/src/agenttier/cli.py`](https://github.com/agenttier/agenttier/tree/main/python-sdk/src/agenttier/cli.py)
+for the Python source.
 
 For tutorials, see [Web UI walkthrough](tutorials/web-ui.md), [Python SDK walkthrough](tutorials/python-sdk.md), and [Agent mode in depth](tutorials/agent-mode-tutorial.md).
 
@@ -22,10 +29,10 @@ agenttier <command> [<subcommand>] [flags] [arguments]
 
 ## Global flags
 
-Available on every command in this reference (the Python CLI). The Go binary
-(GitHub Releases) only recognizes `--api-url`/`--api-key` on its two commands
-(`configure`, `invoke`) — no `--token`, `--output`, or `login`/`whoami`/`sandbox`/
-`template` subcommands exist there; see [CLI](cli.md) for the split.
+Available on every command in this reference, on **both** distributions —
+the Go binary reached full flag/command parity with the Python CLI in
+0.9.x (previously it only recognized `--api-url`/`--api-key` on `configure`/
+`invoke`; see [CLI](cli.md) for the small remaining differences).
 
 | Flag | Env var | Description |
 | --- | --- | --- |
@@ -60,7 +67,9 @@ Flags: global only. The path is overridable via `AGENTTIER_CONFIG`.
 
 ### `agenttier whoami`
 
-Print the server's view of the authenticated identity.
+Print the server's view of the authenticated identity. Python CLI only — the
+Go CLI exposes the same call as [`agenttier user whoami`](#agenttier-user)
+instead.
 
 ```
 agenttier whoami [--output text|json]
@@ -110,8 +119,8 @@ agenttier sandbox create <name> --template <name> \
 | `--timeout` | Max-runtime duration (Go format, e.g. `8h`, `24h`). |
 | `--idle-timeout` | Auto-stop after this much inactivity (e.g. `30m`). |
 | `--storage-size` | PVC size (e.g. `10Gi`, `50Gi`). |
-| `--wait` | Block until sandbox reaches `Running`. |
-| `--wait-timeout` | Wait timeout in seconds. Default: `180`. |
+| `--wait` | Block until sandbox reaches `Running`. Python CLI only — the Go CLI has no `--wait`/`--wait-timeout` on `create`; use the separate `agenttier sandbox wait` subcommand below instead. |
+| `--wait-timeout` | Wait timeout in seconds. Default: `180`. Python CLI only (see `--wait`). |
 
 #### `agenttier sandbox stop`
 
@@ -191,6 +200,85 @@ Manage port forwards. The Router proxies the in-pod port at `/api/v1/sandboxes/<
 | `forward` | `agenttier sandbox ports forward <id> --port <N> [--protocol http\|tcp]` |
 | `remove` | `agenttier sandbox ports remove <id> --port <N>` |
 
+#### `agenttier sandbox patch`
+
+Live-mutate a running sandbox — see [PATCH /api/v1/sandboxes/{id}](api/new-endpoints.md#patch-apiv1sandboxesid-live-mutation) for the full contract.
+
+```
+agenttier sandbox patch <sandbox-id> \
+  [--idle-timeout <DUR>] \
+  [--cpu-request <CPU>] [--memory-request <MEM>] [--cpu-limit <CPU>] [--memory-limit <MEM>] \
+  [--label <key>=<value>]... [--annotation <key>=<value>]...
+```
+
+At least one flag is required. `--label`/`--annotation` are repeatable and merge into (not replace) the sandbox's existing labels/annotations. Prints each field's `applied` status (`immediately` or `on-restart`); if any field is `on-restart`, also prints the accompanying message.
+
+```bash
+agenttier sandbox patch demo --idle-timeout 1h --label team=platform
+agenttier sandbox patch demo --cpu-limit 2 --memory-limit 4Gi   # resources: on-restart
+```
+
+#### `agenttier sandbox bulk-create`
+
+Create multiple sandboxes from one JSON array in a single call — see [Bulk operations](api/new-endpoints.md#bulk-operations-apiv1sandboxesbulk-and-bulk-action).
+
+```
+agenttier sandbox bulk-create --file <path-or-'-'>
+```
+
+`--file` takes a JSON array of create specs (same shape as `sandbox create`'s
+fields); `-` reads from stdin. Prints a per-item `INDEX STATUS SANDBOX_ID ERROR` table (or the raw JSON with `--output json`).
+
+```bash
+echo '[{"name":"w1","templateRef":{"name":"general-coding","kind":"ClusterSandboxTemplate"}},
+       {"name":"w2","templateRef":{"name":"general-coding","kind":"ClusterSandboxTemplate"}}]' \
+  | agenttier sandbox bulk-create --file -
+```
+
+#### `agenttier sandbox bulk-action`
+
+Apply `stop`, `resume`, or `delete` to multiple sandbox IDs in one call.
+
+```
+agenttier sandbox bulk-action --action <stop|resume|delete> <sandbox-id>...
+```
+
+Per-item results are independent — an unknown ID or another user's sandbox reports as a per-item error, not a whole-batch abort.
+
+```bash
+agenttier sandbox bulk-action --action stop worker-1 worker-2 worker-3
+```
+
+#### `agenttier sandbox sharing`
+
+Manage sandbox sharing grants and share links. See [Sharing](sdk.md#sandbox-handle) for the SDK equivalent.
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `list` | `agenttier sandbox sharing list <id>` |
+| `grant` | `agenttier sandbox sharing grant <id> <identity> [--level viewer\|collaborator] [--kind user\|group]` |
+| `revoke` | `agenttier sandbox sharing revoke <id> <identity>` |
+| `create-link` | `agenttier sandbox sharing create-link <id> [--level viewer\|collaborator] [--expires-in <DUR>] [--max-uses <N>]` |
+
+`create-link` prints the share token exactly once — it cannot be retrieved again.
+
+#### `agenttier sandbox backups`
+
+Trigger, list, restore, and delete backup snapshots — see [Backups](api/new-endpoints.md#backups-apiv1sandboxesidbackups) for the full contract and [Backup and restore](backup.md) for the underlying mechanism.
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `list` | `agenttier sandbox backups list <id>` |
+| `create` | `agenttier sandbox backups create <id> [--snapshot-class <class>]` (Go CLI also accepts `--name`, which the Router ignores for create — it only applies to `restore`) |
+| `restore` | `agenttier sandbox backups restore <id> <snapshot-name> [--name <new-sandbox-name>]` |
+| `delete` | `agenttier sandbox backups delete <id> <snapshot-name>` |
+
+```bash
+agenttier sandbox backups create demo
+agenttier sandbox backups list demo
+agenttier sandbox backups restore demo demo-pvc-backup-1721234567 --name demo-restored
+```
+
 ### `agenttier template`
 
 Inspect cluster-scoped templates.
@@ -199,6 +287,102 @@ Inspect cluster-scoped templates.
 | --- | --- |
 | `list` | `agenttier template list` — outputs NAME, IMAGE, DESCRIPTION |
 | `get` | `agenttier template get <name>` — full template spec as JSON |
+
+### `agenttier governance`
+
+Manage governance policies. `set`/`delete` are admin-only on the Router side. See [Governance](governance.md) for the full policy field list and violation codes.
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `list` | `agenttier governance list` — cluster default + every namespace override |
+| `get` | `agenttier governance get <namespace>` |
+| `set` | `agenttier governance set [--namespace <ns>] --max-sandboxes-per-user <N> --max-sandboxes-total <N> --max-agent-sandboxes <N> --max-cpu <CPU> --max-memory <MEM> --max-storage <SIZE> --max-timeout <DUR> --max-idle-timeout <DUR>` (Go CLI; Python CLI takes `--file <path\|->` with a JSON policy body instead) — omit `--namespace` to set the cluster-wide default |
+| `delete` | `agenttier governance delete <namespace>` — removes the override, falls back to cluster default |
+| `effective` | `agenttier governance effective [--namespace <ns>]` — the resolved policy actually enforced for that namespace |
+
+### `agenttier audit`
+
+Admin-only. Lists Kubernetes-Event-backed audit events across all namespaces.
+
+```
+agenttier audit [--output text|json]
+```
+
+### `agenttier analytics`
+
+Admin-only fleet-wide rollups.
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `usage` | `agenttier analytics usage` |
+| `costs` | `agenttier analytics costs` |
+
+### `agenttier admin`
+
+Admin-only cross-tenant views.
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `sandboxes` | `agenttier admin sandboxes` — every sandbox across every namespace |
+| `sharing` | `agenttier admin sharing` — every sharing grant across every namespace |
+
+### `agenttier user`
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `whoami` | `agenttier user whoami [--output text\|json]` — Go CLI only; the Python CLI exposes the same call as the top-level [`agenttier whoami`](#agenttier-whoami) instead, with no `user whoami` alias |
+| `preferences-get` | `agenttier user preferences-get` |
+| `preferences-set` | `agenttier user preferences-set --file <path\|->` — JSON object of preferences (Python CLI; Go CLI takes `--json <inline-string>` instead of `--file`) |
+
+### `agenttier apikeys`
+
+Manage your own API keys, including [sandbox-scoped keys](api/new-endpoints.md#sandbox-scoped-api-keys).
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `list` | `agenttier apikeys list` — metadata only, never the plaintext or hash |
+| `create` | `agenttier apikeys create [--name <label>] [--expires-in <DUR>] [--sandbox-id <id>] [--action-groups <g1,g2,...>]` |
+| `revoke` | `agenttier apikeys revoke <key-id>` |
+
+Omit `--sandbox-id` for a full-access user-level key. `--action-groups` requires `--sandbox-id` and defaults to `run-command,files:read,files:write,ports,agent:invoke,agent:configure,resume,stop` when omitted; `delete` is never a valid action group. The plaintext key is printed exactly once at creation — it cannot be retrieved again.
+
+```bash
+agenttier apikeys create --name "ci-bot" --expires-in 720h
+agenttier apikeys create --sandbox-id my-sandbox --action-groups run-command,files:read
+```
+
+### `agenttier warmpool`
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `status` | `agenttier warmpool status` |
+| `set-config` | `agenttier warmpool set-config --file <path\|->` (admin-only) — JSON array of `{"template":"...","desiredCount":N}` |
+
+### `agenttier cluster`
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `status` | `agenttier cluster status` — node/pod headcount |
+| `nodes` | `agenttier cluster nodes` (admin-only) — per-node capacity + fleet-wide saturation |
+| `headroom-get` | `agenttier cluster headroom-get` |
+| `headroom-set` | `agenttier cluster headroom-set --replicas <N> [--cpu <CPU>] [--memory <MEM>]` (admin-only) |
+
+### `agenttier webhooks`
+
+Manage webhook subscriptions — see [Webhooks](api/new-endpoints.md#webhooks-apiv1webhooks) for event types, delivery/retry mechanics, and the HMAC signature format.
+
+| Subcommand | Synopsis |
+| --- | --- |
+| `create` | `agenttier webhooks create --url <https-url> --event-types <t1,t2,...> [--sandbox-id <id>] [--namespace <ns>]` |
+| `list` | `agenttier webhooks list` — your own subscriptions only |
+| `delete` | `agenttier webhooks delete <id>` |
+| `deliveries` | `agenttier webhooks deliveries <id>` — recent delivery attempts, for debugging |
+
+`--url` must be `https://`; `--event-types` is validated locally against the fixed vocabulary before the network round-trip. The signing secret is printed exactly once at creation.
+
+```bash
+agenttier webhooks create --url https://example.com/hooks/agenttier --event-types sandbox.running,sandbox.error
+```
 
 ### `agenttier configure`
 

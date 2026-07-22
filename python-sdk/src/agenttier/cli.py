@@ -83,6 +83,21 @@ def _err(msg: str) -> None:
     sys.stderr.write(f"agenttier: {msg}\n")
 
 
+def _parse_key_value_pairs(pairs: Sequence[str], flag: str) -> dict[str, str]:
+    """Parse repeated ``key=value`` CLI args (e.g. ``--label``) into a dict."""
+    out: dict[str, str] = {}
+    for pair in pairs:
+        if "=" not in pair:
+            _err(f"{flag} {pair!r} must be key=value")
+            sys.exit(2)
+        k, v = pair.split("=", 1)
+        if not k:
+            _err(f"{flag} {pair!r} must be key=value")
+            sys.exit(2)
+        out[k] = v
+    return out
+
+
 # ----------------------------------------------------------------------
 # Configuration: CLI flags → SDK env vars
 # ----------------------------------------------------------------------
@@ -341,6 +356,80 @@ def cmd_sandbox_wait(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_sandbox_patch(args: argparse.Namespace) -> int:
+    labels = _parse_key_value_pairs(args.label, "--label") if args.label else None
+    annotations = _parse_key_value_pairs(args.annotation, "--annotation") if args.annotation else None
+    resources = None
+    if args.cpu_request or args.cpu_limit or args.memory_request or args.memory_limit:
+        requests = {}
+        if args.cpu_request:
+            requests["cpu"] = args.cpu_request
+        if args.memory_request:
+            requests["memory"] = args.memory_request
+        limits = {}
+        if args.cpu_limit:
+            limits["cpu"] = args.cpu_limit
+        if args.memory_limit:
+            limits["memory"] = args.memory_limit
+        resources = {}
+        if requests:
+            resources["requests"] = requests
+        if limits:
+            resources["limits"] = limits
+    if not (args.idle_timeout or resources or labels or annotations):
+        _err("patch requires at least one of --idle-timeout, --cpu-request, --cpu-limit, --memory-request, --memory-limit, --label, --annotation")
+        return 2
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        result = sandbox.update(
+            idle_timeout=args.idle_timeout,
+            resources=resources,
+            labels=labels,
+            annotations=annotations,
+        )
+    if args.output == "json":
+        _print_json(result)
+    else:
+        sys.stdout.write(f"patched {result.sandbox_id}: applied={result.applied}\n")
+        if result.restart_required:
+            sys.stdout.write(f"note: {result.message or 'restart required to take effect'}\n")
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Sandbox bulk operations
+# ----------------------------------------------------------------------
+
+
+def cmd_sandbox_bulk_create(args: argparse.Namespace) -> int:
+    raw = json.loads(Path(args.file).read_text()) if args.file != "-" else json.loads(sys.stdin.read())
+    if not isinstance(raw, list):
+        _err("bulk-create input must be a JSON array of sandbox specs")
+        return 2
+    from agenttier.bulk import BulkCreateItem
+
+    items = [BulkCreateItem.model_validate(item) for item in raw]
+    with _client(args) as client:
+        results = client.sandboxes.create_bulk(items)
+    if args.output == "json":
+        _print_json(results)
+        return 0
+    rows = [(str(r.index), r.status, r.sandbox_id or "", r.error or "") for r in results]
+    _print_table(rows, headers=["INDEX", "STATUS", "SANDBOX_ID", "ERROR"])
+    return 0
+
+
+def cmd_sandbox_bulk_action(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        results = client.sandboxes.bulk_action(args.ids, args.action)
+    if args.output == "json":
+        _print_json(results)
+        return 0
+    rows = [(r.id, r.status, r.error or "") for r in results]
+    _print_table(rows, headers=["ID", "STATUS", "ERROR"])
+    return 0
+
+
 # ----------------------------------------------------------------------
 # Files
 # ----------------------------------------------------------------------
@@ -393,8 +482,8 @@ def cmd_files_download(args: argparse.Namespace) -> int:
 def cmd_files_archive(args: argparse.Namespace) -> int:
     with _client(args) as client:
         sandbox = client.get_sandbox(args.sandbox_id)
-        n = sandbox.files.archive(args.output, args.path)
-    sys.stdout.write(f"archived {args.path} to {args.output} ({n} bytes)\n")
+        n = sandbox.files.archive(args.dest, args.path)
+    sys.stdout.write(f"archived {args.path} to {args.dest} ({n} bytes)\n")
     return 0
 
 
@@ -452,6 +541,106 @@ def cmd_ports_remove(args: argparse.Namespace) -> int:
         sandbox = client.get_sandbox(args.sandbox_id)
         sandbox.remove_port(args.port)
     sys.stdout.write(f"removed forward for port {args.port}\n")
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Sharing
+# ----------------------------------------------------------------------
+
+
+def cmd_sharing_list(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        info = sandbox.sharing.list()
+    if args.output == "json":
+        _print_json(info)
+        return 0
+    rows = [(p.identity, p.level, "user") for p in info.users] + [
+        (p.identity, p.level, "group") for p in info.groups
+    ]
+    _print_table(rows, headers=["IDENTITY", "LEVEL", "KIND"])
+    return 0
+
+
+def cmd_sharing_grant(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        info = sandbox.sharing.grant(args.identity, level=args.level, kind=args.kind)
+    if args.output == "json":
+        _print_json(info)
+    else:
+        sys.stdout.write(f"granted {args.level} to {args.identity} ({args.kind})\n")
+    return 0
+
+
+def cmd_sharing_revoke(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        sandbox.sharing.revoke(args.identity)
+    sys.stdout.write(f"revoked access for {args.identity}\n")
+    return 0
+
+
+def cmd_sharing_create_link(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        link = sandbox.sharing.create_link(
+            level=args.level, expires_in=args.expires_in, max_uses=args.max_uses
+        )
+    if args.output == "json":
+        _print_json(link)
+    else:
+        sys.stdout.write(f"share link created: {link.token}\n")
+        if link.warning:
+            sys.stdout.write(f"{link.warning}\n")
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Backups
+# ----------------------------------------------------------------------
+
+
+def cmd_backups_list(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        backups = sandbox.backups.list()
+    if args.output == "json":
+        _print_json(backups)
+        return 0
+    rows = [(b.name, b.kind, str(b.ready_to_use), b.restore_size or "") for b in backups]
+    _print_table(rows, headers=["NAME", "KIND", "READY", "RESTORE_SIZE"])
+    return 0
+
+
+def cmd_backups_create(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        backup = sandbox.backups.create(snapshot_class=args.snapshot_class)
+    if args.output == "json":
+        _print_json(backup)
+    else:
+        sys.stdout.write(f"created backup {backup.name}\n")
+    return 0
+
+
+def cmd_backups_restore(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        restored = sandbox.backups.restore(args.snapshot_name, name=args.name)
+    if args.output == "json":
+        _print_json({"name": restored.name, "namespace": restored.namespace})
+    else:
+        sys.stdout.write(f"restored {args.snapshot_name} to {restored.name}\n")
+    return 0
+
+
+def cmd_backups_delete(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandbox = client.get_sandbox(args.sandbox_id)
+        sandbox.backups.delete(args.snapshot_name)
+    sys.stdout.write(f"deleted backup {args.snapshot_name}\n")
     return 0
 
 
@@ -578,6 +767,284 @@ def cmd_invoke(args: argparse.Namespace) -> int:
 
 
 # ----------------------------------------------------------------------
+# Governance
+# ----------------------------------------------------------------------
+
+
+def cmd_governance_list(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        policies = client.governance.list()
+    _print_json(policies)
+    return 0
+
+
+def cmd_governance_get(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        policy = client.governance.get(args.namespace)
+    _print_json(policy)
+    return 0
+
+
+def cmd_governance_set(args: argparse.Namespace) -> int:
+    from agenttier.governance import Policy
+
+    policy_dict = json.loads(Path(args.file).read_text()) if args.file != "-" else json.loads(sys.stdin.read())
+    policy = Policy.model_validate(policy_dict)
+    with _client(args) as client:
+        result = client.governance.set(policy, namespace=args.namespace)
+    _print_json(result)
+    return 0
+
+
+def cmd_governance_delete(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        client.governance.delete(args.namespace)
+    sys.stdout.write(f"deleted policy override for namespace {args.namespace}\n")
+    return 0
+
+
+def cmd_governance_effective(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        eff = client.governance.effective(args.namespace)
+    _print_json(eff)
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Audit
+# ----------------------------------------------------------------------
+
+
+def cmd_audit_list(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        events = client.audit.list_events()
+    if args.output == "json":
+        _print_json(events)
+        return 0
+    rows = [
+        (str(e.timestamp or ""), e.event_type or "", e.sandbox_name or e.sandbox_id or "", e.user_email or "")
+        for e in events
+    ]
+    _print_table(rows, headers=["TIMESTAMP", "EVENT", "SANDBOX", "USER"])
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Analytics
+# ----------------------------------------------------------------------
+
+
+def cmd_analytics_usage(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        usage = client.analytics.usage()
+    _print_json(usage)
+    return 0
+
+
+def cmd_analytics_costs(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        costs = client.analytics.costs()
+    _print_json(costs)
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Admin
+# ----------------------------------------------------------------------
+
+
+def cmd_admin_sandboxes(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sandboxes = client.admin.sandboxes()
+    if args.output == "json":
+        _print_json(sandboxes)
+        return 0
+    rows = [(s.sandbox_id, s.name, s.status, s.namespace) for s in sandboxes]
+    _print_table(rows, headers=["ID", "NAME", "STATUS", "NAMESPACE"])
+    return 0
+
+
+def cmd_admin_sharing(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sharing = client.admin.sharing()
+    _print_json(sharing)
+    return 0
+
+
+# ----------------------------------------------------------------------
+# User preferences
+# ----------------------------------------------------------------------
+
+
+def cmd_user_preferences_get(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        prefs = client.user.preferences_get()
+    _print_json(prefs)
+    return 0
+
+
+def cmd_user_preferences_set(args: argparse.Namespace) -> int:
+    prefs = json.loads(Path(args.file).read_text()) if args.file != "-" else json.loads(sys.stdin.read())
+    with _client(args) as client:
+        stored = client.user.preferences_set(prefs)
+    _print_json(stored)
+    return 0
+
+
+# ----------------------------------------------------------------------
+# API keys
+# ----------------------------------------------------------------------
+
+
+def cmd_apikeys_list(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        keys = client.api_keys.list()
+    if args.output == "json":
+        _print_json(keys)
+        return 0
+    rows = [(k.id, k.name or "", k.sandbox_id or "", ",".join(k.action_groups)) for k in keys]
+    _print_table(rows, headers=["ID", "NAME", "SANDBOX_ID", "ACTION_GROUPS"])
+    return 0
+
+
+def cmd_apikeys_create(args: argparse.Namespace) -> int:
+    action_groups = args.action_group if args.action_group else None
+    with _client(args) as client:
+        created = client.api_keys.create(
+            name=args.name,
+            expires_in=args.expires_in,
+            sandbox_id=args.sandbox_id,
+            action_groups=action_groups,
+        )
+    if args.output == "json":
+        _print_json(created)
+    else:
+        sys.stdout.write(f"created api key {created.id}: {created.key}\n")
+        if created.warning:
+            sys.stdout.write(f"{created.warning}\n")
+    return 0
+
+
+def cmd_apikeys_revoke(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        client.api_keys.revoke(args.key_id)
+    sys.stdout.write(f"revoked api key {args.key_id}\n")
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Warm pool
+# ----------------------------------------------------------------------
+
+
+def cmd_warmpool_status(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        status = client.warmpool.status()
+    _print_json(status)
+    return 0
+
+
+def cmd_warmpool_config(args: argparse.Namespace) -> int:
+    from agenttier.warmpool import PoolConfig
+
+    raw = json.loads(Path(args.file).read_text()) if args.file != "-" else json.loads(sys.stdin.read())
+    if not isinstance(raw, list):
+        _err("warmpool config input must be a JSON array of pool configs")
+        return 2
+    pools = [PoolConfig.model_validate(p) for p in raw]
+    with _client(args) as client:
+        result = client.warmpool.set_config(pools)
+    _print_json(result)
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Cluster
+# ----------------------------------------------------------------------
+
+
+def cmd_cluster_status(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        status = client.cluster.status()
+    _print_json(status)
+    return 0
+
+
+def cmd_cluster_nodes(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        nodes = client.cluster.nodes()
+    _print_json(nodes)
+    return 0
+
+
+def cmd_cluster_headroom_get(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        cfg = client.cluster.headroom_get()
+    _print_json(cfg)
+    return 0
+
+
+def cmd_cluster_headroom_set(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        cfg = client.cluster.headroom_set(args.replicas, cpu=args.cpu, memory=args.memory)
+    _print_json(cfg)
+    return 0
+
+
+# ----------------------------------------------------------------------
+# Webhooks
+# ----------------------------------------------------------------------
+
+
+def cmd_webhooks_create(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        sub = client.webhooks.create(
+            args.url,
+            args.event_type,
+            sandbox_id=args.sandbox_id,
+            namespace=args.namespace,
+        )
+    if args.output == "json":
+        _print_json(sub)
+    else:
+        sys.stdout.write(f"created webhook {sub.id}: secret={sub.secret}\n")
+        sys.stdout.write("store this secret now — it cannot be retrieved again.\n")
+    return 0
+
+
+def cmd_webhooks_list(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        subs = client.webhooks.list()
+    if args.output == "json":
+        _print_json(subs)
+        return 0
+    rows = [(s.id, s.url, ",".join(s.event_types), str(s.disabled)) for s in subs]
+    _print_table(rows, headers=["ID", "URL", "EVENT_TYPES", "DISABLED"])
+    return 0
+
+
+def cmd_webhooks_delete(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        client.webhooks.delete(args.webhook_id)
+    sys.stdout.write(f"deleted webhook {args.webhook_id}\n")
+    return 0
+
+
+def cmd_webhooks_deliveries(args: argparse.Namespace) -> int:
+    with _client(args) as client:
+        deliveries = client.webhooks.deliveries(args.webhook_id)
+    if args.output == "json":
+        _print_json(deliveries)
+        return 0
+    rows = [
+        (str(d.timestamp or ""), d.event_type, str(d.status_code or ""), str(d.attempt), str(d.success))
+        for d in deliveries
+    ]
+    _print_table(rows, headers=["TIMESTAMP", "EVENT", "STATUS", "ATTEMPT", "SUCCESS"])
+    return 0
+
+
+# ----------------------------------------------------------------------
 # Argparse wiring
 # ----------------------------------------------------------------------
 
@@ -692,6 +1159,96 @@ def build_parser() -> argparse.ArgumentParser:
     p_wait.add_argument("--timeout", type=int, default=180)
     p_wait.set_defaults(func=cmd_sandbox_wait)
 
+    p_patch = sub_sandbox.add_parser("patch", help="Live-mutate a running sandbox (FR2)")
+    _add_global_flags(p_patch)
+    p_patch.add_argument("sandbox_id")
+    p_patch.add_argument("--idle-timeout", dest="idle_timeout", help='New idle timeout (e.g. "30m")')
+    p_patch.add_argument("--cpu-request", dest="cpu_request", help='Resource request CPU (e.g. "1")')
+    p_patch.add_argument("--cpu-limit", dest="cpu_limit", help='Resource limit CPU (e.g. "2")')
+    p_patch.add_argument("--memory-request", dest="memory_request", help='Resource request memory (e.g. "2Gi")')
+    p_patch.add_argument("--memory-limit", dest="memory_limit", help='Resource limit memory (e.g. "4Gi")')
+    p_patch.add_argument(
+        "--label", action="append", default=[], help='Set a label: "key=value". Repeatable.'
+    )
+    p_patch.add_argument(
+        "--annotation", action="append", default=[], help='Set an annotation: "key=value". Repeatable.'
+    )
+    p_patch.set_defaults(func=cmd_sandbox_patch)
+
+    p_bc = sub_sandbox.add_parser(
+        "bulk-create", help="Create multiple sandboxes from a JSON array of specs (FR4)"
+    )
+    _add_global_flags(p_bc)
+    p_bc.add_argument("--file", required=True, help='JSON array of create specs; "-" reads stdin')
+    p_bc.set_defaults(func=cmd_sandbox_bulk_create)
+
+    p_ba = sub_sandbox.add_parser(
+        "bulk-action", help="Apply stop/resume/delete to multiple sandbox IDs (FR4)"
+    )
+    _add_global_flags(p_ba)
+    p_ba.add_argument("--action", required=True, choices=["stop", "resume", "delete"])
+    p_ba.add_argument("ids", nargs="+", help="Sandbox IDs")
+    p_ba.set_defaults(func=cmd_sandbox_bulk_action)
+
+    # sandbox sharing
+    p_sharing = sub_sandbox.add_parser("sharing", help="Manage sandbox sharing")
+    sub_sharing = p_sharing.add_subparsers(dest="sharing_subcommand", required=True, metavar="<subcommand>")
+
+    p_shl = sub_sharing.add_parser("list", help="List sharing grants for a sandbox")
+    _add_global_flags(p_shl)
+    p_shl.add_argument("sandbox_id")
+    p_shl.set_defaults(func=cmd_sharing_list)
+
+    p_shg = sub_sharing.add_parser("grant", help="Grant access to a user or group")
+    _add_global_flags(p_shg)
+    p_shg.add_argument("sandbox_id")
+    p_shg.add_argument("identity")
+    p_shg.add_argument("--level", default="viewer", choices=["viewer", "collaborator"])
+    p_shg.add_argument("--kind", default="user", choices=["user", "group"])
+    p_shg.set_defaults(func=cmd_sharing_grant)
+
+    p_shr = sub_sharing.add_parser("revoke", help="Revoke a previously granted identity")
+    _add_global_flags(p_shr)
+    p_shr.add_argument("sandbox_id")
+    p_shr.add_argument("identity")
+    p_shr.set_defaults(func=cmd_sharing_revoke)
+
+    p_shc = sub_sharing.add_parser("create-link", help="Mint an expiring share link")
+    _add_global_flags(p_shc)
+    p_shc.add_argument("sandbox_id")
+    p_shc.add_argument("--level", default="viewer", choices=["viewer", "collaborator"])
+    p_shc.add_argument("--expires-in", dest="expires_in", help='Go duration (e.g. "24h")')
+    p_shc.add_argument("--max-uses", dest="max_uses", type=int, default=0, help="0 = unlimited")
+    p_shc.set_defaults(func=cmd_sharing_create_link)
+
+    # sandbox backups
+    p_backups = sub_sandbox.add_parser("backups", help="Manage sandbox backups (FR3)")
+    sub_backups = p_backups.add_subparsers(dest="backups_subcommand", required=True, metavar="<subcommand>")
+
+    p_bl = sub_backups.add_parser("list", help="List backup + clone snapshots")
+    _add_global_flags(p_bl)
+    p_bl.add_argument("sandbox_id")
+    p_bl.set_defaults(func=cmd_backups_list)
+
+    p_bcr = sub_backups.add_parser("create", help="Trigger an on-demand backup")
+    _add_global_flags(p_bcr)
+    p_bcr.add_argument("sandbox_id")
+    p_bcr.add_argument("--snapshot-class", dest="snapshot_class", help="Override default VolumeSnapshotClass")
+    p_bcr.set_defaults(func=cmd_backups_create)
+
+    p_bres = sub_backups.add_parser("restore", help="Restore a sandbox from a backup snapshot")
+    _add_global_flags(p_bres)
+    p_bres.add_argument("sandbox_id")
+    p_bres.add_argument("snapshot_name")
+    p_bres.add_argument("--name", help="Name for the restored sandbox")
+    p_bres.set_defaults(func=cmd_backups_restore)
+
+    p_bdel = sub_backups.add_parser("delete", help="Prune a backup snapshot")
+    _add_global_flags(p_bdel)
+    p_bdel.add_argument("sandbox_id")
+    p_bdel.add_argument("snapshot_name")
+    p_bdel.set_defaults(func=cmd_backups_delete)
+
     # sandbox files
     p_files = sub_sandbox.add_parser("files", help="File operations on a sandbox")
     sub_files = p_files.add_subparsers(dest="files_subcommand", required=True, metavar="<subcommand>")
@@ -729,7 +1286,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_global_flags(p_arc)
     p_arc.add_argument("sandbox_id")
     p_arc.add_argument(
-        "-o", "--output", required=True, help="Local path for the .zip output"
+        "-o", "--dest", dest="dest", required=True, help="Local path for the .zip output"
     )
     p_arc.add_argument(
         "--path",
@@ -820,6 +1377,178 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_inv.add_argument("--cancel", help="Cancel an in-flight invoke by ID")
     p_inv.set_defaults(func=cmd_invoke)
+
+    # governance <subcommand>
+    p_gov = sub.add_parser("governance", help="Manage governance policies")
+    sub_gov = p_gov.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_gl = sub_gov.add_parser("list", help="List the cluster default policy + namespace overrides")
+    _add_global_flags(p_gl)
+    p_gl.set_defaults(func=cmd_governance_list)
+
+    p_gg = sub_gov.add_parser("get", help="Show the raw policy stored for a namespace")
+    _add_global_flags(p_gg)
+    p_gg.add_argument("namespace")
+    p_gg.set_defaults(func=cmd_governance_get)
+
+    p_gs = sub_gov.add_parser("set", help="Create or replace a policy from a JSON file")
+    _add_global_flags(p_gs)
+    p_gs.add_argument("--file", required=True, help='Policy JSON; "-" reads stdin')
+    p_gs.add_argument("--namespace", help="Omit to set the cluster-wide default")
+    p_gs.set_defaults(func=cmd_governance_set)
+
+    p_gd = sub_gov.add_parser("delete", help="Delete a namespace-specific policy override")
+    _add_global_flags(p_gd)
+    p_gd.add_argument("namespace")
+    p_gd.set_defaults(func=cmd_governance_delete)
+
+    p_ge = sub_gov.add_parser("effective", help="Show the fully-resolved policy for a namespace")
+    _add_global_flags(p_ge)
+    p_ge.add_argument("namespace", nargs="?", help="Defaults to the Router's configured default namespace")
+    p_ge.set_defaults(func=cmd_governance_effective)
+
+    # audit <subcommand>
+    p_audit = sub.add_parser("audit", help="View the activity log (admin)")
+    sub_audit = p_audit.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_al = sub_audit.add_parser("list", help="List recent audit events")
+    _add_global_flags(p_al)
+    p_al.set_defaults(func=cmd_audit_list)
+
+    # analytics <subcommand>
+    p_an = sub.add_parser("analytics", help="Fleet-wide usage/cost analytics (admin)")
+    sub_an = p_an.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_anu = sub_an.add_parser("usage", help="Fleet-wide usage summary")
+    _add_global_flags(p_anu)
+    p_anu.set_defaults(func=cmd_analytics_usage)
+
+    p_anc = sub_an.add_parser("costs", help="Fleet-wide cost estimate")
+    _add_global_flags(p_anc)
+    p_anc.set_defaults(func=cmd_analytics_costs)
+
+    # admin <subcommand>
+    p_admin = sub.add_parser("admin", help="Fleet-wide admin views")
+    sub_admin = p_admin.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_ads = sub_admin.add_parser("sandboxes", help="Fleet-wide sandbox list (admin)")
+    _add_global_flags(p_ads)
+    p_ads.set_defaults(func=cmd_admin_sandboxes)
+
+    p_adsh = sub_admin.add_parser("sharing", help="Fleet-wide sharing overview (admin)")
+    _add_global_flags(p_adsh)
+    p_adsh.set_defaults(func=cmd_admin_sharing)
+
+    # user <subcommand>
+    p_user = sub.add_parser("user", help="Manage user preferences")
+    sub_user = p_user.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_upg = sub_user.add_parser("preferences-get", help="Show the caller's saved preferences")
+    _add_global_flags(p_upg)
+    p_upg.set_defaults(func=cmd_user_preferences_get)
+
+    p_ups = sub_user.add_parser("preferences-set", help="Replace the caller's preferences")
+    _add_global_flags(p_ups)
+    p_ups.add_argument("--file", required=True, help='Preferences JSON; "-" reads stdin')
+    p_ups.set_defaults(func=cmd_user_preferences_set)
+
+    # apikeys <subcommand>
+    p_ak = sub.add_parser("apikeys", help="Manage API keys")
+    sub_ak = p_ak.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_akl = sub_ak.add_parser("list", help="List the caller's API keys")
+    _add_global_flags(p_akl)
+    p_akl.set_defaults(func=cmd_apikeys_list)
+
+    p_akc = sub_ak.add_parser("create", help="Mint a new API key (plaintext shown once)")
+    _add_global_flags(p_akc)
+    p_akc.add_argument("--name", help="Human-readable label")
+    p_akc.add_argument("--expires-in", dest="expires_in", help='Go duration (e.g. "720h")')
+    p_akc.add_argument(
+        "--sandbox-id",
+        dest="sandbox_id",
+        help="Mint a sandbox-scoped key bound to this sandbox instead of a full-access key",
+    )
+    p_akc.add_argument(
+        "--action-group",
+        dest="action_group",
+        action="append",
+        help="Action group for a scoped key (requires --sandbox-id). Repeatable.",
+    )
+    p_akc.set_defaults(func=cmd_apikeys_create)
+
+    p_akr = sub_ak.add_parser("revoke", help="Revoke an API key by its ID")
+    _add_global_flags(p_akr)
+    p_akr.add_argument("key_id")
+    p_akr.set_defaults(func=cmd_apikeys_revoke)
+
+    # warmpool <subcommand>
+    p_wp = sub.add_parser("warmpool", help="Manage the warm pool (admin write)")
+    sub_wp = p_wp.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_wps = sub_wp.add_parser("status", help="Show warm-pool status across all templates")
+    _add_global_flags(p_wps)
+    p_wps.set_defaults(func=cmd_warmpool_status)
+
+    p_wpc = sub_wp.add_parser("config", help="Replace the warm-pool configuration")
+    _add_global_flags(p_wpc)
+    p_wpc.add_argument("--file", required=True, help='JSON array of pool configs; "-" reads stdin')
+    p_wpc.set_defaults(func=cmd_warmpool_config)
+
+    # cluster <subcommand>
+    p_cl = sub.add_parser("cluster", help="Cluster status and headroom")
+    sub_cl = p_cl.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_cls = sub_cl.add_parser("status", help="Node + pod headcount glance")
+    _add_global_flags(p_cls)
+    p_cls.set_defaults(func=cmd_cluster_status)
+
+    p_cln = sub_cl.add_parser("nodes", help="Per-node capacity/usage detail (admin)")
+    _add_global_flags(p_cln)
+    p_cln.set_defaults(func=cmd_cluster_nodes)
+
+    p_clhg = sub_cl.add_parser("headroom-get", help="Show the spare-capacity headroom config")
+    _add_global_flags(p_clhg)
+    p_clhg.set_defaults(func=cmd_cluster_headroom_get)
+
+    p_clhs = sub_cl.add_parser("headroom-set", help="Update headroom replicas/cpu/memory (admin)")
+    _add_global_flags(p_clhs)
+    p_clhs.add_argument("--replicas", type=int, required=True)
+    p_clhs.add_argument("--cpu", help="Per-replica CPU (leave unset to keep current)")
+    p_clhs.add_argument("--memory", help="Per-replica memory (leave unset to keep current)")
+    p_clhs.set_defaults(func=cmd_cluster_headroom_set)
+
+    # webhooks <subcommand>
+    p_wh = sub.add_parser("webhooks", help="Manage webhook subscriptions")
+    sub_wh = p_wh.add_subparsers(dest="subcommand", required=True, metavar="<subcommand>")
+
+    p_whc = sub_wh.add_parser("create", help="Register a webhook subscription (secret shown once)")
+    _add_global_flags(p_whc)
+    p_whc.add_argument("--url", required=True, help="Receiver URL (must be https://)")
+    p_whc.add_argument(
+        "--event-type",
+        dest="event_type",
+        action="append",
+        required=True,
+        help="Event type to subscribe to. Repeatable.",
+    )
+    p_whc.add_argument("--sandbox-id", dest="sandbox_id", help="Scope delivery to one sandbox")
+    p_whc.add_argument("--namespace", help="Scope delivery to one namespace")
+    p_whc.set_defaults(func=cmd_webhooks_create)
+
+    p_whl = sub_wh.add_parser("list", help="List the caller's own webhook subscriptions")
+    _add_global_flags(p_whl)
+    p_whl.set_defaults(func=cmd_webhooks_list)
+
+    p_whd = sub_wh.add_parser("delete", help="Delete a webhook subscription")
+    _add_global_flags(p_whd)
+    p_whd.add_argument("webhook_id")
+    p_whd.set_defaults(func=cmd_webhooks_delete)
+
+    p_whdl = sub_wh.add_parser("deliveries", help="Show recent delivery attempts (debugging)")
+    _add_global_flags(p_whdl)
+    p_whdl.add_argument("webhook_id")
+    p_whdl.set_defaults(func=cmd_webhooks_deliveries)
 
     return parser
 

@@ -20,6 +20,7 @@ package router
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -239,6 +240,13 @@ func NewServer(config *Config, k8sClient client.Client, bridge *terminal.Bridge)
 	// deprecatedRoutes (empty today — no-op until an /api/v2 ships).
 	api.Use(s.deprecationMiddleware)
 
+	// FR6: enforce sandbox-scoped API key restrictions on every sandbox-{id}
+	// route (and, by default-deny, every other route too — see
+	// scopedkey_middleware.go). Mounted right after auth so Claims are
+	// available; a non-scoped key (empty SandboxID) passes through
+	// untouched, so this has no effect on the existing JWT/user-key paths.
+	api.Use(s.requireSandboxScope)
+
 	// Sandbox CRUD
 	api.HandleFunc("/sandboxes", s.handleListSandboxes).Methods("GET")
 	api.HandleFunc("/sandboxes", s.handleCreateSandbox).Methods("POST")
@@ -247,6 +255,21 @@ func NewServer(config *Config, k8sClient client.Client, bridge *terminal.Bridge)
 	api.HandleFunc("/sandboxes/{id}/stop", s.handleStopSandbox).Methods("POST")
 	api.HandleFunc("/sandboxes/{id}/resume", s.handleResumeSandbox).Methods("POST")
 	api.HandleFunc("/sandboxes/{id}/clone", s.handleCloneSandbox).Methods("POST")
+
+	// FR2: live sandbox mutation (idleTimeout/resources/labels/annotations).
+	api.HandleFunc("/sandboxes/{id}", s.handlePatchSandbox).Methods("PATCH")
+
+	// FR4: bulk operations. Rejected outright for sandbox-scoped keys inside
+	// the handlers themselves (DD3/NFR2); rate-limit cost scales with batch
+	// size (DD5/NFR6) via the cost functions registered below.
+	api.HandleFunc("/sandboxes/bulk", s.handleBulkCreate).Methods("POST")
+	api.HandleFunc("/sandboxes/bulk-action", s.handleBulkAction).Methods("POST")
+
+	// FR3: backup/restore, wrapping the existing VolumeSnapshot scheduler.
+	api.HandleFunc("/sandboxes/{id}/backups", s.handleListBackups).Methods("GET")
+	api.HandleFunc("/sandboxes/{id}/backups", s.handleCreateBackup).Methods("POST")
+	api.HandleFunc("/sandboxes/{id}/backups/{snapshotName}/restore", s.handleRestoreBackup).Methods("POST")
+	api.HandleFunc("/sandboxes/{id}/backups/{snapshotName}", s.handleDeleteBackup).Methods("DELETE")
 
 	// Command execution
 	api.HandleFunc("/sandboxes/{id}/exec", s.handleExecCommand).Methods("POST")
@@ -285,6 +308,15 @@ func NewServer(config *Config, k8sClient client.Client, bridge *terminal.Bridge)
 	api.HandleFunc("/templates/{name}", s.handleGetTemplate).Methods("GET")
 	api.Handle("/templates/{name}", s.requireAdmin(http.HandlerFunc(s.handleUpdateTemplate))).Methods("PUT")
 	api.Handle("/templates/{name}", s.requireAdmin(http.HandlerFunc(s.handleDeleteTemplate))).Methods("DELETE")
+
+	// FR5: webhook subscriptions. Not a sandbox-scoped operation (DD3) — the
+	// handlers reject scoped keys the same way bulk does, and by
+	// default-deny requireSandboxScope 403s any scoped key here regardless
+	// (these routes have no /sandboxes/{id} shape at all).
+	api.HandleFunc("/webhooks", s.handleCreateWebhook).Methods("POST")
+	api.HandleFunc("/webhooks", s.handleListWebhooks).Methods("GET")
+	api.HandleFunc("/webhooks/{id}", s.handleDeleteWebhook).Methods("DELETE")
+	api.HandleFunc("/webhooks/{id}/deliveries", s.handleGetWebhookDeliveries).Methods("GET")
 
 	// Governance
 	api.HandleFunc("/governance/policies", s.handleListPolicies).Methods("GET")
@@ -361,6 +393,19 @@ func NewServer(config *Config, k8sClient client.Client, bridge *terminal.Bridge)
 		HTTPExecOf: s.agentHTTPExec,
 	})
 	agentHandler.RegisterRoutes(api)
+
+	// FR4.5/NFR6/DD5: bulk routes cost N tokens against the per-user rate
+	// limit, where N is the batch size — never less than the sum of the
+	// per-item equivalents. A no-op when rate limiting is disabled
+	// (s.rateLimiter is nil in the zero-config default). The cost
+	// functions decode only the field they need (items/ids length) and
+	// deliberately ignore decode errors — a malformed body still costs at
+	// least 1 (registerRouteCost's own floor), and the handler's own
+	// json.Decode surfaces the real validation error to the caller.
+	if s.rateLimiter != nil {
+		s.rateLimiter.registerRouteCost("/api/v1/sandboxes/bulk", bulkCreateRouteCost)
+		s.rateLimiter.registerRouteCost("/api/v1/sandboxes/bulk-action", bulkActionRouteCost)
+	}
 
 	// Wrap the mux with OTel HTTP instrumentation. otelhttp.NewHandler
 	// extracts incoming W3C Trace Context headers, starts a server span
@@ -504,4 +549,29 @@ func isOTelExempt(path string) bool {
 		return true
 	}
 	return strings.HasPrefix(path, "/ws/")
+}
+
+// bulkCreateRouteCost is the RouteCostFunc for POST /sandboxes/bulk
+// (FR4.5/NFR6/DD5): the token cost is the batch size (len(items)), so an
+// N-item bulk create never costs less than N individual creates would.
+func bulkCreateRouteCost(r *http.Request) int {
+	var body struct {
+		Items []json.RawMessage `json:"items"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		return 1
+	}
+	return len(body.Items)
+}
+
+// bulkActionRouteCost is the RouteCostFunc for POST /sandboxes/bulk-action
+// (FR4.5/NFR6/DD5): the token cost is the batch size (len(ids)).
+func bulkActionRouteCost(r *http.Request) int {
+	var body struct {
+		IDs []string `json:"ids"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		return 1
+	}
+	return len(body.IDs)
 }

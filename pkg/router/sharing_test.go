@@ -24,6 +24,7 @@ import (
 	"strings"
 	"testing"
 
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -62,6 +63,34 @@ func TestSharing_GrantListRevoke(t *testing.T) {
 		t.Fatalf("expected alice as collaborator on the CR, got %+v", got.Spec.Sharing)
 	}
 
+	// FR5 event wiring: a successful grant must emit a corev1.Event with
+	// Reason=ShareGranted against the sandbox, so the controller's
+	// webhook_delivery loop (watching Events keyed on
+	// InvolvedObject.Kind=Sandbox) can eventually map it to the
+	// "share.granted" webhook event type (task #43).
+	grantEvents := &corev1.EventList{}
+	if err := c.List(context.Background(), grantEvents, client.InNamespace("agenttier")); err != nil {
+		t.Fatalf("list events: %v", err)
+	}
+	grantFound := false
+	for i := range grantEvents.Items {
+		if grantEvents.Items[i].Reason == "ShareGranted" {
+			grantFound = true
+			if grantEvents.Items[i].InvolvedObject.Name != "share-sb" || grantEvents.Items[i].InvolvedObject.Kind != "Sandbox" {
+				t.Errorf("ShareGranted event InvolvedObject = %+v, want Sandbox/share-sb", grantEvents.Items[i].InvolvedObject)
+			}
+			if grantEvents.Items[i].Type != corev1.EventTypeNormal {
+				t.Errorf("ShareGranted event Type = %q, want Normal", grantEvents.Items[i].Type)
+			}
+			if grantEvents.Items[i].Message != "alice@example.com" {
+				t.Errorf("ShareGranted event Message = %q, want alice@example.com", grantEvents.Items[i].Message)
+			}
+		}
+	}
+	if !grantFound {
+		t.Error("expected a corev1.Event with Reason=ShareGranted, found none")
+	}
+
 	// GET reflects it.
 	gr := httptest.NewRequest(http.MethodGet, "/api/v1/sandboxes/share-sb/share", nil)
 	grRec := httptest.NewRecorder()
@@ -81,6 +110,29 @@ func TestSharing_GrantListRevoke(t *testing.T) {
 	_ = c.Get(context.Background(), client.ObjectKey{Name: "share-sb", Namespace: "agenttier"}, got2)
 	if got2.Spec.Sharing != nil && len(got2.Spec.Sharing.Users) != 0 {
 		t.Fatalf("expected no users after revoke, got %+v", got2.Spec.Sharing.Users)
+	}
+
+	// FR5 event wiring: a successful revoke must emit a corev1.Event with
+	// Reason=ShareRevoked (task #43 maps this to the "share.revoked"
+	// webhook event type).
+	revokeEvents := &corev1.EventList{}
+	if err := c.List(context.Background(), revokeEvents, client.InNamespace("agenttier")); err != nil {
+		t.Fatalf("list events: %v", err)
+	}
+	revokeFound := false
+	for i := range revokeEvents.Items {
+		if revokeEvents.Items[i].Reason == "ShareRevoked" {
+			revokeFound = true
+			if revokeEvents.Items[i].InvolvedObject.Name != "share-sb" || revokeEvents.Items[i].InvolvedObject.Kind != "Sandbox" {
+				t.Errorf("ShareRevoked event InvolvedObject = %+v, want Sandbox/share-sb", revokeEvents.Items[i].InvolvedObject)
+			}
+			if revokeEvents.Items[i].Message != "alice@example.com" {
+				t.Errorf("ShareRevoked event Message = %q, want alice@example.com", revokeEvents.Items[i].Message)
+			}
+		}
+	}
+	if !revokeFound {
+		t.Error("expected a corev1.Event with Reason=ShareRevoked, found none")
 	}
 }
 

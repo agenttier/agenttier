@@ -190,6 +190,34 @@ client closes cleanly. Methods:
 | `list_templates()` | `list[Template]` |
 | `get_template(name)` | `Template` |
 | `current_user()` | `CurrentUser` (includes `is_admin` bit) |
+| `sandboxes.create_bulk(items)` / `sandboxes.bulk_action(ids, action)` | `list[BulkCreateResultItem]` / `list[BulkActionResultItem]` |
+
+### Resource-group sub-clients
+
+Every other new REST surface hangs off a same-named attribute on the client,
+sync and async alike — construct nothing directly, just call
+`client.<group>.<method>()`:
+
+| Attribute | Wraps | Key methods |
+| --- | --- | --- |
+| `client.governance` | `/governance/policies*`, `/governance/effective` | `list()`, `get(namespace)`, `set(policy, namespace=None)`, `delete(namespace)`, `effective(namespace=None)` — write ops admin-only |
+| `client.analytics` | `/analytics/usage`, `/analytics/costs` | `usage()`, `costs()` — admin-only |
+| `client.audit` | `/audit/events` | `list_events()` — admin-only |
+| `client.admin` | `/admin/sandboxes`, `/admin/sharing` | `sandboxes()`, `sharing()` — admin-only |
+| `client.user` | `/user/preferences` | `preferences_get()`, `preferences_set(dict)` |
+| `client.api_keys` | `/user/api-keys*` | `list()`, `create(name=None, expires_in=None, sandbox_id=None, action_groups=None)`, `revoke(key_id)` |
+| `client.warmpool` | `/warmpool/status`, `/warmpool/config` | `status()`, `set_config(pools)` — write admin-only |
+| `client.cluster` | `/cluster/status`, `/cluster/nodes`, `/cluster/headroom` | `status()`, `nodes()` (admin), `headroom_get()`, `headroom_set(replicas, cpu=None, memory=None)` (admin) |
+| `client.webhooks` | `/webhooks*` | `create(url, event_types, sandbox_id=None, namespace=None)`, `list()`, `delete(webhook_id)`, `deliveries(webhook_id)` |
+
+`client.api_keys.create(sandbox_id=...)` mints a
+[sandbox-scoped key](api/new-endpoints.md#sandbox-scoped-api-keys) instead of
+a full-access user-level key — pass `action_groups` to narrow it below the
+default set. `agenttier.webhooks.verify_signature(payload, header, secret)`
+is a free function (not a client method) for verifying inbound webhook
+deliveries on the *receiver* side — see
+[Webhooks](api/new-endpoints.md#webhooks-apiv1webhooks) for the full
+contract.
 
 ### Sandbox handle
 
@@ -215,10 +243,33 @@ fp = sandbox.forward_port(8080)
 # ForwardedPort(port=8080, protocol='http', internal_url=..., preview_url=...)
 sandbox.list_ports()
 sandbox.remove_port(8080)
+
+# Live mutation (PATCH) — idleTimeout/labels/annotations apply immediately;
+# resources persist but need a stop+resume to take effect.
+result = sandbox.update(idle_timeout="1h", labels={"team": "platform"})
+result.restart_required  # bool
+result.applied           # {"idleTimeout": "immediately", "labels": "immediately"}
+
+# Backups
+sandbox.backups.list()                       # list[BackupInfo]
+backup = sandbox.backups.create()             # on-demand snapshot
+restored = sandbox.backups.restore(backup.name)  # Sandbox, phase Pending
+sandbox.backups.delete(backup.name)
+
+# Sharing
+sandbox.sharing.list()                        # SharingInfo
+sandbox.sharing.grant("teammate@example.com", level="viewer")
+sandbox.sharing.revoke("teammate@example.com")
+link = sandbox.sharing.create_link(level="viewer", expires_in="24h")
 ```
 
 The async counterpart `AsyncSandbox` has the same methods with `await` and the
-same return types.
+same return types. `sandbox.update()` raises `ValueError` locally (before any
+network call) if none of `idle_timeout`/`resources`/`labels`/`annotations` are
+provided, and `PolicyViolationError` if the patch would exceed a governance
+value cap. See [PATCH /api/v1/sandboxes/{id}](api/new-endpoints.md#patch-apiv1sandboxesid-live-mutation)
+and [Backups](api/new-endpoints.md#backups-apiv1sandboxesidbackups) for the
+full wire contracts.
 
 ## Models
 
@@ -234,6 +285,45 @@ accept the Router's camelCase JSON transparently.
 - `CreatedBy` — `email`, `display_name`.
 - `AuditEvent` — `timestamp`, `event_type`, `sandbox_id`, `sandbox_name`, `namespace`, `user_email`, `details`.
 - `UsageAnalytics` — fleet-wide rollups.
+- `SharePermission`, `SharingInfo`, `ShareLinkInfo`, `ShareLinkCreated` — sandbox sharing.
+- `BackupInfo` — `name`, `created_at`, `kind` (`scheduled-backup` or `clone`), `ready_to_use`, `restore_size`.
+- `Policy`, `NamespacePolicy`, `PolicyList`, `EffectivePolicy` — governance.
+- `TemplateCost`, `CostEstimate` — analytics.
+- `APIKeyMetadata`, `APIKeyCreated` — API keys, including `sandbox_id`/`action_groups` for scoped keys.
+- `PoolConfig`, `PoolStatus`, `WarmPoolStatus` — warm pool.
+- `ClusterStatus`, `NodeCapacity`, `NodeCapacityResponse`, `HeadroomConfig` — cluster.
+- `WebhookSubscription`, `WebhookSubscriptionCreated`, `WebhookDelivery` — webhooks.
+- `BulkCreateItem`, `BulkCreateResultItem`, `BulkActionResultItem`, `PatchResult` — bulk + PATCH.
+
+## MCP server (optional extra)
+
+`pip install agenttier[mcp]` adds an MCP server that mirrors the Python SDK
+1:1 — one MCP tool per public SDK method, so the tool set and the SDK never
+drift independently. Every fleet-wide tool (`governance_*`, `analytics_*`,
+`audit_*`, `admin_*`, `warmpool_*`, `cluster_nodes`, `cluster_set_headroom`)
+requires the underlying credential to carry admin privileges, same as the
+REST endpoints they wrap.
+
+Two transports, same tool set:
+
+```bash
+# stdio — for local agent runtimes that spawn the server as a subprocess
+agenttier-mcp
+# equivalently: python -m agenttier.mcp.stdio_main
+
+# HTTP/SSE — for remote/hosted agent runtimes connecting over the network
+agenttier-mcp-http --host 0.0.0.0 --port 8765
+# equivalently: python -m agenttier.mcp.http_main --host 0.0.0.0 --port 8765
+```
+
+The HTTP binding defaults to `streamable-http` (the modern MCP HTTP
+transport); pass `--transport sse` for the legacy SSE transport. Both console
+scripts authenticate to the Router with the same credential types as the SDK
+(`AGENTTIER_API_URL`/`AGENTTIER_API_KEY`/`AGENTTIER_TOKEN`) — a sandbox-scoped
+key works here too, and tool calls that exceed its scope surface the same 403
+an equivalent direct SDK call would. A malformed or missing required tool
+argument surfaces as the SDK's own local-validation `ValueError`, not a raw
+stack trace.
 
 ## Error handling
 

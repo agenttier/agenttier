@@ -46,6 +46,18 @@ import (
 const usageBanner = `agenttier — control AgentTier sandboxes from the command line.
 
 Usage:
+  agenttier login --api-url <url> [--api-key <key>|--token <jwt>]
+  agenttier sandbox <list|get|create|stop|resume|delete|clone|exec|wait|patch|bulk-create|bulk-action|files|ports|sharing|backups> [flags]
+  agenttier template <list|get> [flags]
+  agenttier governance <list|get|set|delete|effective> [flags]
+  agenttier audit [flags]
+  agenttier analytics <usage|costs> [flags]
+  agenttier admin <sandboxes|sharing> [flags]
+  agenttier user <whoami|preferences-get|preferences-set> [flags]
+  agenttier apikeys <list|create|revoke> [flags]
+  agenttier warmpool <status|set-config> [flags]
+  agenttier cluster <status|nodes|headroom-get|headroom-set> [flags]
+  agenttier webhooks <create|list|delete|deliveries> [flags]
   agenttier configure <sandbox-id> [flags]
   agenttier invoke <sandbox-id> [flags]
   agenttier version
@@ -56,6 +68,12 @@ Authentication:
   --api-url   AgentTier router base URL (env: AGENTTIER_API_URL).
   --api-key   API key (env: AGENTTIER_API_KEY). When unset and the router
               has OIDC disabled (dev mode), the CLI sends no auth header.
+  --token     Bearer token / OIDC JWT (env: AGENTTIER_TOKEN).
+  --output    "text" (default) or "json".
+
+Connection settings are also read from ~/.config/agenttier/config.json
+(or $AGENTTIER_CONFIG), written by "agenttier login". Precedence:
+flag > env var > saved config file.
 `
 
 func main() {
@@ -70,6 +88,30 @@ func main() {
 		os.Exit(runConfigure(rest))
 	case "invoke":
 		os.Exit(runInvoke(rest))
+	case "login":
+		os.Exit(runLogin(rest))
+	case "sandbox":
+		os.Exit(runSandbox(rest))
+	case "template":
+		os.Exit(runTemplate(rest))
+	case "governance":
+		os.Exit(runGovernance(rest))
+	case "audit":
+		os.Exit(runAudit(rest))
+	case "analytics":
+		os.Exit(runAnalytics(rest))
+	case "admin":
+		os.Exit(runAdmin(rest))
+	case "user":
+		os.Exit(runUser(rest))
+	case "apikeys":
+		os.Exit(runAPIKeys(rest))
+	case "warmpool":
+		os.Exit(runWarmPool(rest))
+	case "cluster":
+		os.Exit(runCluster(rest))
+	case "webhooks":
+		os.Exit(runWebhooks(rest))
 	case "version", "--version", "-v":
 		fmt.Printf("agenttier %s (%s)\n", version.Version, version.GitCommit)
 	case "-h", "--help", "help":
@@ -227,7 +269,7 @@ func buildConfigurePayload(install, entrypoint string, files []string) ([]byte, 
 			if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
 				return nil, fmt.Errorf("--file %q must be path=local-path", raw)
 			}
-			contents, err := os.ReadFile(parts[1])
+			contents, err := os.ReadFile(parts[1]) // #nosec G304 -- parts[1] is the local-path half of a --file path=local-path flag the caller explicitly asked to read
 			if err != nil {
 				return nil, fmt.Errorf("read %s: %w", parts[1], err)
 			}
@@ -455,7 +497,7 @@ func readInvokeBody(in string) ([]byte, error) {
 	case in == "-":
 		return io.ReadAll(os.Stdin)
 	case strings.HasPrefix(in, "@"):
-		return os.ReadFile(in[1:])
+		return os.ReadFile(in[1:]) // #nosec G304 -- in[1:] is the path from --input @<path>, a flag the caller explicitly asked to read
 	default:
 		return []byte(in), nil
 	}

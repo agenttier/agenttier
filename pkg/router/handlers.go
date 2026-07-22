@@ -1283,6 +1283,7 @@ func (s *Server) handleShareSandbox(w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, "failed to update sharing: "+err.Error())
 		return
 	}
+	s.emitSandboxEvent(r.Context(), sandbox, corev1.EventTypeNormal, "ShareGranted", req.Identity)
 	respondJSON(w, http.StatusOK, sharingToJSON(sandbox.Spec.Sharing))
 }
 
@@ -1307,6 +1308,7 @@ func (s *Server) handleRevokeShare(w http.ResponseWriter, r *http.Request) {
 			respondError(w, http.StatusInternalServerError, "failed to update sharing: "+err.Error())
 			return
 		}
+		s.emitSandboxEvent(r.Context(), sandbox, corev1.EventTypeNormal, "ShareRevoked", identity)
 	}
 	respondJSON(w, http.StatusOK, map[string]interface{}{"status": "revoked", "identity": identity})
 }
@@ -1674,8 +1676,52 @@ func (s *Server) handleGetCostEstimates(w http.ResponseWriter, r *http.Request) 
 		"per_template":            perTemplate,
 	})
 }
+
+// handleAdminListSandboxes lists every sandbox cluster-wide (no ownership
+// filter — this route is already requireAdmin-gated) and joins in each
+// sandbox's scoped API keys (FR6.6): metadata only (id/actionGroups/
+// createdAt), never the plaintext key or its hash, matching the existing
+// GET /user/api-keys list-response shape. A sandbox with no scoped key
+// gets an empty/absent scopedApiKeys field, not an error — most sandboxes
+// (HTTP-exec/agent-mode opt-out) never mint one.
 func (s *Server) handleAdminListSandboxes(w http.ResponseWriter, r *http.Request) {
-	respondJSON(w, http.StatusOK, map[string]interface{}{"sandboxes": []interface{}{}})
+	sandboxList := &agenttierv1alpha1.SandboxList{}
+	listOpts := []client.ListOption{}
+	if ns := r.URL.Query().Get("namespace"); ns != "" {
+		listOpts = append(listOpts, client.InNamespace(ns))
+	}
+	if err := s.k8sClient.List(r.Context(), sandboxList, listOpts...); err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to list sandboxes: "+err.Error())
+		return
+	}
+
+	// One list-all-then-group pass rather than a per-sandbox lookup — see
+	// apikeystore.Store.ListAll's doc comment for why a full list is the
+	// simplest correct approach at this scale.
+	keys, err := s.secretStore().listAllAPIKeys(r.Context())
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to list scoped api keys: "+err.Error())
+		return
+	}
+	keysBySandbox := make(map[string][]apiKeyMetadata)
+	for _, k := range keys {
+		if k.SandboxID == "" {
+			continue // user-level key, not sandbox-scoped
+		}
+		keysBySandbox[k.SandboxID] = append(keysBySandbox[k.SandboxID], k)
+	}
+
+	results := make([]map[string]interface{}, 0, len(sandboxList.Items))
+	for i := range sandboxList.Items {
+		sb := &sandboxList.Items[i]
+		entry := sandboxToJSON(sb)
+		if scoped := keysBySandbox[sb.Name]; len(scoped) > 0 {
+			entry["scopedApiKeys"] = scoped
+		}
+		results = append(results, entry)
+	}
+
+	respondJSON(w, http.StatusOK, map[string]interface{}{"sandboxes": results})
 }
 func (s *Server) handleAdminListSharing(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusOK, map[string]interface{}{})

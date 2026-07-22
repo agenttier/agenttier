@@ -242,6 +242,7 @@ func (h *Handler) handleInvoke(w http.ResponseWriter, r *http.Request) {
 		InvokeID:  invokeID,
 		StartedAt: startedAt.UnixMilli(),
 	})
+	h.recordAuditEvent(ctx, sandbox, corev1.EventTypeNormal, "AgentInvokeStarted", fmt.Sprintf("invokeId=%s", invokeID))
 
 	// invokeCtx is the context the entrypoint runs under. We derive it from
 	// the spanned ctx so closing the HTTP connection cancels the exec, and
@@ -346,11 +347,19 @@ func (h *Handler) handleInvoke(w http.ResponseWriter, r *http.Request) {
 	// audit trail). The audit toggle from the steering file
 	// (`audit.includeInvokePayloads`) lands when payload recording is
 	// requested by a real consumer.
+	//
+	// FR5.2 wants two distinct webhook-subscribable outcomes here
+	// (agent.invoke.completed vs. agent.invoke.failed) rather than one
+	// "AgentInvoked" reason for everything — task #43's delivery-loop
+	// mapping keys off these exact Reason strings, so don't rename them
+	// without updating that mapping too.
 	auditType := corev1.EventTypeNormal
+	auditReason := "AgentInvokeCompleted"
 	if exitReason == "timeout" || exitReason == "error" || (exitReason == "completed" && exitCode != 0) {
 		auditType = corev1.EventTypeWarning
+		auditReason = "AgentInvokeFailed"
 	}
-	h.recordAuditEvent(ctx, sandbox, auditType, "AgentInvoked", fmt.Sprintf(
+	h.recordAuditEvent(ctx, sandbox, auditType, auditReason, fmt.Sprintf(
 		"invokeId=%s exit=%d reason=%s duration_ms=%d",
 		invokeID, exitCode, exitReason, time.Since(startedAt).Milliseconds(),
 	))

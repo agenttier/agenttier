@@ -124,6 +124,29 @@ func Check(policy Policy, usage Usage, sandbox *agenttierv1alpha1.Sandbox) Viola
 		}
 	}
 
+	// Resource/timeout value caps — factored into CheckResourceLimits so
+	// callers that should never evaluate the sandbox-COUNT quotas above (e.g.
+	// PATCH, which creates no new sandbox) can run just this subset.
+	out = append(out, CheckResourceLimits(policy, sandbox)...)
+
+	return out
+}
+
+// CheckResourceLimits runs only the per-field VALUE-limit checks
+// (maxCpu/maxMemory/maxStorage/maxTimeout/maxIdleTimeout) against a proposed
+// sandbox spec — never the sandbox-COUNT quotas (MaxSandboxesTotal/
+// MaxSandboxesPerUser/MaxAgentSandboxes) or the template/registry allowlists,
+// which only make sense when a *new* sandbox is being created.
+//
+// Check calls this internally for the create path, which also needs the
+// count-quota and allowlist checks. Callers that re-validate an existing
+// sandbox's fields without creating a new one — PATCH being the motivating
+// case (FR2.4/NFR3) — must call this instead of Check, since Check's count
+// checks would spuriously reject a value-only change once a namespace is
+// already at its sandbox-count cap.
+func CheckResourceLimits(policy Policy, sandbox *agenttierv1alpha1.Sandbox) Violations {
+	var out Violations
+
 	// Resource caps — only check sandbox overrides. The template's own
 	// resource requests are validated at template-creation time (future).
 	if policy.MaxCPU != "" && sandbox.Spec.Resources != nil {
@@ -171,6 +194,38 @@ func Check(policy Policy, usage Usage, sandbox *agenttierv1alpha1.Sandbox) Viola
 				Message: fmt.Sprintf("idleTimeout %s exceeds governance cap %s", sandbox.Spec.IdleTimeout.Duration, policy.MaxIdleTimeout),
 			})
 		}
+	}
+
+	return out
+}
+
+// CheckBulk evaluates the aggregate sandbox-count caps for a proposed batch
+// create of n sandboxes, agentN of which are mode: agent. Unlike Check (which
+// validates a single sandbox against policy), CheckBulk is a whole-batch
+// fail-fast gate (DD4): it does not evaluate per-item concerns like template
+// allowlists or image registries — those remain per-item checks via Check.
+// Callers resolve the effective policy and count current usage once up
+// front, then reject the entire batch here before creating anything.
+func CheckBulk(policy Policy, usage Usage, n int, agentN int) Violations {
+	var out Violations
+
+	if policy.MaxSandboxesTotal > 0 && usage.TotalSandboxes+n > policy.MaxSandboxesTotal {
+		out = append(out, Violation{
+			Code:    "namespace_quota_exceeded",
+			Message: fmt.Sprintf("namespace has %d sandboxes; creating %d more would exceed the max of %d", usage.TotalSandboxes, n, policy.MaxSandboxesTotal),
+		})
+	}
+	if policy.MaxSandboxesPerUser > 0 && usage.UserSandboxes+n > policy.MaxSandboxesPerUser {
+		out = append(out, Violation{
+			Code:    "user_quota_exceeded",
+			Message: fmt.Sprintf("user owns %d sandboxes in this namespace; creating %d more would exceed the max of %d", usage.UserSandboxes, n, policy.MaxSandboxesPerUser),
+		})
+	}
+	if policy.MaxAgentSandboxes > 0 && agentN > 0 && usage.AgentSandboxes+agentN > policy.MaxAgentSandboxes {
+		out = append(out, Violation{
+			Code:    "agent_sandbox_quota_exceeded",
+			Message: fmt.Sprintf("namespace has %d agent-mode sandboxes; creating %d more would exceed the max of %d", usage.AgentSandboxes, agentN, policy.MaxAgentSandboxes),
+		})
 	}
 
 	return out

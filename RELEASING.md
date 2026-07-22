@@ -28,7 +28,8 @@ before you push the tag.
 - [ ] `make lint` — golangci-lint clean
 - [ ] `./scripts/check-license-headers.sh` — every Go file has the Apache header
 - [ ] `cd web-ui && npm ci && npm run lint && npm run build` — web UI builds and types check
-- [ ] `cd python-sdk && pip install -e ".[dev]" && pytest && mypy src/agenttier/` — SDK smoke tests and type check pass
+- [ ] `cd python-sdk && pip install -e ".[dev]" && pytest && mypy --strict src/agenttier/` — SDK smoke tests and strict type check pass
+- [ ] `cd python-sdk && pip install -e ".[mcp]"` — the optional MCP extra installs cleanly and registers `agenttier-mcp`/`agenttier-mcp-http` console scripts (`which agenttier-mcp`)
 
 ### Helm chart
 

@@ -78,12 +78,22 @@ type MergedPodConfig struct {
 	// controller creates this Secret with a 32-byte random token; the
 	// Sandbox owns it via owner reference so it's GC'd on delete.
 	RuntimeTokenSecret string
-	Sidecars           []corev1.Container
-	InitContainers     []corev1.Container
-	InitScripts        []string
-	Files              []agenttierv1alpha1.FileSpec
-	Credentials        []agenttierv1alpha1.CredentialRef
-	ServiceAccount     string // Kubernetes ServiceAccount name (for IRSA)
+	// SandboxAPIKeySecret is the name of the per-sandbox Secret holding the
+	// AGENTTIER_SANDBOX_API_KEY value (FR6) — a scoped API key bound to
+	// exactly this sandbox that lets an in-pod agent call back into the
+	// Router without holding its owner's full-access key. Empty when
+	// UseHTTPExec is false (auto-minted under the same opt-in gate as
+	// RuntimeTokenSecret; see scoped_key.go). The Sandbox owns this Secret
+	// via owner reference so it's GC'd on delete — unlike the hashed
+	// record in the Router's api-key store, which needs explicit
+	// finalizer-path cleanup (DL7).
+	SandboxAPIKeySecret string
+	Sidecars            []corev1.Container
+	InitContainers      []corev1.Container
+	InitScripts         []string
+	Files               []agenttierv1alpha1.FileSpec
+	Credentials         []agenttierv1alpha1.CredentialRef
+	ServiceAccount      string // Kubernetes ServiceAccount name (for IRSA)
 }
 
 // Build creates a Pod for the given sandbox with the merged configuration.
@@ -249,6 +259,25 @@ func (b *PodBuilder) buildMainContainer(config *MergedPodConfig) corev1.Containe
 						Name: config.RuntimeTokenSecret,
 					},
 					Key: "token",
+				},
+			},
+		})
+	}
+
+	// Sandbox-scoped API key (FR6). Lets an in-pod agent call back into
+	// the Router (e.g. to stop/resume itself, invoke files/ports APIs)
+	// using a credential bound to exactly this sandbox rather than its
+	// owner's full-access key. Same opt-in gate and injection pattern as
+	// AGENTTIER_RUNTIME_TOKEN above — see scoped_key.go.
+	if config.UseHTTPExec && config.SandboxAPIKeySecret != "" {
+		container.Env = append(container.Env, corev1.EnvVar{
+			Name: "AGENTTIER_SANDBOX_API_KEY",
+			ValueFrom: &corev1.EnvVarSource{
+				SecretKeyRef: &corev1.SecretKeySelector{
+					LocalObjectReference: corev1.LocalObjectReference{
+						Name: config.SandboxAPIKeySecret,
+					},
+					Key: "key",
 				},
 			},
 		})

@@ -13,16 +13,33 @@ import httpx
 from agenttier._http import default_user_agent, raise_for_status
 from agenttier._retry import RetryConfig, wrap_async_transport
 from agenttier._version import __version__
+from agenttier.admin import AsyncAdminAPI
+from agenttier.analytics import AsyncAnalyticsAPI
+from agenttier.apikeys import AsyncAPIKeysAPI
 from agenttier.async_sandbox import AsyncSandbox
+from agenttier.audit import AsyncAuditAPI
 from agenttier.auth import AuthProvider, auto_detect_auth
+from agenttier.bulk import AsyncSandboxesAPI
+from agenttier.cluster import AsyncClusterAPI
+from agenttier.governance import AsyncGovernanceAPI
 from agenttier.models import CurrentUser, SandboxSummary, Template
+from agenttier.user import AsyncUserAPI
+from agenttier.warmpool import AsyncWarmPoolAPI
+from agenttier.webhooks import AsyncWebhooksAPI
 
 _API_PREFIX = "/api/v1"
 _DEFAULT_TIMEOUT = 30.0
 
 
 class AsyncAgentTierClient:
-    """Async counterpart to :class:`AgentTierClient`."""
+    """Async counterpart to :class:`AgentTierClient`.
+
+    Exposes the same sub-client attributes as the sync client (
+    :attr:`governance`, :attr:`analytics`, :attr:`audit`, :attr:`admin`,
+    :attr:`user`, :attr:`api_keys`, :attr:`warmpool`, :attr:`cluster`,
+    :attr:`webhooks`, :attr:`sandboxes`), each backed by the async twin of
+    its sync counterpart.
+    """
 
     def __init__(
         self,
@@ -46,6 +63,19 @@ class AsyncAgentTierClient:
             headers={"User-Agent": default_user_agent(__version__)},
             event_hooks={"request": [self._apply_auth]},
         )
+
+        # Sub-clients for the newer resource groups (FR1). See the sync
+        # client's constructor for the rationale.
+        self.governance = AsyncGovernanceAPI(self)
+        self.analytics = AsyncAnalyticsAPI(self)
+        self.audit = AsyncAuditAPI(self)
+        self.admin = AsyncAdminAPI(self)
+        self.user = AsyncUserAPI(self)
+        self.api_keys = AsyncAPIKeysAPI(self)
+        self.warmpool = AsyncWarmPoolAPI(self)
+        self.cluster = AsyncClusterAPI(self)
+        self.webhooks = AsyncWebhooksAPI(self)
+        self.sandboxes = AsyncSandboxesAPI(self)
 
     async def __aenter__(self) -> "AsyncAgentTierClient":
         return self

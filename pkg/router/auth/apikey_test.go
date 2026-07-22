@@ -139,6 +139,48 @@ func TestAPIKeyValidator_CacheHitRechecksExpiry(t *testing.T) {
 	}
 }
 
+func TestAPIKeyValidator_ScopedKeyCarriesSandboxIDAndActionGroups(t *testing.T) {
+	key := "atk_scoped"
+	store := &mapStore{records: map[string]*APIKeyRecord{
+		HashAPIKey(key): {
+			UserID:       "u-1",
+			SandboxID:    "sbx-1",
+			ActionGroups: []string{"run-command", "files:read"},
+		},
+	}}
+	v := NewAPIKeyValidator(store, 16, time.Minute)
+
+	claims, err := v.ValidateKey(context.Background(), key)
+	if err != nil {
+		t.Fatalf("expected valid key, got %v", err)
+	}
+	if claims.SandboxID != "sbx-1" {
+		t.Errorf("SandboxID = %q, want sbx-1", claims.SandboxID)
+	}
+	if len(claims.ActionGroups) != 2 || claims.ActionGroups[0] != "run-command" || claims.ActionGroups[1] != "files:read" {
+		t.Errorf("ActionGroups = %v, want [run-command files:read]", claims.ActionGroups)
+	}
+}
+
+func TestAPIKeyValidator_UserLevelKeyLeavesScopeFieldsEmpty(t *testing.T) {
+	key := "atk_userlevel"
+	store := &mapStore{records: map[string]*APIKeyRecord{
+		HashAPIKey(key): {UserID: "u-1"},
+	}}
+	v := NewAPIKeyValidator(store, 16, time.Minute)
+
+	claims, err := v.ValidateKey(context.Background(), key)
+	if err != nil {
+		t.Fatalf("expected valid key, got %v", err)
+	}
+	if claims.SandboxID != "" {
+		t.Errorf("expected empty SandboxID for a user-level key, got %q", claims.SandboxID)
+	}
+	if len(claims.ActionGroups) != 0 {
+		t.Errorf("expected no ActionGroups for a user-level key, got %v", claims.ActionGroups)
+	}
+}
+
 func TestAPIKeyValidator_InvalidateEvictsCache(t *testing.T) {
 	key := "atk_revokeme"
 	store := &mapStore{records: map[string]*APIKeyRecord{

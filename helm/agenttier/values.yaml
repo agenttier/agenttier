@@ -308,6 +308,16 @@ optional:
       intervalHours: 6
       retentionDays: 14
       # snapshotClassName: ""   # empty uses the cluster's default VolumeSnapshotClass
+  # Webhook event-subscription delivery loop (FR5). Opt-in. The controller
+  # runs a leader-elected Runnable that watches Sandbox lifecycle Kubernetes
+  # Events and POSTs matching webhook subscriptions (HMAC-signed, retried
+  # with backoff, auto-disabled after repeated failures). Subscriptions can
+  # be created via the Router's `/webhooks` API regardless of this flag, but
+  # nothing is ever delivered unless it's enabled. See docs/api/new-endpoints.md.
+  webhooks:
+    delivery:
+      enabled: false
+      intervalSeconds: 30
   # Optional SQL backend for historical records — audit events, sandbox
   # lifecycle events, and cost snapshots that outlive a Sandbox object
   # (Kubernetes Events are GC'd after ~1h). OPT-IN: when disabled (default)

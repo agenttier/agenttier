@@ -48,6 +48,14 @@ optional:
   admissionWebhook:
     enabled: false
 
+  # Webhook event-subscription delivery: on for local so the create->deliver
+  # round-trip can actually be exercised in dev/testing. Short interval for
+  # fast feedback (production should use the 30s default).
+  webhooks:
+    delivery:
+      enabled: true
+      intervalSeconds: 5
+
 # --- IRSA / cloud provider annotations ---
 # No IRSA on local clusters; sandbox service accounts carry no IAM annotations.
 defaults:

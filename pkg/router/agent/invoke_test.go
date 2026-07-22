@@ -29,7 +29,9 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	agenttierv1alpha1 "github.com/agenttier/agenttier/api/v1alpha1"
 )
@@ -155,6 +157,101 @@ func TestInvoke_StreamsStartAndExitEvents(t *testing.T) {
 	}
 	if !strings.Contains(body, `"reason":"completed"`) {
 		t.Errorf("expected reason completed, got %q", body)
+	}
+}
+
+// invokeEventReasons returns the Reason of every Sandbox-kind Event
+// recorded against sb, in list order (the fake client does not guarantee
+// creation order, so callers that care about ordering should assert
+// presence/absence rather than sequence).
+func invokeEventReasons(t *testing.T, c client.Client, sb *agenttierv1alpha1.Sandbox) []string {
+	t.Helper()
+	list := &corev1.EventList{}
+	if err := c.List(context.Background(), list, client.InNamespace(sb.Namespace)); err != nil {
+		t.Fatalf("list events: %v", err)
+	}
+	var reasons []string
+	for _, evt := range list.Items {
+		if evt.InvolvedObject.Kind == "Sandbox" && evt.InvolvedObject.Name == sb.Name {
+			reasons = append(reasons, evt.Reason)
+		}
+	}
+	return reasons
+}
+
+func containsReason(reasons []string, want string) bool {
+	for _, r := range reasons {
+		if r == want {
+			return true
+		}
+	}
+	return false
+}
+
+// TestInvoke_EmitsStartedEvent verifies FR5.2's agent.invoke.started webhook
+// event source: an AgentInvokeStarted K8s Event fires as soon as the
+// invoke's SSE stream begins, independent of how the invoke eventually ends.
+func TestInvoke_EmitsStartedEvent(t *testing.T) {
+	sb := newConfiguredAgentSandbox()
+	bridge := &stubBridge{stdout: []byte("hello\n"), exit: 0}
+	h, c := buildHandler(t, sb, bridge)
+
+	rec := doInvoke(h, "", "")
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200 OK SSE, got %d: %s", rec.Code, rec.Body.String())
+	}
+
+	reasons := invokeEventReasons(t, c, sb)
+	if !containsReason(reasons, "AgentInvokeStarted") {
+		t.Errorf("expected an AgentInvokeStarted event, got reasons %v", reasons)
+	}
+}
+
+// TestInvoke_EmitsCompletedEventOnSuccess verifies the successful-exit path
+// (exitReason=="completed" && exitCode==0) records AgentInvokeCompleted, not
+// the old undifferentiated "AgentInvoked" reason.
+func TestInvoke_EmitsCompletedEventOnSuccess(t *testing.T) {
+	sb := newConfiguredAgentSandbox()
+	bridge := &stubBridge{stdout: []byte("hello\n"), exit: 0}
+	h, c := buildHandler(t, sb, bridge)
+
+	rec := doInvoke(h, "", "")
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200 OK SSE, got %d: %s", rec.Code, rec.Body.String())
+	}
+
+	reasons := invokeEventReasons(t, c, sb)
+	if !containsReason(reasons, "AgentInvokeCompleted") {
+		t.Errorf("expected an AgentInvokeCompleted event, got reasons %v", reasons)
+	}
+	if containsReason(reasons, "AgentInvokeFailed") {
+		t.Errorf("did not expect an AgentInvokeFailed event on a clean exit, got reasons %v", reasons)
+	}
+	if containsReason(reasons, "AgentInvoked") {
+		t.Errorf("expected the old undifferentiated AgentInvoked reason to be gone, got reasons %v", reasons)
+	}
+}
+
+// TestInvoke_EmitsFailedEventOnNonZeroExit verifies the exitReason=="completed"
+// but exitCode!=0 branch — a clean shell return of a non-zero code is still a
+// FAILED invoke for FR5.2's webhook purposes, matching the pre-existing
+// auditType==Warning logic this task must not change the semantics of.
+func TestInvoke_EmitsFailedEventOnNonZeroExit(t *testing.T) {
+	sb := newConfiguredAgentSandbox()
+	bridge := &stubBridge{stdout: []byte("boom\n"), exit: 1}
+	h, c := buildHandler(t, sb, bridge)
+
+	rec := doInvoke(h, "", "")
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200 OK SSE, got %d: %s", rec.Code, rec.Body.String())
+	}
+
+	reasons := invokeEventReasons(t, c, sb)
+	if !containsReason(reasons, "AgentInvokeFailed") {
+		t.Errorf("expected an AgentInvokeFailed event for a non-zero exit, got reasons %v", reasons)
+	}
+	if containsReason(reasons, "AgentInvokeCompleted") {
+		t.Errorf("did not expect an AgentInvokeCompleted event for a non-zero exit, got reasons %v", reasons)
 	}
 }
 

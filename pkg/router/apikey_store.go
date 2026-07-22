@@ -18,220 +18,64 @@ package router
 
 import (
 	"context"
-	"crypto/subtle"
-	"encoding/json"
-	"fmt"
-	"time"
 
-	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/agenttier/agenttier/pkg/apikeystore"
 	"github.com/agenttier/agenttier/pkg/router/auth"
 )
 
-// API-key Secret conventions. Keys are stored one-per-Secret in the install
-// namespace, never the raw key — only its SHA-256 hash (the Secret name is
-// derived from the hash so lookup is a direct Get, no list-scan). The plaintext
-// key is returned to the caller exactly once at creation and never persisted.
-const (
-	apiKeySecretPurposeLabel = "agenttier.io/secret-purpose" //nolint:gosec // G101: a label key, not a credential
-	apiKeySecretPurpose      = "api-key"
-	apiKeyUserLabel          = "agenttier.io/api-key-user" //nolint:gosec // G101: a label key, not a credential
-	apiKeySecretPrefix       = "agenttier-apikey-"         //nolint:gosec // G101: a Secret name prefix, not a credential
-)
-
-// secretAPIKeyStore implements auth.APIKeyStore over Kubernetes Secrets. Each
-// API key is a single Secret named agenttier-apikey-<hashPrefix> whose data
-// holds the key metadata as JSON. Lookup hashes the presented key and Gets the
-// Secret by its derived name — O(1), no namespace-wide list.
+// secretAPIKeyStore implements auth.APIKeyStore over Kubernetes Secrets. It
+// is a thin wrapper around the shared pkg/apikeystore.Store so the storage
+// logic (hashing, Secret CRUD, record I/O) lives in one place importable by
+// both the Router and the controller (which mints sandbox-scoped keys).
 type secretAPIKeyStore struct {
-	k8sClient client.Client
-	namespace string
+	store *apikeystore.Store
 }
 
 func newSecretAPIKeyStore(c client.Client, namespace string) *secretAPIKeyStore {
-	if namespace == "" {
-		namespace = "agenttier"
-	}
-	return &secretAPIKeyStore{k8sClient: c, namespace: namespace}
-}
-
-// secretNameForHash derives a deterministic, DNS-safe Secret name from a key
-// hash. The hash is 64 hex chars; we take the first 40 to stay well under the
-// 253-char limit while keeping collision probability negligible (2^160).
-func secretNameForHash(keyHash string) string {
-	n := keyHash
-	if len(n) > 40 {
-		n = n[:40]
-	}
-	return apiKeySecretPrefix + n
-}
-
-// GetAPIKeyByHash implements auth.APIKeyStore.
-func (s *secretAPIKeyStore) GetAPIKeyByHash(ctx context.Context, keyHash string) (*auth.APIKeyRecord, error) {
-	secret := &corev1.Secret{}
-	if err := s.k8sClient.Get(ctx, client.ObjectKey{
-		Namespace: s.namespace,
-		Name:      secretNameForHash(keyHash),
-	}, secret); err != nil {
-		return nil, fmt.Errorf("api key not found")
-	}
-	// Defense in depth: confirm the stored hash matches exactly, in case a
-	// name collision (or a hand-edited Secret) ever points the derived name
-	// at the wrong record. Use constant-time comparison to prevent timing
-	// side-channel attacks (M4).
-	if subtle.ConstantTimeCompare(secret.Data["keyHash"], []byte(keyHash)) != 1 {
-		return nil, fmt.Errorf("api key not found")
-	}
-	rec := &auth.APIKeyRecord{}
-	if raw, ok := secret.Data["record"]; ok {
-		if err := json.Unmarshal(raw, rec); err != nil {
-			return nil, fmt.Errorf("corrupt api key record: %w", err)
-		}
-	}
-	return rec, nil
+	return &secretAPIKeyStore{store: apikeystore.New(c, namespace)}
 }
 
 // apiKeyMetadata is the non-secret view of a stored key, returned by the
 // list endpoint. It deliberately omits the hash and never includes the
 // plaintext key (which exists only at creation time).
-type apiKeyMetadata struct {
-	ID         string     `json:"id"`
-	UserID     string     `json:"userId"`
-	Name       string     `json:"name"`
-	CreatedAt  time.Time  `json:"createdAt"`
-	ExpiresAt  *time.Time `json:"expiresAt,omitempty"`
-	LastUsedAt *time.Time `json:"lastUsedAt,omitempty"`
+type apiKeyMetadata = apikeystore.Metadata
+
+// secretNameForHash derives the deterministic Secret name for a key hash.
+func secretNameForHash(keyHash string) string {
+	return apikeystore.SecretNameForHash(keyHash)
+}
+
+// sanitizeLabelValue makes an arbitrary user identifier safe to use as a
+// Kubernetes label value.
+func sanitizeLabelValue(v string) string {
+	return apikeystore.SanitizeLabelValue(v)
+}
+
+// GetAPIKeyByHash implements auth.APIKeyStore.
+func (s *secretAPIKeyStore) GetAPIKeyByHash(ctx context.Context, keyHash string) (*auth.APIKeyRecord, error) {
+	return s.store.GetAPIKeyByHash(ctx, keyHash)
 }
 
 // createAPIKeySecret writes a new API-key Secret for the given hash + record.
-// The caller is responsible for generating the key and computing its hash; this
-// only persists the hashed form.
 func (s *secretAPIKeyStore) createAPIKeySecret(ctx context.Context, keyHash string, rec *auth.APIKeyRecord) error {
-	recJSON, err := json.Marshal(rec)
-	if err != nil {
-		return fmt.Errorf("marshal api key record: %w", err)
-	}
-	secret := &corev1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      secretNameForHash(keyHash),
-			Namespace: s.namespace,
-			Labels: map[string]string{
-				apiKeySecretPurposeLabel: apiKeySecretPurpose,
-				apiKeyUserLabel:          sanitizeLabelValue(rec.UserID),
-			},
-		},
-		Type: corev1.SecretTypeOpaque,
-		Data: map[string][]byte{
-			"keyHash": []byte(keyHash),
-			"record":  recJSON,
-		},
-	}
-	if err := s.k8sClient.Create(ctx, secret); err != nil {
-		return fmt.Errorf("create api key secret: %w", err)
-	}
-	return nil
+	return s.store.Create(ctx, keyHash, rec)
 }
 
 // listAPIKeysForUser returns metadata for every API key owned by userID.
 func (s *secretAPIKeyStore) listAPIKeysForUser(ctx context.Context, userID string) ([]apiKeyMetadata, error) {
-	list := &corev1.SecretList{}
-	if err := s.k8sClient.List(ctx, list,
-		client.InNamespace(s.namespace),
-		client.MatchingLabels{
-			apiKeySecretPurposeLabel: apiKeySecretPurpose,
-			apiKeyUserLabel:          sanitizeLabelValue(userID),
-		},
-	); err != nil {
-		return nil, fmt.Errorf("list api keys: %w", err)
-	}
-	out := make([]apiKeyMetadata, 0, len(list.Items))
-	for i := range list.Items {
-		rec := &auth.APIKeyRecord{}
-		if raw, ok := list.Items[i].Data["record"]; ok {
-			_ = json.Unmarshal(raw, rec)
-		}
-		out = append(out, apiKeyMetadata{
-			ID:         list.Items[i].Name,
-			UserID:     rec.UserID,
-			Name:       rec.Name,
-			CreatedAt:  rec.CreatedAt,
-			ExpiresAt:  rec.ExpiresAt,
-			LastUsedAt: rec.LastUsedAt,
-		})
-	}
-	return out, nil
+	return s.store.ListForUser(ctx, userID)
 }
 
-// deleteAPIKey removes a key Secret by its ID (the Secret name), but only if it
-// belongs to the requesting user (unless the caller is admin). Returns the
-// deleted key's SHA-256 hash (so the caller can evict it from the validator
-// cache) and an error if the key doesn't exist or isn't owned by the user.
+// listAllAPIKeys returns metadata for every API key in the store, regardless
+// of owner. Admin-only use (FR6.6's admin sandbox-list cross-reference).
+func (s *secretAPIKeyStore) listAllAPIKeys(ctx context.Context) ([]apiKeyMetadata, error) {
+	return s.store.ListAll(ctx)
+}
+
+// deleteAPIKey removes a key Secret by its ID, scoped to the requesting user
+// unless isAdmin. Returns the deleted key's SHA-256 hash for cache eviction.
 func (s *secretAPIKeyStore) deleteAPIKey(ctx context.Context, keyID, userID string, isAdmin bool) (string, error) {
-	secret := &corev1.Secret{}
-	if err := s.k8sClient.Get(ctx, client.ObjectKey{Namespace: s.namespace, Name: keyID}, secret); err != nil {
-		return "", fmt.Errorf("api key not found")
-	}
-	if secret.Labels[apiKeySecretPurposeLabel] != apiKeySecretPurpose {
-		return "", fmt.Errorf("api key not found")
-	}
-	if !isAdmin {
-		rec := &auth.APIKeyRecord{}
-		if raw, ok := secret.Data["record"]; ok {
-			_ = json.Unmarshal(raw, rec)
-		}
-		if rec.UserID != userID {
-			return "", fmt.Errorf("access denied")
-		}
-	}
-	keyHash := string(secret.Data["keyHash"])
-	if err := s.k8sClient.Delete(ctx, secret); err != nil {
-		return "", fmt.Errorf("delete api key: %w", err)
-	}
-	return keyHash, nil
-}
-
-// sanitizeLabelValue makes an arbitrary user identifier safe to use as a
-// Kubernetes label value (RFC 1123, max 63 chars, alphanumeric + -_. , must
-// start/end alphanumeric). OIDC subs can contain ':' and other characters, so
-// we hash-suffix anything non-conformant rather than risk an invalid label.
-func sanitizeLabelValue(v string) string {
-	if v == "" {
-		return "unknown"
-	}
-	safe := make([]rune, 0, len(v))
-	for _, r := range v {
-		switch {
-		case r >= 'a' && r <= 'z', r >= 'A' && r <= 'Z', r >= '0' && r <= '9', r == '-', r == '_', r == '.':
-			safe = append(safe, r)
-		default:
-			safe = append(safe, '-')
-		}
-	}
-	out := string(safe)
-	if len(out) > 63 {
-		out = out[:63]
-	}
-	// Trim to a valid start/end character set.
-	out = trimNonAlphanumeric(out)
-	if out == "" {
-		return "user"
-	}
-	return out
-}
-
-func trimNonAlphanumeric(s string) string {
-	isAlnum := func(r byte) bool {
-		return (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9')
-	}
-	start := 0
-	for start < len(s) && !isAlnum(s[start]) {
-		start++
-	}
-	end := len(s)
-	for end > start && !isAlnum(s[end-1]) {
-		end--
-	}
-	return s[start:end]
+	return s.store.Delete(ctx, keyID, userID, isAdmin)
 }

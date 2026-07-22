@@ -367,9 +367,32 @@ sandbox.resume()
 # Clone (byte-identical workspace fork via CSI VolumeSnapshot)
 clone = sandbox.clone(name="my-sandbox-clone")
 
+# Live-mutate a running sandbox (idleTimeout/labels/annotations apply
+# immediately; resources need a stop+resume to take effect)
+sandbox.update(idle_timeout="1h", labels={"team": "platform"})
+
+# On-demand backup + restore into a new sandbox
+backup = sandbox.backups.create()
+restored = sandbox.backups.restore(backup.name)
+
+# Bulk-create a fleet of sandboxes in one call
+from agenttier import BulkCreateItem
+client.sandboxes.create_bulk([
+    BulkCreateItem(template="general-coding", name="worker-1"),
+    BulkCreateItem(template="general-coding", name="worker-2"),
+])
+
+# Subscribe to lifecycle events instead of polling
+sub = client.webhooks.create("https://example.com/hooks", ["sandbox.running", "sandbox.error"])
+
 # Delete
 sandbox.terminate()
 ```
+
+See the [SDK reference](https://agenttier.github.io/agenttier/sdk/) for the
+full surface — sharing, governance, audit, analytics, admin, user
+preferences, API keys (including sandbox-scoped keys), warm pool, and
+cluster status all hang off `client.<group>` the same way.
 
 ### CLI
 
@@ -381,10 +404,10 @@ pip install agenttier           # from PyPI
 make build && export PATH="$PATH:$(pwd)/bin"   # from source
 ```
 
-Two CLIs share the `agenttier` binary name:
+Two CLIs share the `agenttier` binary name, now at full command-family parity: `sandbox` (list/get/create/stop/resume/delete/clone/exec/wait/patch/bulk-create/bulk-action/files/ports/sharing/backups), `template`, `governance`, `audit`, `analytics`, `admin`, `user`, `apikeys`, `warmpool`, `cluster`, `webhooks`, `configure`, `invoke`, `login`, `whoami`/`version`. See [CLI command reference](https://agenttier.github.io/agenttier/cli-reference/) for every subcommand.
 
-- **Python CLI** (`pip install agenttier`) — full sandbox lifecycle: `sandbox create/list/stop/resume/delete/exec/clone`, `template list/get`, `login`, `whoami`.
-- **Go CLI** (`make build`) — agent-mode only: `configure`, `invoke`, `version`.
+- **Python CLI** (`pip install agenttier`).
+- **Go CLI** (`make build`).
 
 ```bash
 # Python CLI — sandbox lifecycle

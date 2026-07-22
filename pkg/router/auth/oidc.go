@@ -52,12 +52,19 @@ type OIDCConfig struct {
 }
 
 // Claims represents the authenticated user's identity.
+//
+// SandboxID and ActionGroups are populated only for a sandbox-scoped API key
+// (FR6) — see APIKeyRecord. A JWT-derived Claims (from ValidateToken) never
+// sets these; only ValidateKey does, and only when the underlying record is
+// scoped.
 type Claims struct {
-	Sub     string   `json:"sub"`
-	Email   string   `json:"email"`
-	Name    string   `json:"name"`
-	Groups  []string `json:"groups"`
-	IsAdmin bool     `json:"isAdmin"`
+	Sub          string   `json:"sub"`
+	Email        string   `json:"email"`
+	Name         string   `json:"name"`
+	Groups       []string `json:"groups"`
+	IsAdmin      bool     `json:"isAdmin"`
+	SandboxID    string   `json:"sandboxId,omitempty"`
+	ActionGroups []string `json:"actionGroups,omitempty"`
 }
 
 // NewOIDCValidator creates a new OIDC token validator.

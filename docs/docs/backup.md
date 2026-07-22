@@ -75,6 +75,16 @@ Layer 2 is intentionally not bundled into the chart — it's an operator choice
 with real cost and dependency trade-offs. Pick Velero for serious DR; the S3
 snippet for lightweight retention.
 
+## REST API, SDK, and CLI
+
+Everything above is also reachable without `kubectl` — `GET/POST/DELETE
+/api/v1/sandboxes/{id}/backups*`, `client.sandboxes` / `sandbox.backups` in
+the Python SDK, and `agenttier sandbox backups {list,create,restore,delete}`
+in both CLIs. On-demand backups created this way are labeled identically to
+scheduled ones, so retention pruning still applies. See
+[Backups](api/new-endpoints.md#backups-apiv1sandboxesidbackups) for the full
+wire contract.
+
 ## Acceptance check
 
 Kill an EKS node hosting a sandbox; confirm the sandbox PVC has a snapshot from

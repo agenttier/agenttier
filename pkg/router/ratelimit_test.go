@@ -17,10 +17,13 @@ limitations under the License.
 package router
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 func TestRateLimiter_PerIP_AllowsBurstThenThrottles(t *testing.T) {
@@ -221,5 +224,176 @@ func TestRateLimiter_SteadyStateRefillAllowsContinuedRequests(t *testing.T) {
 	time.Sleep(50 * time.Millisecond)
 	if ok, _ := rl.gateRequest(ip, ""); !ok {
 		t.Fatal("post-refill request unexpectedly throttled")
+	}
+}
+
+// --- Per-route cost hook (DD5/FR4.5/NFR6) ---
+
+func TestGateRequestN_ChargesExactlyNTokens(t *testing.T) {
+	// Burst of 10, cost of 4 per call: exactly 2 calls (8 tokens) must
+	// succeed and a 3rd (would need 4 more, only 2 left) must be throttled
+	// — proving the token cost is N, not 1, per call.
+	rl := newRateLimiter(RateLimitConfig{
+		PerUserRate:  1.0,
+		PerUserBurst: 10,
+	})
+	defer rl.stopCleanup()
+
+	const user = "user-1"
+	if ok, _ := rl.gateRequestN("", user, 4); !ok {
+		t.Fatal("1st cost-4 call unexpectedly throttled (burst=10)")
+	}
+	if ok, _ := rl.gateRequestN("", user, 4); !ok {
+		t.Fatal("2nd cost-4 call unexpectedly throttled (8/10 tokens spent)")
+	}
+	if ok, _ := rl.gateRequestN("", user, 4); ok {
+		t.Fatal("3rd cost-4 call unexpectedly allowed — only 2 tokens should remain")
+	}
+}
+
+func TestGateRequestN_CostBelowOneNormalizedToOne(t *testing.T) {
+	// A buggy cost function returning 0 or negative must not grant free
+	// requests — gateRequestN clamps to a minimum cost of 1.
+	rl := newRateLimiter(RateLimitConfig{
+		PerUserRate:  1.0,
+		PerUserBurst: 1,
+	})
+	defer rl.stopCleanup()
+
+	if ok, _ := rl.gateRequestN("", "user-1", 0); !ok {
+		t.Fatal("first call (cost 0 -> normalized to 1) unexpectedly throttled")
+	}
+	if ok, _ := rl.gateRequestN("", "user-1", -5); ok {
+		t.Fatal("second call (cost -5 -> normalized to 1) unexpectedly allowed — burst=1 should be exhausted")
+	}
+}
+
+func TestGateRequest_IsCostOneEquivalent(t *testing.T) {
+	// gateRequest (the pre-existing default-cost entry point used by the
+	// per-IP layer) must behave identically to gateRequestN(..., 1) — no
+	// regression from threading the cost parameter through.
+	rl := newRateLimiter(RateLimitConfig{PerUserRate: 1.0, PerUserBurst: 1})
+	defer rl.stopCleanup()
+
+	if ok, _ := rl.gateRequest("", "user-1"); !ok {
+		t.Fatal("first gateRequest call unexpectedly throttled")
+	}
+	if ok, _ := rl.gateRequest("", "user-1"); ok {
+		t.Fatal("second gateRequest call unexpectedly allowed — burst=1 should be exhausted after 1 token")
+	}
+}
+
+func TestCostForRequest_DefaultsToOneWhenUnregistered(t *testing.T) {
+	rl := newRateLimiter(RateLimitConfig{})
+	defer rl.stopCleanup()
+
+	r := mux.NewRouter()
+	var got int
+	r.HandleFunc("/api/v1/sandboxes", func(w http.ResponseWriter, req *http.Request) {
+		got = rl.costForRequest(req)
+		w.WriteHeader(http.StatusOK)
+	})
+	r.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/api/v1/sandboxes", nil))
+	if got != 1 {
+		t.Errorf("costForRequest() = %d, want 1 (no cost func registered)", got)
+	}
+}
+
+func TestCostForRequest_UsesRegisteredCostFunc(t *testing.T) {
+	rl := newRateLimiter(RateLimitConfig{})
+	defer rl.stopCleanup()
+	rl.registerRouteCost("/api/v1/sandboxes/bulk", func(req *http.Request) int {
+		return 7 // stands in for "N items in the request body"
+	})
+
+	r := mux.NewRouter()
+	var got int
+	r.HandleFunc("/api/v1/sandboxes/bulk", func(w http.ResponseWriter, req *http.Request) {
+		got = rl.costForRequest(req)
+		w.WriteHeader(http.StatusOK)
+	})
+	r.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodPost, "/api/v1/sandboxes/bulk", nil))
+	if got != 7 {
+		t.Errorf("costForRequest() = %d, want 7 (registered cost func)", got)
+	}
+}
+
+func TestCostForRequest_RegisteredFuncBelowOneNormalizedToOne(t *testing.T) {
+	rl := newRateLimiter(RateLimitConfig{})
+	defer rl.stopCleanup()
+	rl.registerRouteCost("/api/v1/sandboxes/bulk", func(req *http.Request) int {
+		return 0
+	})
+
+	r := mux.NewRouter()
+	var got int
+	r.HandleFunc("/api/v1/sandboxes/bulk", func(w http.ResponseWriter, req *http.Request) {
+		got = rl.costForRequest(req)
+		w.WriteHeader(http.StatusOK)
+	})
+	r.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodPost, "/api/v1/sandboxes/bulk", nil))
+	if got != 1 {
+		t.Errorf("costForRequest() = %d, want 1 (buggy cost func normalized up)", got)
+	}
+}
+
+func TestCostForRequest_OtherRoutesUnaffectedByRegisteredCost(t *testing.T) {
+	// Registering a cost func for the bulk route must not change the cost
+	// of unrelated routes — the hook is per-route, not global.
+	rl := newRateLimiter(RateLimitConfig{})
+	defer rl.stopCleanup()
+	rl.registerRouteCost("/api/v1/sandboxes/bulk", func(req *http.Request) int { return 50 })
+
+	r := mux.NewRouter()
+	var got int
+	r.HandleFunc("/api/v1/sandboxes/{id}", func(w http.ResponseWriter, req *http.Request) {
+		got = rl.costForRequest(req)
+		w.WriteHeader(http.StatusOK)
+	})
+	r.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/api/v1/sandboxes/sbx-1", nil))
+	if got != 1 {
+		t.Errorf("costForRequest() = %d, want 1 (unrelated route must not inherit bulk's cost)", got)
+	}
+}
+
+func TestRateLimitAuthenticatedMiddleware_BulkRouteChargesNTokens(t *testing.T) {
+	// End-to-end: a route registered with a cost function of N must exhaust
+	// a per-user burst after burst/N calls, not burst calls, proving the
+	// middleware actually consults costForRequest instead of hardcoding 1.
+	s := &Server{rateLimiter: newRateLimiter(RateLimitConfig{
+		PerUserRate:  1.0,
+		PerUserBurst: 10,
+	})}
+	defer s.rateLimiter.stopCleanup()
+	s.rateLimiter.registerRouteCost("/api/v1/sandboxes/bulk", func(*http.Request) int { return 5 })
+
+	r := mux.NewRouter()
+	r.Use(s.rateLimitAuthenticatedMiddleware)
+	r.HandleFunc("/api/v1/sandboxes/bulk", func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	reqWithClaims := func() *http.Request {
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/sandboxes/bulk", nil)
+		ctx := context.WithValue(req.Context(), ClaimsContextKey, &Claims{Sub: "user-1"})
+		return req.WithContext(ctx)
+	}
+
+	rec1 := httptest.NewRecorder()
+	r.ServeHTTP(rec1, reqWithClaims())
+	if rec1.Code != http.StatusOK {
+		t.Fatalf("1st bulk call: status = %d, want 200 (5/10 tokens spent)", rec1.Code)
+	}
+
+	rec2 := httptest.NewRecorder()
+	r.ServeHTTP(rec2, reqWithClaims())
+	if rec2.Code != http.StatusOK {
+		t.Fatalf("2nd bulk call: status = %d, want 200 (10/10 tokens spent)", rec2.Code)
+	}
+
+	rec3 := httptest.NewRecorder()
+	r.ServeHTTP(rec3, reqWithClaims())
+	if rec3.Code != http.StatusTooManyRequests {
+		t.Fatalf("3rd bulk call: status = %d, want 429 — burst should be exhausted after 2 calls at cost 5", rec3.Code)
 	}
 }

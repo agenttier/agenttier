@@ -20,10 +20,21 @@ See :mod:`agenttier.async_client` for the ``async/await`` variant.
 
 from agenttier._retry import RetryConfig
 from agenttier._version import __version__
+from agenttier.apikeys import APIKeyCreated, APIKeyMetadata
 from agenttier.async_client import AsyncAgentTierClient
 from agenttier.async_sandbox import AsyncSandbox
 from agenttier.auth import APIKeyAuth, AuthProvider, BearerTokenAuth, KubeconfigAuth
+from agenttier.backups import BackupInfo
+from agenttier.bulk import BulkActionResultItem, BulkCreateItem, BulkCreateResultItem, PatchResult
 from agenttier.client import AgentTierClient
+from agenttier.cluster import (
+    ClusterStatus,
+    HeadroomConfig,
+    NodeCapacity,
+    NodeCapacityResponse,
+    NodeCapacitySummary,
+    NodeResources,
+)
 from agenttier.exceptions import (
     AgentTierError,
     APIError,
@@ -35,6 +46,7 @@ from agenttier.exceptions import (
     SandboxErrorState,
     SandboxTimeoutError,
 )
+from agenttier.governance import EffectivePolicy, NamespacePolicy, Policy, PolicyList
 from agenttier.models import (
     AuditEvent,
     CommandResult,
@@ -49,7 +61,11 @@ from agenttier.models import (
     Template,
     UsageAnalytics,
 )
+from agenttier.analytics import CostEstimate, TemplateCost
 from agenttier.sandbox import Sandbox
+from agenttier.sharing import ShareLinkCreated, ShareLinkInfo, SharePermission, SharingInfo
+from agenttier.warmpool import PoolConfig, PoolStatus, WarmPoolStatus
+from agenttier.webhooks import WebhookDelivery, WebhookSubscription, WebhookSubscriptionCreated
 
 __all__ = [
     "__version__",
@@ -79,6 +95,44 @@ __all__ = [
     "SandboxSummary",
     "Template",
     "UsageAnalytics",
+    # Sharing (FR1.1)
+    "SharePermission",
+    "ShareLinkInfo",
+    "SharingInfo",
+    "ShareLinkCreated",
+    # Backups (FR3)
+    "BackupInfo",
+    # Governance (FR1.2)
+    "Policy",
+    "NamespacePolicy",
+    "PolicyList",
+    "EffectivePolicy",
+    # Analytics (FR1.3)
+    "TemplateCost",
+    "CostEstimate",
+    # API keys (FR1.5 / FR6)
+    "APIKeyMetadata",
+    "APIKeyCreated",
+    # Warm pool (FR1.6)
+    "PoolConfig",
+    "PoolStatus",
+    "WarmPoolStatus",
+    # Cluster (FR1.7)
+    "ClusterStatus",
+    "NodeResources",
+    "NodeCapacity",
+    "NodeCapacitySummary",
+    "NodeCapacityResponse",
+    "HeadroomConfig",
+    # Webhooks (FR5)
+    "WebhookSubscription",
+    "WebhookSubscriptionCreated",
+    "WebhookDelivery",
+    # Bulk + PATCH (FR2 / FR4)
+    "BulkCreateItem",
+    "BulkCreateResultItem",
+    "BulkActionResultItem",
+    "PatchResult",
     # Exceptions
     "AgentTierError",
     "APIError",

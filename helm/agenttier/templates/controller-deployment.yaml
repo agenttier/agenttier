@@ -40,6 +40,10 @@ spec:
             - --backup-snapshot-class={{ .Values.optional.backup.snapshots.snapshotClassName }}
             {{- end }}
             {{- end }}
+            {{- if ((.Values.optional.webhooks | default dict).delivery | default dict).enabled }}
+            - --webhook-delivery
+            - --webhook-delivery-interval={{ .Values.optional.webhooks.delivery.intervalSeconds | default 30 }}s
+            {{- end }}
             {{- if and .Values.optional.agentMemorySidecar .Values.optional.agentMemorySidecar.enabled }}
             - --agent-memory-sidecar-image={{ .Values.optional.agentMemorySidecar.image }}
             {{- end }}

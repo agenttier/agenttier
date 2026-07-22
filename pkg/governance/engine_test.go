@@ -281,6 +281,51 @@ func TestCheck_AgentSandboxQuotaIgnoresCodeMode(t *testing.T) {
 	}
 }
 
+// TestCheckResourceLimits_IgnoresCountQuotas is the review-2 regression test
+// at the governance-engine level: CheckResourceLimits must never evaluate
+// the sandbox-COUNT quotas (MaxSandboxesTotal/MaxSandboxesPerUser/
+// MaxAgentSandboxes) or the template/registry allowlists — only the
+// maxCpu/maxMemory/maxStorage/maxTimeout/maxIdleTimeout value caps. A
+// namespace already AT every count cap must still pass a value-only check.
+func TestCheckResourceLimits_IgnoresCountQuotas(t *testing.T) {
+	policy := Policy{
+		MaxSandboxesTotal:   1,
+		MaxSandboxesPerUser: 1,
+		MaxAgentSandboxes:   1,
+		AllowedTemplates:    []string{"claude-code-bedrock"}, // sandbox uses "general-coding" — would violate under Check
+		MaxIdleTimeout:      "1h",
+	}
+	sb := sandboxWith(func(s *agenttierv1alpha1.Sandbox) {
+		s.Spec.IdleTimeout = &metav1.Duration{Duration: 30 * time.Minute}
+	})
+
+	if v := CheckResourceLimits(policy, sb); v.Violated() {
+		t.Fatalf("CheckResourceLimits must ignore count quotas and allowlists, got %v", v)
+	}
+
+	// Sanity: Check (the create-path validator) DOES still reject this same
+	// sandbox+policy on the template allowlist — proving CheckResourceLimits
+	// is a strict subset, not a differently-behaving duplicate.
+	if v := Check(policy, Usage{}, sb); !v.Violated() {
+		t.Fatal("expected Check to still reject the disallowed template (sanity check)")
+	}
+}
+
+// TestCheckResourceLimits_StillCatchesValueCapViolations confirms the
+// extraction didn't drop enforcement of the actual value caps it owns.
+func TestCheckResourceLimits_StillCatchesValueCapViolations(t *testing.T) {
+	policy := Policy{MaxCPU: "1"}
+	sb := sandboxWith(func(s *agenttierv1alpha1.Sandbox) {
+		s.Spec.Resources = &corev1.ResourceRequirements{
+			Limits: corev1.ResourceList{"cpu": resource.MustParse("4")},
+		}
+	})
+	v := CheckResourceLimits(policy, sb)
+	if !v.Violated() || v[0].Code != "cpu_limit_exceeded" {
+		t.Fatalf("expected cpu_limit_exceeded, got %v", v)
+	}
+}
+
 func TestCheck_AllowedAgentImages(t *testing.T) {
 	policy := Policy{AllowedAgentImages: []string{"ghcr.io/agenttier/sandbox-langgraph"}}
 	sb := sandboxWith(func(s *agenttierv1alpha1.Sandbox) {
@@ -352,6 +397,87 @@ func TestCountUsage_AgentSandboxes(t *testing.T) {
 	}
 	if u.UserSandboxes != 1 {
 		t.Errorf("expected 1 user sandbox for u1, got %d", u.UserSandboxes)
+	}
+}
+
+func TestCheckBulk(t *testing.T) {
+	cases := []struct {
+		name      string
+		policy    Policy
+		usage     Usage
+		n         int
+		agentN    int
+		wantCodes []string
+	}{
+		{
+			name:   "no limits passes",
+			policy: Policy{},
+			usage:  Usage{TotalSandboxes: 100, UserSandboxes: 50},
+			n:      10,
+		},
+		{
+			name:   "under total cap passes",
+			policy: Policy{MaxSandboxesTotal: 20},
+			usage:  Usage{TotalSandboxes: 5},
+			n:      10,
+		},
+		{
+			name:      "at total cap boundary rejects",
+			policy:    Policy{MaxSandboxesTotal: 10},
+			usage:     Usage{TotalSandboxes: 5},
+			n:         5,
+			wantCodes: nil, // 5+5==10, not > 10 — should pass
+		},
+		{
+			name:      "over total cap rejects",
+			policy:    Policy{MaxSandboxesTotal: 10},
+			usage:     Usage{TotalSandboxes: 5},
+			n:         6,
+			wantCodes: []string{"namespace_quota_exceeded"},
+		},
+		{
+			name:      "over per-user cap rejects",
+			policy:    Policy{MaxSandboxesPerUser: 5},
+			usage:     Usage{UserSandboxes: 3},
+			n:         3,
+			wantCodes: []string{"user_quota_exceeded"},
+		},
+		{
+			name:      "over agent cap rejects",
+			policy:    Policy{MaxAgentSandboxes: 2},
+			usage:     Usage{AgentSandboxes: 1},
+			n:         3,
+			agentN:    2,
+			wantCodes: []string{"agent_sandbox_quota_exceeded"},
+		},
+		{
+			name:   "agent cap ignored when batch has no agent sandboxes",
+			policy: Policy{MaxAgentSandboxes: 2},
+			usage:  Usage{AgentSandboxes: 2},
+			n:      3,
+			agentN: 0,
+		},
+		{
+			name:      "multiple caps exceeded reports all",
+			policy:    Policy{MaxSandboxesTotal: 10, MaxSandboxesPerUser: 5},
+			usage:     Usage{TotalSandboxes: 8, UserSandboxes: 4},
+			n:         5,
+			wantCodes: []string{"namespace_quota_exceeded", "user_quota_exceeded"},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := CheckBulk(tc.policy, tc.usage, tc.n, tc.agentN)
+			if len(got) != len(tc.wantCodes) {
+				t.Fatalf("CheckBulk() = %v, want codes %v", got, tc.wantCodes)
+			}
+			for i, code := range tc.wantCodes {
+				if got[i].Code != code {
+					t.Errorf("violation[%d].Code = %q, want %q", i, got[i].Code, code)
+				}
+			}
+		})
 	}
 }
 

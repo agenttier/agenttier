@@ -42,13 +42,20 @@ const (
 )
 
 // Claims represents the authenticated user's identity extracted from JWT or API key.
+//
+// SandboxID/ActionGroups are non-empty only when the request authenticated
+// with a sandbox-scoped API key (FR6); requireSandboxScope middleware
+// enforces the bound sandbox + action-group restriction using these fields.
+// A JWT or user-level API key leaves both empty.
 type Claims struct {
-	Sub        string   `json:"sub"`
-	Email      string   `json:"email"`
-	Name       string   `json:"name"`
-	Groups     []string `json:"groups"`
-	IsAdmin    bool     `json:"isAdmin"`
-	Namespaces []string `json:"namespaces,omitempty"` // For API key scoping
+	Sub          string   `json:"sub"`
+	Email        string   `json:"email"`
+	Name         string   `json:"name"`
+	Groups       []string `json:"groups"`
+	IsAdmin      bool     `json:"isAdmin"`
+	Namespaces   []string `json:"namespaces,omitempty"` // For API key scoping
+	SandboxID    string   `json:"sandboxId,omitempty"`
+	ActionGroups []string `json:"actionGroups,omitempty"`
 }
 
 // GetClaims extracts the authenticated claims from the request context.
@@ -246,11 +253,13 @@ func claimsFromAuth(ac *auth.Claims) *Claims {
 		return nil
 	}
 	return &Claims{
-		Sub:     ac.Sub,
-		Email:   ac.Email,
-		Name:    ac.Name,
-		Groups:  ac.Groups,
-		IsAdmin: ac.IsAdmin,
+		Sub:          ac.Sub,
+		Email:        ac.Email,
+		Name:         ac.Name,
+		Groups:       ac.Groups,
+		IsAdmin:      ac.IsAdmin,
+		SandboxID:    ac.SandboxID,
+		ActionGroups: ac.ActionGroups,
 	}
 }
 

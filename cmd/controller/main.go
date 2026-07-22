@@ -42,6 +42,7 @@ import (
 	"github.com/agenttier/agenttier/pkg/controller/backup"
 	"github.com/agenttier/agenttier/pkg/controller/warmpool"
 	agenttierwebhook "github.com/agenttier/agenttier/pkg/controller/webhook"
+	webhookdelivery "github.com/agenttier/agenttier/pkg/controller/webhook_delivery"
 	"github.com/agenttier/agenttier/pkg/crds"
 	"github.com/agenttier/agenttier/pkg/governance"
 	"github.com/agenttier/agenttier/pkg/notifications"
@@ -82,6 +83,8 @@ func main() {
 		backupInterval          time.Duration
 		backupRetention         time.Duration
 		backupSnapshotClass     string
+		webhookDelivery         bool
+		webhookDeliveryInterval time.Duration
 	)
 
 	flag.StringVar(&metricsAddr, "metrics-bind-address", ":8081", "The address the metrics endpoint binds to.")
@@ -120,6 +123,9 @@ func main() {
 	flag.DurationVar(&backupInterval, "backup-interval", 6*time.Hour, "Interval between backup snapshot passes.")
 	flag.DurationVar(&backupRetention, "backup-retention", 14*24*time.Hour, "How long to keep backup snapshots before pruning.")
 	flag.StringVar(&backupSnapshotClass, "backup-snapshot-class", "", "VolumeSnapshotClass for backup snapshots. Empty uses the cluster default.")
+	flag.BoolVar(&webhookDelivery, "webhook-delivery", false,
+		"Enable the FR5 webhook-subscription delivery loop (leader-only): matches Sandbox lifecycle Events against subscriptions the Router stores and delivers signed HTTP POSTs with retry/backoff and auto-disable.")
+	flag.DurationVar(&webhookDeliveryInterval, "webhook-delivery-interval", 30*time.Second, "Interval between webhook delivery passes.")
 
 	opts := zap.Options{Development: true}
 	opts.BindFlags(flag.CommandLine)
@@ -308,6 +314,25 @@ func main() {
 			return nil
 		})); err != nil {
 			setupLog.Error(err, "unable to add backup scheduler")
+			os.Exit(1)
+		}
+	}
+
+	// Start the FR5 webhook-subscription delivery loop (leader-only) when
+	// enabled. Subscriptions themselves are Router-owned Secrets
+	// (pkg/router/webhook_store.go); this loop only reads them and the
+	// Sandbox-kind Events the Sandbox reconciler already emits — it owns
+	// delivery, retry/backoff, and auto-disable, per design.md's Component
+	// Map ("Router side only" for CRUD, controller for delivery). Runs in
+	// the install namespace, where subscription Secrets and the delivery
+	// cursor ConfigMap both live.
+	if webhookDelivery {
+		deliverer := webhookdelivery.NewDeliverer(mgr.GetClient(), bootLogger, namespace, webhookDeliveryInterval)
+		if err := mgr.Add(manager.RunnableFunc(func(ctx context.Context) error {
+			deliverer.RunLoop(ctx)
+			return nil
+		})); err != nil {
+			setupLog.Error(err, "unable to add webhook delivery loop")
 			os.Exit(1)
 		}
 	}
