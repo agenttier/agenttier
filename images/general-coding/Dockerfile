@@ -75,9 +75,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Node.js 20 LTS (nodesource setup handles both architectures).
+# Deliberately NO `npm install -g npm@latest`: the image ships the npm that
+# the pinned Node major bundles. An unpinned "latest" broke this build on
+# 2026-07-16 when npm 12 released requiring Node >= 22 (EBADENGINE) — the
+# same class of drift digest-pinning exists to prevent.
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g npm@latest \
     && rm -rf /var/lib/apt/lists/*
 
 # Python 3.11

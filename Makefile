@@ -125,18 +125,20 @@ manifests: ## Generate CRD manifests
 	@# controller-gen for rbac/webhook here would write to config/rbac/config/webhook,
 	@# directories that don't exist in this repo and never should.
 	controller-gen crd:generateEmbeddedObjectMeta=true paths="./api/..." output:crd:artifacts:config=config/crd
-	@# Keep the controller's embedded copy (pkg/crds, applied on startup) in
-	@# lockstep with the generated source of truth in config/crd.
+	@# Keep the controller's embedded copy (pkg/crds, applied on startup) and
+	@# the Helm chart's crds/ dir (registered by `helm install` before any CR
+	@# renders) in lockstep with the generated source of truth in config/crd.
 	cp config/crd/*.yaml pkg/crds/
+	cp config/crd/*.yaml helm/agenttier/crds/
 
 .PHONY: verify-codegen
 verify-codegen: generate manifests ## Verify generated code is up to date
 	@# Scope to the actual generated files, not whole directories — a stray
 	@# untracked file elsewhere under api/ (e.g. a new _test.go from unrelated
 	@# work) must not be misreported as stale codegen.
-	@if [ -n "$$(git status --porcelain api/v1alpha1/zz_generated.deepcopy.go config/crd/ pkg/crds/*.yaml)" ]; then \
+	@if [ -n "$$(git status --porcelain api/v1alpha1/zz_generated.deepcopy.go config/crd/ pkg/crds/*.yaml helm/agenttier/crds/*.yaml)" ]; then \
 		echo "Generated files are out of date. Run 'make generate manifests' and commit."; \
-		git diff api/v1alpha1/zz_generated.deepcopy.go config/crd/ pkg/crds/*.yaml; \
+		git diff api/v1alpha1/zz_generated.deepcopy.go config/crd/ pkg/crds/*.yaml helm/agenttier/crds/*.yaml; \
 		exit 1; \
 	fi
 
