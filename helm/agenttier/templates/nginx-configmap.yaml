@@ -7,7 +7,7 @@ metadata:
 data:
   default.conf: |
     server {
-        listen 80;
+        listen {{ .Values.webui.containerPort | default 8080 }};
         server_name _;
         root /usr/share/nginx/html;
         index index.html;
