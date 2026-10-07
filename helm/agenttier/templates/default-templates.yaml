@@ -1,3 +1,16 @@
+{{- /*
+  The controller applies the CRDs on startup, but these ClusterSandboxTemplates
+  ship in the same release. On a cluster that has never seen AgentTier, Helm
+  rejects the whole release before the controller ever runs:
+
+    no matches for kind "ClusterSandboxTemplate" in version "agenttier.io/v1alpha1"
+    ensure CRDs are installed first
+
+  Gating them lets the first install succeed:
+    helm install ... --set defaultTemplates.enabled=false
+  then enable it once the CRDs are registered.
+*/ -}}
+{{- if .Values.defaultTemplates.enabled }}
 apiVersion: agenttier.io/v1alpha1
 kind: ClusterSandboxTemplate
 metadata:
@@ -290,3 +303,5 @@ spec:
       defaultInvokeTimeout: 10m
   timeout: 24h
   idleTimeout: 1h
+
+{{- end }}

@@ -76,6 +76,10 @@ router:
 
 # --- Web UI ---
 webui:
+  # The image runs as USER nginx, so it cannot bind a privileged port:
+  #   bind() to 0.0.0.0:80 failed (13: Permission denied)
+  # The Service still exposes 80, so callers are unaffected.
+  containerPort: 8080
   image:
     # Short name resolved against global.registry; override with a full path for
     # per-component registry control.
@@ -121,6 +125,11 @@ cors:
   #   allowedOrigins:
   #     - https://dashboard.my-company.com
   allowedOrigins: []
+
+# Bundled ClusterSandboxTemplates. Set false for the very first install (the
+# CRDs do not exist yet), then true once the controller has registered them.
+defaultTemplates:
+  enabled: true
 
 # --- Authentication ---
 auth:
