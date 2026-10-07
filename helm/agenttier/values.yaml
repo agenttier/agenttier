@@ -76,6 +76,9 @@ router:
 
 # --- Web UI ---
 webui:
+  # nginx 가 비특권으로 뜨므로 1024 미만 포트에 바인딩할 수 없다.
+  # (bind() to 0.0.0.0:80 failed (13: Permission denied))
+  containerPort: 8080
   image:
     # Short name resolved against global.registry; override with a full path for
     # per-component registry control.
@@ -121,6 +124,11 @@ cors:
   #   allowedOrigins:
   #     - https://dashboard.my-company.com
   allowedOrigins: []
+
+# 번들 ClusterSandboxTemplate 들. CRD 가 없는 첫 설치에서는 false 로 두고,
+# 컨트롤러가 CRD 를 만든 뒤 true 로 올린다.
+defaultTemplates:
+  enabled: true
 
 # --- Authentication ---
 auth:

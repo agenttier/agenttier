@@ -1,3 +1,10 @@
+{{- /*
+  CRD 는 컨트롤러가 기동 시 적용한다. 그런데 이 파일의 ClusterSandboxTemplate 은
+  같은 릴리스에 들어가므로, CRD 가 아직 없는 첫 설치에서 helm 이 거부한다
+  ("no matches for kind ClusterSandboxTemplate ... ensure CRDs are installed first").
+  게이트를 둬 1패스 설치가 가능하게 한다: 첫 설치는 false, 이후 true.
+*/ -}}
+{{- if .Values.defaultTemplates.enabled }}
 apiVersion: agenttier.io/v1alpha1
 kind: ClusterSandboxTemplate
 metadata:
@@ -290,3 +297,5 @@ spec:
       defaultInvokeTimeout: 10m
   timeout: 24h
   idleTimeout: 1h
+
+{{- end }}

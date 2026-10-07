@@ -27,7 +27,7 @@ spec:
           imagePullPolicy: {{ .Values.webui.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.webui.containerPort | default 8080 }}
               protocol: TCP
           livenessProbe:
             httpGet:
